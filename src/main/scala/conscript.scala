@@ -4,7 +4,10 @@ class Conscript extends xsbti.AppMain {
   import dispatch._
   def run(config: xsbti.AppConfiguration) = {
     val result = config.arguments match {
-      case Array(GhProject(user, repo)) => LaunchConfig.lookup(user, repo)
+      case Array(GhProject(user, repo)) =>
+        Github.lookup(user, repo).right.flatMap {
+          case (launch, props) => Apply.config(user, repo, launch, props)
+        }
       case _ => Left(usage)
     }
     result fold ( { err =>
