@@ -1,6 +1,6 @@
 package conscript
 
-import scala.util.control.Exception.catching
+import scala.util.control.Exception.{catching,allCatch}
 import java.io.File
 
 object Apply {
@@ -11,7 +11,16 @@ object Apply {
     val place = homedir(/("bin", name))
     val options = props.getOrElse("options", "")
     write(launchconfig, launch + boot).orElse {
-      write(place, script(options, launchconfig))
+      write(place, script(options, launchconfig)) orElse {
+        allCatch.opt {
+          place.asInstanceOf[
+            { def setExecutable(b: Boolean): Boolean}
+          ].setExecutable(true)
+        }.filter { _ == true } match {
+          case None => Some("Unable set as executable: " + place)
+          case _ => None
+        }
+      }
     }.toLeft {
       "Conscripted %s/%s to %s".format(user, repo, place)
     }
