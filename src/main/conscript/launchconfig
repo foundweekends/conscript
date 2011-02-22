@@ -1,0 +1,12 @@
+[app]
+  version: 0.1.0-SNAPSHOT
+  org: net.databinder
+  name: conscript
+  class: conscript.Conscript
+[scala]
+  version: 2.8.1
+[repositories]
+  local
+  maven-local
+  scala-tools-releases
+  maven-central

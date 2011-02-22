@@ -1,13 +1,13 @@
 package conscript
 
 class Conscript extends xsbti.AppMain {
+  import dispatch._
   def run(config: xsbti.AppConfiguration) = {
-    (config.arguments match {
-      case Array(GhProject(user, repo)) =>
-        Right("%s %s" format (user, repo))
-      case _ =>
-        Left(usage)
-    }) fold ( { err =>
+    val result = config.arguments match {
+      case Array(GhProject(user, repo)) => LaunchConfig.lookup(user, repo)
+      case _ => Left(usage)
+    }
+    result fold ( { err =>
       println(err)
       Exit(1)
     }, { msg =>
