@@ -15,6 +15,10 @@ object LaunchConfig {
     )
   }
 
-  val http = new Http
+  val http = new Http {
+    override def make_logger = new dispatch.Logger {
+      def info(msg: String, items: Any*) { }
+    }
+  }
   val gh = :/("github.com") / "api" / "v2" / "json"
 }
