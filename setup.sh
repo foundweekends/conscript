@@ -6,7 +6,7 @@ Fetching current launch configuration...
 CS=$HOME/.conscript
 CLC=$CS/n8han/conscript
 mkdir -p $HOME/.conscript/n8han
-curl "https://github.com/n8han/conscript/raw/master/src/main/conscript/launchconfig"\
+curl https://github.com/n8han/conscript/raw/master/src/main/conscript/launchconfig \
     > $CLC
 echo "
 [boot]
