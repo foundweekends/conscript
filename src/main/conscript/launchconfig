@@ -1,5 +1,5 @@
 [app]
-  version: 0.1.0-SNAPSHOT
+  version: 0.1.0
   org: net.databinder
   name: conscript
   class: conscript.Conscript
