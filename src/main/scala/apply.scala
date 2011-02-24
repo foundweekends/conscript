@@ -4,14 +4,12 @@ import scala.util.control.Exception.{catching,allCatch}
 import java.io.File
 
 object Apply {
-  def config(user: String, repo: String, launch: String, props: Map[String,String]) = {
-    val launchconfig = configdir(/(user, repo))
+  def config(user: String, repo: String, name: String, launch: String) = {
+    val launchconfig = configdir(/(/(/(user, repo), name), "launchconfig"))
 
-    val name = props.getOrElse("executable", repo)
     val place = homedir(/("bin", name))
-    val options = props.getOrElse("options", "")
     write(launchconfig, launch + boot).orElse {
-      write(place, script(options, launchconfig)) orElse {
+      write(place, script(launchconfig)) orElse {
         allCatch.opt {
           place.asInstanceOf[
             { def setExecutable(b: Boolean): Boolean}
@@ -43,11 +41,11 @@ object Apply {
     catching(classOf[SecurityException]).either {
       new File(file.getParent).mkdirs()
     }.left.toOption.map { e => "Unable to create path " + file }
-  def script(options: String, launchconfig: File) = 
+  def script(launchconfig: File) = 
     """#!/bin/sh
-      |java -jar %s %s @%s "$@"
+      |java -jar %s @%s "$@"
       |""" .stripMargin.
-        format(configdir("sbt-launch.jar"), options, launchconfig.getCanonicalPath)
+        format(configdir("sbt-launch.jar"), launchconfig.getCanonicalPath)
   val boot = """
             |[boot]
             |  directory: %s
