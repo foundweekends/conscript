@@ -16,7 +16,7 @@ echo "
 mkdir -p $HOME/bin
 
 echo "#!/bin/sh
-java -jar $CS/sbt-launch.jar  @$CLC \"\$@\"" > $HOME/bin/cs
+java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $HOME/bin/cs
 
 chmod a+x $HOME/bin/cs
 
