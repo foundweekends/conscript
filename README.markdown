@@ -9,7 +9,7 @@ you think. What?
 
 * Queries a github project for launch configurations
 * Writes these to your local filesystem, with a personalized boot path
-* Creates a script to execute the launch configurations
+* Creates scripts to execute the launch configurations
 
 **sbt-launcher...**
 
