@@ -7,9 +7,9 @@ you think. What?
 
 **conscript...**
 
-* Queries github for a project's current launch configuration
-* Writes this to your local filesystem, with a personalized boot path
-* Creates a script to execute this launch configuration
+* Queries a github project for launch configurations
+* Writes these to your local filesystem, with a personalized boot path
+* Creates a script to execute the launch configurations
 
 **sbt-launcher...**
 
@@ -17,11 +17,15 @@ you think. What?
 * Fetches needed dependencies on first run
 * Uses the same ivy cache as sbt itself
 
-conscript assumes a convention and helps you apply it. Firstly,
+conscript assumes a convention and helps you adhere to it. Firstly,
 `~/.conscript/boot` is used as a boot directory for all programs, to
 save space. Program launch configurations are stored according to
-their project's name on github, e.g. `~/.conscript/n8han/conscript`. 
-And finally, program scripts are created in `~/bin`.
+the project name and script name, such as:
+
+    ~/.conscript/n8han/conscript/cs/launchconfig
+
+And finally, program scripts are created in `~/bin` that reference
+launch configurations, e.g. `~/bin/cs`
 
 Installation
 ------------
