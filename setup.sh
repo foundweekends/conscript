@@ -4,7 +4,7 @@ echo "
 Fetching current launch configuration...
 "
 CS=$HOME/.conscript
-CSCS=$CS/n8han/conscript
+CSCS=$CS/n8han/conscript/cs
 CLC=$CSCS/launchconfig
 mkdir -p $CSCS
 curl https://github.com/n8han/conscript/raw/master/src/main/conscript/cs/launchconfig \
