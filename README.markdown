@@ -13,7 +13,7 @@ you think. What?
 
 **sbt-launcher...**
 
-* Reads the given launch configuration
+* Reads a given launch configuration
 * Fetches needed dependencies on first run
 * Uses the same ivy cache as sbt itself
 
