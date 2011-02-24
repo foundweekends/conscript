@@ -17,10 +17,10 @@ you think. What?
 * Fetches needed dependencies on first run
 * Uses the same ivy cache as sbt itself
 
-conscript assumes a convention and helps you adhere to it. Firstly,
-`~/.conscript/boot` is used as a boot directory for all programs, to
-save space. Program launch configurations are stored according to
-the project name and script name, such as:
+So conscript just assumes a convention and helps you adhere to
+it. Firstly, `~/.conscript/boot` is used as a boot directory for
+all. Program launch configurations are stored according to the github
+project name and script name, such as:
 
     ~/.conscript/n8han/conscript/cs/launchconfig
 
