@@ -31,6 +31,9 @@ Installation
 ------------
 
     curl https://github.com/n8han/conscript/raw/master/setup.sh | sh
+    
+You'll probably want to add `~/bin` to your `$PATH`, if it's not
+already there.
 
 Use
 ---
