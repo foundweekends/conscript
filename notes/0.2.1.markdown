@@ -1,4 +1,4 @@
 Adds a conscript-plugin for sbt, to simplify coding and testing of
-conscripts. See the [conscript.g8][g8] template.
+conscripts. Use the [conscript.g8][g8] template to get started.
 
 [g8]: https://github.com/n8han/conscript.g8
