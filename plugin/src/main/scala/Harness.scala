@@ -10,7 +10,7 @@ trait Harness { self: sbt.DefaultProject =>
   def conscriptOutput = outputPath / "conscript"
   def conscriptBoot = conscriptOutput / "boot"
   def conscriptConfigs = conscriptOutput ** "launchconfig"
-  lazy val conscriptWrite = task {
+  lazy val csWrite = task {
     U.clean(conscriptOutput, log) orElse
     U.copyDirectory(conscriptBase, conscriptOutput, log) orElse
     ((None: Option[String]) /: conscriptConfigs.get) {
@@ -22,10 +22,10 @@ trait Harness { self: sbt.DefaultProject =>
                |""".stripMargin.format(conscriptBoot), log)
       )
     }
-  }
-  lazy val conscriptTest = task { args =>
+  } describedAs "Write test launchconfig out to " + conscriptOutput
+  lazy val csRun = task { args =>
     import sbt.Process._
-    conscriptWrite.run.map { err => task { Some(err) } } getOrElse {
+    csWrite.run.map { err => task { Some(err) } } getOrElse {
       val config = args.firstOption.flatMap { name =>
         conscriptConfigs.get.toSeq.filter { 
           n => configName(n) == name 
@@ -35,7 +35,7 @@ trait Harness { self: sbt.DefaultProject =>
         case None =>
           task {
             args.firstOption.map { "No launchconfig found for " + _ } orElse
-              Some("Usage: conscript-test <appname> [args ...]")
+              Some("Usage: cs-run <appname> [args ...]")
           }
         case Some(cfg) =>
           task { 
@@ -49,7 +49,7 @@ trait Harness { self: sbt.DefaultProject =>
     }
   } completeWith {
     conscriptConfigs.get.map(configName).toSeq
-  }
+  } describedAs "Run a named launchconfig, with parameters"
   private def configName(p: Path) =
     new java.io.File(p.asFile.getParent).getName 
 }
