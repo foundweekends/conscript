@@ -44,3 +44,13 @@ conscript with the name of a github project:
     cs n8han/giter8
 
 Installs the [giter8](https://github.com/n8han/giter8) templating system.
+
+Conscripting
+------------
+
+We hope you'll make your own programs that use conscript. The
+conscript-plugin for sbt makes these easier to build and test, and
+there's a [conscript.g8 template][csg8] to get you started. (See above
+for g8 install.)
+
+[csg8]: https://github.com/n8han/conscript.g8#readme
