@@ -11,6 +11,7 @@ object Apply {
     write(launchconfig, launch + boot).orElse {
       write(place, script(launchconfig)) orElse {
         allCatch.opt {
+          // java 1.6+ has this useful method
           place.asInstanceOf[
             { def setExecutable(b: Boolean): Boolean}
           ].setExecutable(true)
