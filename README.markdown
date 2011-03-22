@@ -39,11 +39,19 @@ Use
 ---
 
 The only command currently is install/update, initiated by calling
-conscript with the name of a github project:
+conscript with the name of a github project. This installs the
+[giter8](https://github.com/n8han/giter8) templating system:
 
     cs n8han/giter8
 
-Installs the [giter8](https://github.com/n8han/giter8) templating system.
+If at some point your conscript boot directory contains stale
+artifacts such as snapshot releases, you can clean it:
+
+    cs --clean-boot
+
+When you next run any conscript app (such as `cs`) it will fetch its
+cleaned dependencies back into the shared boot directory; generally it
+only has to look as far as the local ivy cache to find them.
 
 Conscripting
 ------------
