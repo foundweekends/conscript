@@ -1,0 +1,5 @@
+* Allow `conscript.Harness` sbt plugin trait to be mixed into
+  `sbt.ParentProject`
+* Support `--clean-boot` option as requested in [issue #2][i2]
+
+[i2]: https://github.com/n8han/conscript/issues#issue/2
