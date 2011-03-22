@@ -29,6 +29,7 @@ object Apply {
     homedir(/(".conscript", path))
   def homedir(path: String) =
     new File(System.getProperty("user.home"), path)
+  def bootdir = configdir("boot")
   def write(file: File, body: String) =
     mkdir(file) orElse {
       catching(classOf[java.io.IOException]).either {
@@ -50,5 +51,5 @@ object Apply {
   val boot = """
             |[boot]
             |  directory: %s
-            |""".stripMargin.format(configdir("boot"))
+            |""".stripMargin.format(bootdir)
 }
