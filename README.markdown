@@ -1,5 +1,5 @@
-conscript
-=========
+conscript: Scala at your command
+=========================
 
 This is a tool for installing and updating Scala software programs. It
 does *less* than you think, because the sbt launcher does more than
