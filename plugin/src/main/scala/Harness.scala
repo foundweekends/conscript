@@ -3,8 +3,9 @@ package conscript
 import sbt.{FileUtilities => U,Path}
 
 trait Harness { self: sbt.BasicDependencyProject =>
-  val launchInterface = 
-    "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
+    val launchInterface =
+      "org.scala-tools.sbt" % "launcher-interface" % "0.7.5" % "provided" from
+      "http://databinder.net/repo/org.scala-tools.sbt/launcher-interface/0.7.5/jars/launcher-interface.jar"
 
   // can not use mainSourcePath, ParentProject does not implement
   def conscriptBase = (path("src") / "main" / "conscript") ##
