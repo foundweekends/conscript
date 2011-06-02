@@ -20,7 +20,7 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $HOME/bin/cs
 
 chmod a+x $HOME/bin/cs
 
-LJ=sbt-launch-0.7.5.jar
+LJ=sbt-launch-0.7.7.jar
 if [ ! -f $CS/$LJ ]; then
     echo "
 Fetching launcher...
