@@ -7,4 +7,6 @@ class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
   // publish source to sourced.implicit.ly
   val sxr_publish = "net.databinder" % "sxr-publish" % "0.2.0"
   val conscript = "net.databinder" % "conscript-plugin" % "0.2.2"
+  val coda_repo = "Coda Hale's Repository" at "http://repo.codahale.com/"
+  val assembly = "com.codahale" % "assembly-sbt" % "0.1.1"
 }
