@@ -7,33 +7,38 @@ class Conscript extends xsbti.AppMain {
 object Conscript {
   import dispatch._
 
+  case class Config(project: String = "",
+                    clean_boot: Boolean = false,
+                    setup: Boolean = false)
+
   def main(args: Array[String]) { run(Array("--setup")) }
 
-  def run(args: Array[String]) = {
-    val (cleanopt, setupopt, repo) = args.partition(_ == "--clean-boot") match {
-      case (cleanopt, rest) =>
-        val (setupopt, repo) = rest.partition(_ == "--setup")
-        (cleanopt, setupopt, repo)
+  def run(args: Array[String]): Exit = {
+    import scopt._
+    var config = Config()
+    val parser = new OptionParser("cs") {
+      opt("clean-boot", "clears boot dir", { config = config.copy(clean_boot = true) })
+      opt("setup", "installs sbt launcher", { config = config.copy(setup = true) })
+      argOpt("[<user>/<project>[/<version>]]", "github project", { p => config = config.copy(project = p) })
     }
+    def parse(args: Array[String]) = if (parser.parse(args)) Some(config) else None
 
-    val result: Either[String, String] = (cleanopt.headOption, setupopt.headOption, repo) match {
-      case (Some(x), _, _) if Apply.bootdir.exists && Apply.bootdir.isDirectory =>
+    parse(args) map { c => (c match {
+      case c if c.clean_boot && Apply.bootdir.exists && Apply.bootdir.isDirectory =>
         Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
-      case (_, Some(x), _) =>
+      case c if c.setup =>
         Apply.launchJar.right flatMap { _ =>
           configure("n8han", "conscript", None)
         }
-      case (_, _, Array(GhProject(user, repo, version))) => configure(user, repo, Option(version))
-      case _ => Left(usage)
-    }
-
-    result fold ( { err =>
+      case Config(GhProject(user, repo, version), _, _) => configure(user, repo, Option(version))
+      case _ => Left(parser.usage)
+    }) fold ( { err =>
       println(err)
       Exit(1)
     }, { msg =>
       println(msg)
       Exit(0)
-    })
+    })} getOrElse{Exit(1)}
   }
 
   def configure(user: String, repo: String, version: Option[String]) =
@@ -50,6 +55,5 @@ object Conscript {
         }
     }
   case class Exit(val code: Int) extends xsbti.Exit
-  def usage = """Usage: cs [OPTION] [USER/PROJECT]"""
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
