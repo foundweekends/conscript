@@ -21,9 +21,9 @@ object Conscript {
         Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
       case (_, Some(x), _) =>
         Apply.launchJar.right flatMap { _ =>
-          configure("n8han", "conscript")
+          configure("n8han", "conscript", None)
         }
-      case (_, _, Array(GhProject(user, repo))) => configure(user, repo)
+      case (_, _, Array(GhProject(user, repo, version))) => configure(user, repo, Option(version))
       case _ => Left(usage)
     }
 
@@ -36,19 +36,20 @@ object Conscript {
     })
   }
 
-  def configure(user: String, repo: String) = Github.lookup(user, repo).right.flatMap {
-    case Nil => Left("No scripts found for %s/%s".format(user,repo))
-    case scripts =>
-      ((Right(""): Either[String, String]) /: scripts) {
-        case (either, (name, launch)) =>
-          either.right.flatMap { cur =>
-            Apply.config(user, repo, name, launch).right.map {
-              cur + "\n" +  _
+  def configure(user: String, repo: String, version: Option[String]) =
+    Github.lookup(user, repo, version).right.flatMap {
+      case Nil => Left("No scripts found for %s/%s".format(user,repo))
+      case scripts =>
+        ((Right(""): Either[String, String]) /: scripts) {
+          case (either, (name, launch)) =>
+            either.right.flatMap { cur =>
+              Apply.config(user, repo, name, launch).right.map {
+                cur + "\n" +  _
+              }
             }
-          }
-      }
-  }
+        }
+    }
   case class Exit(val code: Int) extends xsbti.Exit
   def usage = """Usage: cs [OPTION] [USER/PROJECT]"""
-  val GhProject = "([^/]+)/([^/]+)".r
+  val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
