@@ -5,11 +5,11 @@ import java.io.File
 
 object Apply extends Launch {
   def config(user: String, repo: String, name: String, launch: String) = {
-    val launchconfig = configdir(/(/(/(user, repo), name), "launchconfig"))
+    val launchconfig = configdir(user / repo / name / "launchconfig")
 
     val place = windows map { _ =>
-      homedir(/("bin", "%s.bat" format name))
-    } getOrElse {homedir(/("bin", name))}
+      homedir(("bin" / "%s.bat") format name)
+    } getOrElse { homedir("bin" / name) }
 
     write(launchconfig, launch + boot).orElse {
       write(place, script(launchconfig)) orElse {

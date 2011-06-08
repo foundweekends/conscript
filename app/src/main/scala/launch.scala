@@ -38,12 +38,14 @@ trait Launch {
       }
   }
 
-  def / (a: String, b: String) = a + File.separatorChar + b
+  implicit def str2paths(a: String) = new {
+    def / (b: String) = a + File.separatorChar + b
+  }
   def forceslash(a: String) =
     windows map { _ =>
       "/" + (a replaceAll ("""\\""", """/"""))
     } getOrElse {a}
-  def configdir(path: String) = homedir(/(".conscript", path))
+  def configdir(path: String) = homedir(".conscript" / path)
   def homedir(path: String) = new File(System.getProperty("user.home"), path)
   def mkdir(file: File) =
     catching(classOf[SecurityException]).either {
