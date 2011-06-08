@@ -7,8 +7,8 @@ import scala.util.control.Exception.allCatch
 import java.io.File
 
 object Github extends Launch {
-  def lookup(user: String, repo: String, version: Option[String]) = {
-    allCatch.opt { http(gh / "blob" / "all" / user / repo / "master" ># { js =>
+  def lookup(user: String, repo: String, branch: String, version: Option[String]) = {
+    allCatch.opt { http(gh / "blob" / "all" / user / repo / branch ># { js =>
       for {
         blobs <- ('blobs ? obj)(js)
         JField(name, JString(sha)) <- blobs
