@@ -12,6 +12,8 @@ object Conscript {
                     clean_boot: Boolean = false,
                     setup: Boolean = false)
 
+  /** This is the entry point for the runnable jar, as well as
+   * the sbt `run` action when in the conscript project. */
   def main(args: Array[String]) {
     run(args match {
       case Array() => Array("--setup")
@@ -25,8 +27,8 @@ object Conscript {
     val parser = new OptionParser("cs") {
       opt("clean-boot", "clears boot dir", { config = config.copy(clean_boot = true) })
       opt("setup", "installs sbt launcher", { config = config.copy(setup = true) })
+      opt("b", "branch", "github branch (default: master)", { b => config = config.copy(branch = b)})
       argOpt("[<user>/<project>[/<version>]]", "github project", { p => config = config.copy(project = p) })
-      argOpt("[<branch>]", "github branch (default: master)", { b => config = config.copy(branch = b)})
     }
     def parse(args: Array[String]) = if (parser.parse(args)) Some(config) else None
 
