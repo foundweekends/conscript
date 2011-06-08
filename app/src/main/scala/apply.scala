@@ -41,7 +41,7 @@ object Apply extends Launch {
   val javaopt = "-Xmx1G"
   def script(launchconfig: File) = windows map { _ =>
     """@echo off""" + "\r\n" +
-    ("""java %s -jar "%s" "@%s" %%*""" + "\r\n") format (javaopt, configdir(sbtlaunchalias),
+    ("""java %s -jar "%s" "@file://%s" %%*""" + "\r\n") format (javaopt, configdir(sbtlaunchalias),
       forceslash(launchconfig.getCanonicalPath))
   } getOrElse {
     """#!/bin/sh
