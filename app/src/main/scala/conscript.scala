@@ -11,8 +11,8 @@ class Conscript extends xsbti.AppMain {
         "Cleaned boot directory (%s)".format(Apply.bootdir)
       )
     }.getOrElse(Right("")).right.flatMap { in => (cleanopt, repo) match {
-      case (_, Array(GhProject(user, repo))) =>
-        Github.lookup(user, repo).right.flatMap {
+      case (_, Array(GhProject(user, repo, version))) =>
+        Github.lookup(user, repo, Option(version)).right.flatMap {
           case Nil => Left("No scripts found for %s/%s".format(user,repo))
           case scripts =>
             ((Right(in): Either[String, String]) /: scripts) { 
@@ -37,5 +37,5 @@ class Conscript extends xsbti.AppMain {
   }
   case class Exit(val code: Int) extends xsbti.Exit
   def usage = """Usage: cs [OPTION] [USER/PROJECT]"""
-  val GhProject = "([^/]+)/([^/]+)".r
+  val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
