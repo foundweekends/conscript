@@ -10,7 +10,7 @@ class Project(info: ProjectInfo) extends ParentProject(info)
     val dj = "net.databinder" %% "dispatch-lift-json" % "0.8.1"
     val dn = "net.databinder" %% "dispatch-http" % "0.8.1"
     override val assemblyJarName = "conscript-setup-%s.jar" format (version)
-    val scopt = "com.github.scopt" %% "scopt" % "1.1.0"
+    val scopt = "com.github.scopt" %% "scopt" % "1.1.1"
   })
   lazy val plugins = project("plugin", "conscript plugin", new PluginProject(_))
   override def postTitle(vers: String) = "conscript %s".format(vers)
