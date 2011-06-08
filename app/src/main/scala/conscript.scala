@@ -8,6 +8,7 @@ object Conscript {
   import dispatch._
 
   case class Config(project: String = "",
+                    branch: String = "master",
                     clean_boot: Boolean = false,
                     setup: Boolean = false)
 
@@ -25,6 +26,7 @@ object Conscript {
       opt("clean-boot", "clears boot dir", { config = config.copy(clean_boot = true) })
       opt("setup", "installs sbt launcher", { config = config.copy(setup = true) })
       argOpt("[<user>/<project>[/<version>]]", "github project", { p => config = config.copy(project = p) })
+      argOpt("[<branch>]", "github branch (default: master)", { b => config = config.copy(branch = b)})
     }
     def parse(args: Array[String]) = if (parser.parse(args)) Some(config) else None
 
@@ -33,9 +35,9 @@ object Conscript {
         Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
       case c if c.setup =>
         Apply.launchJar.right flatMap { _ =>
-          configure("n8han", "conscript", None)
+          configure("n8han", "conscript")
         }
-      case Config(GhProject(user, repo, version), _, _) => configure(user, repo, Option(version))
+      case Config(GhProject(user, repo, version), branch, _, _) => configure(user, repo, branch, Option(version))
       case _ => Left(parser.usage)
     }) fold ( { err =>
       println(err)
@@ -46,8 +48,8 @@ object Conscript {
     })} getOrElse{Exit(1)}
   }
 
-  def configure(user: String, repo: String, version: Option[String]) =
-    Github.lookup(user, repo, version).right.flatMap {
+  def configure(user: String, repo: String, branch: String = "master", version: Option[String] = None) =
+    Github.lookup(user, repo, branch, version).right.flatMap {
       case Nil => Left("No scripts found for %s/%s".format(user,repo))
       case scripts =>
         ((Right(""): Either[String, String]) /: scripts) {
