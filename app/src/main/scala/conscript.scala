@@ -11,7 +11,12 @@ object Conscript {
                     clean_boot: Boolean = false,
                     setup: Boolean = false)
 
-  def main(args: Array[String]) { run(Array("--setup")) }
+  def main(args: Array[String]) {
+    run(args match {
+      case Array() => Array("--setup")
+      case _ => args
+    })
+  }
 
   def run(args: Array[String]): Exit = {
     import scopt._
