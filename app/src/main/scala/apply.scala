@@ -3,11 +3,14 @@ package conscript
 import scala.util.control.Exception.{catching,allCatch}
 import java.io.File
 
-object Apply {
+object Apply extends Launch {
   def config(user: String, repo: String, name: String, launch: String) = {
     val launchconfig = configdir(/(/(/(user, repo), name), "launchconfig"))
 
-    val place = homedir(/("bin", name))
+    val place = windows map { _ =>
+      homedir(/("bin", "%s.bat" format name))
+    } getOrElse {homedir(/("bin", name))}
+
     write(launchconfig, launch + boot).orElse {
       write(place, script(launchconfig)) orElse {
         allCatch.opt {
@@ -24,11 +27,7 @@ object Apply {
       "Conscripted %s/%s to %s".format(user, repo, place)
     }
   }
-  def / (a: String, b: String) = a + File.separatorChar + b
-  def configdir(path: String) =
-    homedir(/(".conscript", path))
-  def homedir(path: String) =
-    new File(System.getProperty("user.home"), path)
+
   def bootdir = configdir("boot")
   def write(file: File, body: String) =
     mkdir(file) orElse {
@@ -39,17 +38,18 @@ object Apply {
       }.left.toOption.map { e => "Error writing " + file }
    }
 
-  def mkdir(file: File) =
-    catching(classOf[SecurityException]).either {
-      new File(file.getParent).mkdirs()
-    }.left.toOption.map { e => "Unable to create path " + file }
-  def script(launchconfig: File) = 
+  val javaopt = "-Xmx1G"
+  def script(launchconfig: File) = windows map { _ =>
+    """@echo off""" + "\r\n" +
+    ("""java %s -jar "%s" "@%s" %%*""" + "\r\n") format (javaopt, configdir(sbtlaunchalias),
+      forceslash(launchconfig.getCanonicalPath))
+  } getOrElse {
     """#!/bin/sh
-      |java -jar %s @%s "$@"
-      |""" .stripMargin.
-        format(configdir("sbt-launch.jar"), launchconfig.getCanonicalPath)
+      |java %s -jar %s @%s "$@"
+      |""" .stripMargin format (javaopt, configdir(sbtlaunchalias), launchconfig.getCanonicalPath)
+  }
   val boot = """
             |[boot]
             |  directory: %s
-            |""".stripMargin.format(bootdir)
+            |""".stripMargin.format(forceslash(bootdir.toString))
 }
