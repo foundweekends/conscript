@@ -2,59 +2,58 @@ package conscript
 
 import sbt._
 import Keys._
-import Defaults._
 
 object Harness extends Plugin {
   val conscriptBase = SettingKey[File]("conscript-base")
+  val conscriptOutput = SettingKey[File]("conscript-output")
+  val conscriptBoot = SettingKey[File]("conscript-boot")
+  val csWrite = TaskKey[Unit]("cs-write",
+      "Write test launchconfig files to conscript-output")
+  val csRun = InputKey[Unit]("cs-run",
+      "Run a named launchconfig, with parameters")
   override val settings: Seq[Project.Setting[_]] = Seq(
     libraryDependencies +=
       "org.scala-tools.sbt" % "launcher-interface" % "0.10.0" % "provided",
-    conscriptBase <<= (sourceDirectory in Compile) / "conscript"
+    conscriptBase <<= (sourceDirectory in Compile) / "conscript",
+    conscriptOutput <<= target / "conscript",
+    conscriptBoot <<= conscriptOutput / "boot",
+    csWrite <<= csWriteTask,
+    csRun <<= csRunTask,
+    (aggregate in csRun) := false
   )
-/*  def conscriptOutput = outputPath / "conscript"
-  def conscriptBoot = conscriptOutput / "boot"
-  def conscriptConfigs = conscriptOutput ** "launchconfig"
-  lazy val csWrite = task {
-    U.clean(conscriptOutput, log) orElse
-    U.copyDirectory(conscriptBase, conscriptOutput, log) orElse
-    ((None: Option[String]) /: conscriptConfigs.get) {
-      (err, path) => err.orElse(
-        U.append(path.asFile, 
-               """
-               |[boot]
-               |  directory: %s
-               |""".stripMargin.format(conscriptBoot), log)
-      )
+  private def configs(path: File) = (path ** "launchconfig").get
+  private def configName(path: File) =
+    new java.io.File(path.getParent).getName 
+  def csWriteTask =
+    (conscriptBase, conscriptOutput, conscriptBoot) map {
+      (base, output, boot) =>
+        IO.delete(output)
+        IO.copyDirectory(base, output)
+        configs(output).map { path =>
+          IO.append(path, 
+            """
+            |[boot]
+            |  directory: %s
+            |""".stripMargin.format(boot)
+          )
+        }
+      ()
     }
-  } describedAs "Write test launchconfig out to " + conscriptOutput
-  lazy val csRun = task { args =>
-    import sbt.Process._
-    csWrite.run.map { err => task { Some(err) } } getOrElse {
-      val config = args.firstOption.flatMap { name =>
-        conscriptConfigs.get.toSeq.filter { 
-          n => configName(n) == name 
-        } firstOption
-      }
-      config match {
-        case None =>
-          task {
-            args.firstOption.map { "No launchconfig found for " + _ } orElse
-              Some("Usage: cs-run <appname> [args ...]")
-          }
-        case Some(cfg) =>
-          task { 
-            "sbt @%s %s".format(cfg, 
-                                args.toList.tail.mkString(" ")) ! log match {
-              case 0 => None
-              case n => Some("Launched app error code: " + n)
-            }
-          } dependsOn publishLocal
-      }
+  def csRunTask = inputTask { (argTask: TaskKey[Seq[String]]) =>
+    (argTask, conscriptOutput, csWrite, publishLocal) map {
+      (args, output, _, _) =>
+        import sbt.Process._
+        val config = args.headOption.map { name =>
+          configs(output).find { 
+            p => configName(p) == name 
+          }.getOrElse { error("No launchconfig found for " + name) }
+        }.getOrElse { error("Usage: cs-run <appname> [args ...]") }
+        "sbt @%s %s".format(config,
+                            args.toList.tail.mkString(" ")
+        ) ! match {
+          case 0 => ()
+          case n => error("Launched app error code: " + n)
+        }
     }
-  } completeWith {
-    conscriptConfigs.get.map(configName).toSeq
-  } describedAs "Run a named launchconfig, with parameters"
-  private def configName(p: Path) =
-    new java.io.File(p.asFile.getParent).getName 
-*/
+  }
 }
