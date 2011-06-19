@@ -5,7 +5,7 @@ import java.io.{FileOutputStream, File}
 import util.control.Exception._
 
 trait Launch {
-  val sbtversion = "0.7.7"
+  val sbtversion = "0.10.0"
   val sbtlaunchalias = "sbt-launch.jar"
 
   def launchJar: Either[String, File] = configdir("sbt-launch-%s.jar" format sbtversion) match {
@@ -18,9 +18,9 @@ trait Launch {
         else ()
 
         val req = windows map { _ =>
-          // sbt-launch 0.7.7 has a bug: https://github.com/harrah/xsbt/pull/38
+          // XXX need a 0.10.0 jar for windows peeps
           url("https://github.com/downloads/eed3si9n/xsbt/sbt-launch-0.7-SNAPSHOT.jar")
-        } getOrElse{url("https://simple-build-tool.googlecode.com/files/sbt-launch-%s.jar" format sbtversion)}
+        } getOrElse{url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)}
 
         http(req >>> new FileOutputStream(jar))
         windows map { _ =>
