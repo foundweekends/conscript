@@ -3,3 +3,4 @@ lib_managed/
 project/plugins/project/
 project/boot/
 src_managed/
+.history

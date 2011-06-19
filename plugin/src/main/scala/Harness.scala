@@ -1,15 +1,17 @@
 package conscript
 
-import sbt.{FileUtilities => U,Path}
+import sbt._
+import Keys._
+import Defaults._
 
-trait Harness { self: sbt.BasicDependencyProject =>
-    val launchInterface =
-      "org.scala-tools.sbt" % "launcher-interface" % "0.7.5" % "provided" from
-      "http://databinder.net/repo/org.scala-tools.sbt/launcher-interface/0.7.5/jars/launcher-interface.jar"
-
-  // can not use mainSourcePath, ParentProject does not implement
-  def conscriptBase = (path("src") / "main" / "conscript") ##
-  def conscriptOutput = outputPath / "conscript"
+object Harness extends Plugin {
+  val conscriptBase = SettingKey[File]("conscript-base")
+  override val settings: Seq[Project.Setting[_]] = Seq(
+    libraryDependencies +=
+      "org.scala-tools.sbt" % "launcher-interface" % "0.10.0" % "provided",
+    conscriptBase <<= (sourceDirectory in Compile) / "conscript"
+  )
+/*  def conscriptOutput = outputPath / "conscript"
   def conscriptBoot = conscriptOutput / "boot"
   def conscriptConfigs = conscriptOutput ** "launchconfig"
   lazy val csWrite = task {
@@ -54,4 +56,5 @@ trait Harness { self: sbt.BasicDependencyProject =>
   } describedAs "Run a named launchconfig, with parameters"
   private def configName(p: Path) =
     new java.io.File(p.asFile.getParent).getName 
+*/
 }
