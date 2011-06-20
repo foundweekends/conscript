@@ -24,7 +24,15 @@ object Apply extends Launch {
         }
       }
     }.toLeft {
-      "Conscripted %s/%s to %s".format(user, repo, place)
+      allCatch.opt {
+        windows map { _ =>
+          Runtime.getRuntime.exec("""cmd /c "%s" --version""" format (place))
+        } getOrElse { Runtime.getRuntime.exec("%s --version" format (place)) }          
+      }.filter { _ == 0 } match {
+        case _ => None // ignore errors since the app might not have `--version`
+      }
+      
+      "Conscripted %s/%s to %s".format(user, repo, place)  
     }
   }
 
