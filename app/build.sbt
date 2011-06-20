@@ -5,3 +5,11 @@ libraryDependencies ++= Seq(
   // launcher *not* "provided", so app can run without
   "org.scala-tools.sbt" % "launcher-interface" % "0.10.0"
 )
+
+seq(ProguardPlugin.proguardSettings :_*)
+
+proguardOptions ++= Seq(
+  "-keep class conscript.* { *; }",
+  "-keep class org.apache.commons.logging.impl.LogFactoryImpl { *; }",
+  "-keep class org.apache.commons.logging.impl.Jdk14Logger { *; }"
+)
