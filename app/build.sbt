@@ -13,3 +13,7 @@ proguardOptions ++= Seq(
   "-keep class org.apache.commons.logging.impl.LogFactoryImpl { *; }",
   "-keep class org.apache.commons.logging.impl.Jdk14Logger { *; }"
 )
+
+minJarPath <<= (target, version) { (t,v) =>
+  t / ("conscript-" + v + ".jar")
+}
