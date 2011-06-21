@@ -20,12 +20,13 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $HOME/bin/cs
 
 chmod a+x $HOME/bin/cs
 
-LJ=sbt-launch-0.7.7.jar
+LJV=0.10.0
+LJ="sbt-launch-$LJV.jar"
 if [ ! -f $CS/$LJ ]; then
     echo "
 Fetching launcher...
 "
-    curl "https://simple-build-tool.googlecode.com/files/$LJ" \
+    curl "http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/$LJV/sbt-launch.jar" \
         > $CS/$LJ
     ln -sf $CS/$LJ $CS/sbt-launch.jar
 fi

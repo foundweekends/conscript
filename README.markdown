@@ -30,22 +30,51 @@ launch configurations, e.g. `~/bin/cs`
 Installation
 ------------
 
+There are two methods of installiation available.
+
+### Linux, Mac, Windows
+
+Download the [conscript runnable jar][jar]. On most OSes you can run
+it by double-clicking, but if that doesn't work you can also run it
+from the command line.
+
+    java -jar conscript-0.3.0.jar
+
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.0.jar
+
+After that you'll have `cs` or `cs.bat` (depending on your OS) in a
+`bin` directory under your home directory. It is up to you to get that
+onto your executable search path, if it is not already.
+
+### Linux, Mac
+
+If you prefer, you can install conscript by piping this shell script.
+
     curl https://raw.github.com/n8han/conscript/master/setup.sh | sh
     
-You'll probably want to add `~/bin` to your `$PATH`, if it's not
-already there.
-
 Use
 ---
 
-The only command currently is install/update, initiated by calling
-conscript with the name of a github project. This installs the
+The main thing you do with conscript is install/update and update
+commands based on templates. Templates are stored in github projects,
+which you pass into the `cs` commpand. For example, this installs the
 [giter8](https://github.com/n8han/giter8) templating system:
 
     cs n8han/giter8
 
-If at some point your conscript boot directory contains stale
-artifacts such as snapshot releases, you can clean it:
+Templates specify a version of the app to use, but you can override
+that by specifying an explicit version with another slash:
+
+    cs n8han/giter8/0.2.1
+
+Project owners may also decide to push pre-release or other alternate
+templates to different branches on github. Use can tell conscript read
+templates from another branch with the `--branch` or `-b` option.
+
+    cs n8han/giter8 --branch staging
+
+And lastly, if at some point your conscript boot directory contains
+stale/suspect artifacts such as snapshot releases, you can clean it:
 
     cs --clean-boot
 
