@@ -19,7 +19,7 @@ trait Launch {
 
         val req = windows map { _ =>
           // XXX need a 0.10.0 jar for windows peeps
-          url("https://github.com/downloads/eed3si9n/xsbt/sbt-launch-0.7-SNAPSHOT.jar")
+          url("https://github.com/downloads/eed3si9n/xsbt/sbt-launch-0.10.1-SNAPSHOT.jar")
         } getOrElse{url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)}
 
         http(req >>> new FileOutputStream(jar))
