@@ -1,9 +1,12 @@
-sbt 0.10 launcher
------------------
+sbt 0.10
+--------
 
 Conscript now installs by default the sbt 0.10.0 launcher, which is
 backwards compatible with the sbt 0.7.x launchers used
 previously. Applications do not need to make any changes.
+
+The conscript-plugin has also been updated for sbt 0.10, making the
+`cs-run` testing task available to conscript apps that have upgraded.
 
 Windows Support
 ---------------
@@ -30,10 +33,6 @@ First Run
 
 When conscript applies a template it creates a startup script and a
 launchconfig, but it's not until you first run the script that any
-needed dependencies are fetched by the launcher.
-
-To avoid surprises down the road, conscript now invokes commands as
-soon as it installs them, passing in a `--version` parameter. This
-causes needed dependencies to be fetched, and will display the newly
-installed app's version number (or an error message if it doesn't
-support the parameter).
+needed dependencies are fetched by the launcher. conscript now invokes
+commands as soon as it installs them; you may notice a longer pause
+before the success message appears as jars are downloaded.
