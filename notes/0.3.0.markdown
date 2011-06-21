@@ -1,0 +1,39 @@
+sbt 0.10 launcher
+-----------------
+
+Conscript now installs by default the sbt 0.10.0 launcher, which is
+backwards compatible with the sbt 0.7.x launchers used
+previously. Applications do not need to make any changes.
+
+Windows Support
+---------------
+
+Thanks [eed3si9n](https://github.com/eed3si9n/)! Conscript now has a
+runnable jar installer, and will produce batch files instead of shell
+scripts as needed.
+
+New Commands
+------------
+
+Also thanks to eed3si9n, conscript can use templates stored on github
+branches. Just use the `--branch` parameter. For example:
+
+    cs ghname/project --branch unstable
+
+Additionally the artifact version contained in a template can be
+overridden like so:
+
+    cs ghname/project/theversion
+
+First Run
+---------
+
+When conscript applies a template it creates a startup script and a
+launchconfig, but it's not until you first run the script that any
+needed dependencies are fetched by the launcher.
+
+To avoid surprises down the road, conscript now invokes commands as
+soon as it installs them, passing in a `--version` parameter. This
+causes needed dependencies to be fetched, and will display the newly
+installed app's version number (or an error message if it doesn't
+support the parameter).
