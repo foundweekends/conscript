@@ -1,7 +1,7 @@
 sbt 0.10
 --------
 
-Conscript now installs by default the sbt 0.10.0 launcher, which is
+Conscript now installs and uses the sbt 0.10.0 launcher, which is
 backwards compatible with the sbt 0.7.x launchers used
 previously. Applications do not need to make any changes.
 
@@ -12,8 +12,10 @@ Windows Support
 ---------------
 
 Thanks [eed3si9n](https://github.com/eed3si9n/)! Conscript now has a
-runnable jar installer, and will produce batch files instead of shell
+[runnable jar installer][jar], and will produce batch files instead of shell
 scripts as needed.
+
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.0.jar
 
 New Commands
 ------------
@@ -31,8 +33,6 @@ overridden like so:
 First Run
 ---------
 
-When conscript applies a template it creates a startup script and a
-launchconfig, but it's not until you first run the script that any
-needed dependencies are fetched by the launcher. conscript now invokes
-commands as soon as it installs them; you may notice a longer pause
+In order to fetch all dependencies immediately, conscript now invokes
+commands as soon as it installs them. You may notice a longer pause
 before the success message appears as jars are downloaded.
