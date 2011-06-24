@@ -24,7 +24,7 @@ object Conscript {
   def run(args: Array[String]): Exit = {
     import scopt._
     var config = Config()
-    val parser = new OptionParser("cs") {
+    val parser = new OptionParser("cs", Version.version) {
       opt("clean-boot", "clears boot dir", { config = config.copy(clean_boot = true) })
       opt("setup", "installs sbt launcher", { config = config.copy(setup = true) })
       opt("b", "branch", "github branch (default: master)", { b => config = config.copy(branch = b)})
