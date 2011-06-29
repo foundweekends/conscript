@@ -8,11 +8,12 @@ trait Launch {
   val sbtversion = "0.10.0"
   val sbtlaunchalias = "sbt-launch.jar"
 
-  def launchJar: Either[String, File] = configdir("sbt-launch-%s.jar" format sbtversion) match {
+  def launchJar(disp: InfoDisplay): Either[String, File] =
+      configdir("sbt-launch-%s.jar" format sbtversion) match {
     case jar if jar.exists => Right(jar)
     case jar =>
       try {
-        println("Fetching launcher...")
+        disp.info("Fetching launcher...")
         val launchalias = configdir(sbtlaunchalias)
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
@@ -32,6 +33,7 @@ trait Launch {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
         }
+        disp.info("Fetched.")
         Right(jar)
       } catch {
         case e: Exception => Left("Error downloading sbt-launch-%s: %s" format (sbtversion, e.toString))
