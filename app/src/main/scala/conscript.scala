@@ -36,6 +36,7 @@ object Conscript {
       case c if c.clean_boot && Apply.bootdir.exists && Apply.bootdir.isDirectory =>
         Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
       case c if c.setup =>
+        Apply.display
         Apply.launchJar.right flatMap { _ =>
           configure("n8han", "conscript")
         }

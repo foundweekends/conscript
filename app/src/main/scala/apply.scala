@@ -3,7 +3,7 @@ package conscript
 import scala.util.control.Exception.{catching,allCatch}
 import java.io.File
 
-object Apply extends Launch {
+object Apply extends Launch with Display {
   def config(user: String, repo: String, name: String, launch: String) = {
     val launchconfig = configdir(user / repo / name / "launchconfig")
 
