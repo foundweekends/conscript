@@ -1,9 +1,5 @@
 package conscript
 
-class Conscript extends xsbti.AppMain {
-  def run(config: xsbti.AppConfiguration) = Conscript.run(config.arguments)
-}
-
 object Conscript {
   import dispatch._
 
@@ -12,16 +8,17 @@ object Conscript {
                     clean_boot: Boolean = false,
                     setup: Boolean = false)
 
-  /** This is the entry point for the runnable jar, as well as
+  /** This is the entrypoint for the runnable jar, as well as
    * the sbt `run` action when in the conscript project. */
   def main(args: Array[String]) {
-    run(args match {
+    System.exit(run(args match {
       case Array() => Array("--setup")
       case _ => args
-    })
+    }))
   }
 
-  def run(args: Array[String]): Exit = {
+  /** Shared by the launched version and the runnable version */
+  def run(args: Array[String]): Int = {
     import scopt._
     var config = Config()
     val parser = new OptionParser("cs", Version.version) {
@@ -43,11 +40,11 @@ object Conscript {
       case _ => Left(parser.usage)
     }) fold ( { err =>
       println(err)
-      Exit(1)
+      1
     }, { msg =>
       println(msg)
-      Exit(0)
-    })} getOrElse{Exit(1)}
+      0
+    })} getOrElse { 1 }
   }
 
   def configure(user: String, repo: String, branch: String = "master", version: Option[String] = None) =
@@ -63,6 +60,11 @@ object Conscript {
             }
         }
     }
-  case class Exit(val code: Int) extends xsbti.Exit
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
+/** The launched conscript entry point */
+class Conscript extends xsbti.AppMain {
+  def run(config: xsbti.AppConfiguration) =
+    new Exit(Conscript.run(config.arguments))
+}
+class Exit(val code: Int) extends xsbti.Exit
