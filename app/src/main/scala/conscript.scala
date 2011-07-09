@@ -24,10 +24,18 @@ object Conscript {
     import scopt._
     var config = Config()
     val parser = new OptionParser("cs", Version.version) {
-      opt("clean-boot", "clears boot dir", { config = config.copy(clean_boot = true) })
-      opt("setup", "installs sbt launcher", { config = config.copy(setup = true) })
-      opt("b", "branch", "github branch (default: master)", { b => config = config.copy(branch = b)})
-      argOpt("[<user>/<project>[/<version>]]", "github project", { p => config = config.copy(project = p) })
+      opt("clean-boot", "clears boot dir", {
+        config = config.copy(clean_boot = true)
+      })
+      opt("setup", "installs sbt launcher", {
+        config = config.copy(setup = true)
+      })
+      opt("b", "branch", "github branch (default: master)", { b => 
+        config = config.copy(branch = b)
+      })
+      argOpt("[<user>/<project>[/<version>]]", "github project", { p =>
+        config = config.copy(project = p)
+      })
     }
     def parse(args: Array[String]) = if (parser.parse(args)) Some(config) else None
 
@@ -38,7 +46,8 @@ object Conscript {
         Apply.launchJar().right flatMap { _ =>
           configure("n8han", "conscript")
         }
-      case Config(GhProject(user, repo, version), branch, _, _) => configure(user, repo, branch, Option(version))
+      case Config(GhProject(user, repo, version), branch, _, _) =>
+        configure(user, repo, branch, Option(version))
       case _ => Left(parser.usage)
     }) fold ( { err =>
       Apply.display.error(err)
