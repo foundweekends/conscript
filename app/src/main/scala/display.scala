@@ -4,17 +4,20 @@ import scala.swing._
 import javax.imageio.ImageIO
 import java.awt.{Graphics,Color,Font,GraphicsEnvironment,RenderingHints}
 
-trait InfoDisplay { def info(msg: String) }
+trait WritableDisplay {
+  def info(msg: String)
+  def error(msg: String)
+}
 
 trait Display {
   val W = 710
   val H = 210
-  def display = new InfoDisplay {
+  lazy val display = new WritableDisplay {
     val img = ImageIO.read(getClass.getResource("/conscript.png"))
     val fonts = GraphicsEnvironment.getLocalGraphicsEnvironment.getAllFonts
     val myfont = new Font("Monospaced", Font.BOLD, 14)
 
-    @volatile var message = "Starting..."
+    @volatile var message: Either[String,String] = Right("Starting...")
 
     val frame = new MainFrame {
       title = "Conscript Setup"
@@ -26,7 +29,14 @@ trait Display {
           g.setFont(myfont)
           g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                              RenderingHints.VALUE_ANTIALIAS_ON);
-          g.drawString(message, 10, H - 10)
+          val msg = message.fold({ err =>
+            g.setColor(Color.RED)
+            err
+          }, { info =>
+            g.setColor(Color.BLACK)
+            info
+          })
+          g.drawString(msg, 10, H - 10)
         }
         preferredSize = new Dimension(W, H)
       }
@@ -34,7 +44,11 @@ trait Display {
       visible = true
     }
     def info(msg: String) {
-      message = msg
+      message = Right(msg)
+      frame.repaint()
+    }
+    def error(msg: String) {
+      message = Left(msg)
       frame.repaint()
     }
   }

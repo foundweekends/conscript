@@ -4,16 +4,18 @@ import dispatch._
 import java.io.{FileOutputStream, File}
 import util.control.Exception._
 
-trait Launch {
+trait Launch { self: Display =>
+  import Conscript.http
+
   val sbtversion = "0.10.0"
   val sbtlaunchalias = "sbt-launch.jar"
 
-  def launchJar(disp: InfoDisplay): Either[String, File] =
+  def launchJar(): Either[String, File] =
       configdir("sbt-launch-%s.jar" format sbtversion) match {
     case jar if jar.exists => Right(jar)
     case jar =>
       try {
-        disp.info("Fetching launcher...")
+        display.info("Fetching launcher...")
         val launchalias = configdir(sbtlaunchalias)
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
@@ -33,7 +35,7 @@ trait Launch {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
         }
-        disp.info("Fetched.")
+        display.info("Fetched.")
         Right(jar)
       } catch {
         case e: Exception => Left("Error downloading sbt-launch-%s: %s" format (sbtversion, e.toString))
@@ -58,5 +60,4 @@ trait Launch {
       case x: String if x contains "Windows" => Some(x)
       case _ => None
     }
-  val http = new Http with NoLogging
 }

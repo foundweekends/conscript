@@ -2,6 +2,7 @@ package conscript
 
 object Conscript {
   import dispatch._
+  val http = new Http with NoLogging
 
   case class Config(project: String = "",
                     branch: String = "master",
@@ -11,10 +12,11 @@ object Conscript {
   /** This is the entrypoint for the runnable jar, as well as
    * the sbt `run` action when in the conscript project. */
   def main(args: Array[String]) {
-    System.exit(run(args match {
+    val exit = run(args match {
       case Array() => Array("--setup")
       case _ => args
-    }))
+    })
+    // not using exit value, may add for headless mode
   }
 
   /** Shared by the launched version and the runnable version */
@@ -33,16 +35,16 @@ object Conscript {
       case c if c.clean_boot && Apply.bootdir.exists && Apply.bootdir.isDirectory =>
         Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
       case c if c.setup =>
-        Apply.launchJar(Apply.display).right flatMap { _ =>
+        Apply.launchJar().right flatMap { _ =>
           configure("n8han", "conscript")
         }
       case Config(GhProject(user, repo, version), branch, _, _) => configure(user, repo, branch, Option(version))
       case _ => Left(parser.usage)
     }) fold ( { err =>
-      println(err)
+      Apply.display.error(err)
       1
     }, { msg =>
-      println(msg)
+      Apply.display.info(msg)
       0
     })} getOrElse { 1 }
   }
@@ -62,6 +64,7 @@ object Conscript {
     }
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
+
 /** The launched conscript entry point */
 class Conscript extends xsbti.AppMain {
   def run(config: xsbti.AppConfiguration) =
