@@ -3,14 +3,23 @@ package conscript
 import scala.util.control.Exception.{catching,allCatch}
 import java.io.File
 
-object Apply extends Launch with Display {
-  def config(user: String, repo: String, name: String, launch: String) = {
-    val launchconfig = configdir(user / repo / name / "launchconfig")
+object Apply extends Launch {
 
-    val place = windows map { _ =>
+  def scriptFile(name: String) = windows map { _ =>
       homedir(("bin" / "%s.bat") format name)
     } getOrElse { homedir("bin" / name) }
 
+  def exec(script: String) =
+    Runtime.getRuntime.exec(windows.map { _ =>
+      """cmd /c "%s" --version"""
+    }.getOrElse {
+      "%s --version"
+    }.format(script)).waitFor()
+
+  def config(user: String, repo: String, name: String, launch: String) = {
+    val launchconfig = configdir(user / repo / name / "launchconfig")
+
+    val place = scriptFile(name)
     write(launchconfig, launch + boot).orElse {
       write(place, script(launchconfig)) orElse {
         allCatch.opt {
@@ -22,13 +31,10 @@ object Apply extends Launch with Display {
       }
     }.toLeft {
       allCatch.opt {
-        windows map { _ =>
-          Runtime.getRuntime.exec("""cmd /c "%s" --version""" format (place))
-        } getOrElse { Runtime.getRuntime.exec("%s --version" format (place)) }          
+        exec(place.toString)
       }.filter { _ == 0 } match {
-        case _ => None // ignore errors since the app might not have `--version`
+        case _ => None // ignore errors; the app might not have `--version`
       }
-      
       "Conscripted %s/%s to %s".format(user, repo, place)  
     }
   }

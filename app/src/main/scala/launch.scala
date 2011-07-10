@@ -4,15 +4,15 @@ import dispatch._
 import java.io.{FileOutputStream, File}
 import util.control.Exception._
 
-trait Launch { self: Display =>
+trait Launch {
   import Conscript.http
 
   val sbtversion = "0.10.0"
   val sbtlaunchalias = "sbt-launch.jar"
 
-  def launchJar(): Either[String, File] =
+  def launchJar(display: Display): Either[String, String] =
       configdir("sbt-launch-%s.jar" format sbtversion) match {
-    case jar if jar.exists => Right(jar)
+    case jar if jar.exists => Right("Launcher already up to date.")
     case jar =>
       try {
         display.info("Fetching launcher...")
@@ -35,10 +35,12 @@ trait Launch { self: Display =>
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
         }
-        display.info("Fetched.")
-        Right(jar)
+        Right("Fetched.")
       } catch {
-        case e: Exception => Left("Error downloading sbt-launch-%s: %s" format (sbtversion, e.toString))
+        case e: Exception => 
+          Left("Error downloading sbt-launch-%s: %s".format(
+            sbtversion, e.toString
+          ))
       }
   }
 

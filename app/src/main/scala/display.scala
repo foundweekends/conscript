@@ -4,20 +4,37 @@ import scala.swing._
 import javax.imageio.ImageIO
 import java.awt.{Graphics,Color,Font,GraphicsEnvironment,RenderingHints}
 
-trait WritableDisplay {
+trait Display {
   def info(msg: String)
   def error(msg: String)
 }
-
-trait Display {
+object ConsoleDisplay extends Display {
+  def info(msg: String) {
+    println(msg)
+  }
+  def error(msg: String) {
+    System.err.println(msg)
+  }
+}
+object SplashDisplay extends Display {
   val W = 710
   val H = 210
-  lazy val display = new WritableDisplay {
+  @volatile private var message: Either[String,String] =
+    Right("Starting...")
+
+  def info(msg: String) {
+    message = Right(msg)
+    display.frame.repaint()
+  }
+  def error(msg: String) {
+    message = Left(msg)
+    display.frame.repaint()
+  }
+
+  lazy val display = new {
     val img = ImageIO.read(getClass.getResource("/conscript.png"))
     val fonts = GraphicsEnvironment.getLocalGraphicsEnvironment.getAllFonts
     val myfont = new Font("Monospaced", Font.BOLD, 14)
-
-    @volatile var message: Either[String,String] = Right("Starting...")
 
     val frame = new MainFrame {
       title = "Conscript Setup"
@@ -42,14 +59,6 @@ trait Display {
       }
       centerOnScreen()
       visible = true
-    }
-    def info(msg: String) {
-      message = Right(msg)
-      frame.repaint()
-    }
-    def error(msg: String) {
-      message = Left(msg)
-      frame.repaint()
     }
   }
 }

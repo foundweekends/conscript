@@ -1,13 +1,17 @@
 package conscript
 
+import scala.util.control.Exception.allCatch
+
 object Conscript {
   import dispatch._
+  import Apply.exec
   val http = new Http with NoLogging
 
   case class Config(project: String = "",
                     branch: String = "master",
                     clean_boot: Boolean = false,
-                    setup: Boolean = false)
+                    setup: Boolean = false,
+                    usage: Boolean = false)
 
   /** This is the entrypoint for the runnable jar, as well as
    * the sbt `run` action when in the conscript project. */
@@ -33,32 +37,66 @@ object Conscript {
       opt("b", "branch", "github branch (default: master)", { b => 
         config = config.copy(branch = b)
       })
+      opt("version", "print current version", {
+        config = config.copy(usage = true)
+      })
       argOpt("[<user>/<project>[/<version>]]", "github project", { p =>
         config = config.copy(project = p)
       })
     }
-    def parse(args: Array[String]) = if (parser.parse(args)) Some(config) else None
+    val parsed =
+      if (parser.parse(args)) Some(config)
+      else None
+    val display =
+      if (config.setup) SplashDisplay
+      else ConsoleDisplay
 
-    parse(args) map { c => (c match {
-      case c if c.clean_boot && Apply.bootdir.exists && Apply.bootdir.isDirectory =>
-        Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
+    parsed.map {
+      case c if c.clean_boot =>
+        if (Apply.bootdir.exists && Apply.bootdir.isDirectory)
+          Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
+        else Left("No boot directory found at " + Apply.bootdir)
+      case c if c.usage =>
+        Right(parser.usage)
       case c if c.setup =>
-        Apply.launchJar().right flatMap { _ =>
-          configure("n8han", "conscript")
+        Apply.launchJar(display).right flatMap { msg =>
+          display.info(msg)
+          configure("n8han", "conscript").right.flatMap { msg =>
+            display.info(msg)
+            examine("cs")
+          }
         }
-      case Config(GhProject(user, repo, version), branch, _, _) =>
+      case Config(GhProject(user, repo, version), branch, _, _, _) =>
         configure(user, repo, branch, Option(version))
       case _ => Left(parser.usage)
-    }) fold ( { err =>
-      Apply.display.error(err)
+    }.getOrElse { Left(parser.usage) }.fold( { err =>
+      display.error(err)
       1
     }, { msg =>
-      Apply.display.info(msg)
+      display.info(msg)
       0
-    })} getOrElse { 1 }
+    })
   }
 
-  def configure(user: String, repo: String, branch: String = "master", version: Option[String] = None) =
+  def examine(scr: String): Either[String,String] = {
+    allCatch.opt { exec(scr) } match {
+      case Some(0) =>
+        Right("Success! `%s` is at your command.".format(scr))
+      case _ =>
+        val pathed = Apply.scriptFile(scr).toString
+        allCatch.opt { exec(pathed) } match {
+          case Some(0) =>
+            Left("Installed to %s but you should the directory to your executable path.".format(pathed))
+          case _ =>
+            Left("Fail. Try running %s on a command line for details.".format(pathed))            
+        }
+    }            
+  }
+
+  def configure(user: String,
+                repo: String,
+                branch: String = "master",
+                version: Option[String] = None) =
     Github.lookup(user, repo, branch, version).right.flatMap {
       case Nil => Left("No scripts found for %s/%s".format(user,repo))
       case scripts =>
