@@ -14,10 +14,7 @@ object Apply extends Launch with Display {
     write(launchconfig, launch + boot).orElse {
       write(place, script(launchconfig)) orElse {
         allCatch.opt {
-          // java 1.6+ has this useful method
-          place.asInstanceOf[
-            { def setExecutable(b: Boolean): Boolean}
-          ].setExecutable(true)
+          place.setExecutable(true)
         }.filter { _ == true } match {
           case None => Some("Unable set as executable: " + place)
           case _ => None
