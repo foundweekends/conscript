@@ -1,3 +1,5 @@
+scalaVersion := "2.9.0-1"
+
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
     "net.databinder" %% "dispatch-http" % "0.8.3",
