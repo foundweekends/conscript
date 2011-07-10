@@ -9,12 +9,13 @@ object Apply extends Launch {
       homedir(("bin" / "%s.bat") format name)
     } getOrElse { homedir("bin" / name) }
 
-  def exec(script: String) =
-    Runtime.getRuntime.exec(windows.map { _ =>
+  def exec(script: String) = {
+    scala.sys.process.Process(windows.map { _ =>
       """cmd /c "%s" --version"""
     }.getOrElse {
       "%s --version"
-    }.format(script)).waitFor()
+    }.format(script))!
+  }
 
   def config(user: String, repo: String, name: String, launch: String) = {
     val launchconfig = configdir(user / repo / name / "launchconfig")
@@ -32,9 +33,7 @@ object Apply extends Launch {
     }.toLeft {
       allCatch.opt {
         exec(place.toString)
-      }.filter { _ == 0 } match {
-        case _ => None // ignore errors; the app might not have `--version`
-      }
+      } // ignore result status; the app might not have `--version`
       "Conscripted %s/%s to %s".format(user, repo, place)  
     }
   }

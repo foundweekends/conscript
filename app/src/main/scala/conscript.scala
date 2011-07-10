@@ -91,7 +91,7 @@ object Conscript {
         val pathed = Apply.scriptFile(scr).toString
         allCatch.opt { exec(pathed) } match {
           case Some(0) =>
-            Left("Installed to %s but you should the directory to your executable path.".format(pathed))
+            Right("Installed to %s -- may not be on PATH".format(pathed))
           case _ =>
             Left("Fail. Run %s on a command line for details.".format(pathed))
         }

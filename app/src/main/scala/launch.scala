@@ -35,7 +35,7 @@ trait Launch {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
         }
-        Right("Launcher fetched. Fetching Conscript...")
+        Right("Fetching Conscript...")
       } catch {
         case e: Exception => 
           Left("Error downloading sbt-launch-%s: %s".format(
