@@ -20,7 +20,7 @@ object Conscript {
       case Array() => Array("--setup")
       case _ => args
     })
-    // not using exit value, may add for headless mode
+    // not using exit value here, to leave any swing window open
   }
 
   /** Shared by the launched version and the runnable version */
@@ -64,7 +64,9 @@ object Conscript {
       case c if c.setup =>
         Apply.launchJar(display).right flatMap { msg =>
           display.info(msg)
-          configure("n8han", "conscript").right.flatMap { msg =>
+          configure("n8han",
+                    "conscript",
+                    version=Some(Version.version)).right.flatMap { msg =>
             display.info(msg)
             examine("cs")
           }
