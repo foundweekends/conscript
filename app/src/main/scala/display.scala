@@ -31,7 +31,7 @@ object SplashDisplay extends Display {
     display.frame.repaint()
   }
 
-  lazy val display = new {
+  val display = new {
     val img = ImageIO.read(getClass.getResource("/conscript.png"))
     val fonts = GraphicsEnvironment.getLocalGraphicsEnvironment.getAllFonts
     val myfont = new Font("Monospaced", Font.BOLD, 14)

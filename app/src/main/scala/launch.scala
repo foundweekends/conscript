@@ -12,7 +12,7 @@ trait Launch {
 
   def launchJar(display: Display): Either[String, String] =
       configdir("sbt-launch-%s.jar" format sbtversion) match {
-    case jar if jar.exists => Right("Launcher already up to date.")
+    case jar if jar.exists => Right("Launcher already up to date...")
     case jar =>
       try {
         display.info("Fetching launcher...")

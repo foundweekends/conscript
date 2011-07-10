@@ -1,6 +1,6 @@
 package conscript
 
-import scala.util.control.Exception.allCatch
+import scala.util.control.Exception.{allCatch,catching}
 
 object Conscript {
   import dispatch._
@@ -48,7 +48,10 @@ object Conscript {
       if (parser.parse(args)) Some(config)
       else None
     val display =
-      if (config.setup) SplashDisplay
+      if (config.setup)
+        allCatch.opt {
+          SplashDisplay
+        }.getOrElse(ConsoleDisplay)
       else ConsoleDisplay
 
     parsed.map {
@@ -88,7 +91,7 @@ object Conscript {
           case Some(0) =>
             Left("Installed to %s but you should the directory to your executable path.".format(pathed))
           case _ =>
-            Left("Fail. Try running %s on a command line for details.".format(pathed))            
+            Left("Fail. Run %s on a command line for details.".format(pathed))
         }
     }            
   }
