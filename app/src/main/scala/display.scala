@@ -52,8 +52,10 @@ object SplashDisplay extends Display {
           }, { info =>
             g.setColor(Color.BLACK)
             info
-          })
-          g.drawString(msg, 10, H - 10)
+          }).split("\n")
+          msg.zipWithIndex.foreach { case (line, i) =>
+            g.drawString(line, 8, H + 8 - 18*(msg.length - i))
+          }
         }
         preferredSize = new Dimension(W, H)
       }

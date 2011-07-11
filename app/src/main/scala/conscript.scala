@@ -86,14 +86,14 @@ object Conscript {
   def examine(scr: String): Either[String,String] = {
     allCatch.opt { exec(scr) } match {
       case Some(0) =>
-        Right("Success! `%s` is at your command.".format(scr))
+        Right("Success!\n%s is at your command.".format(scr))
       case _ =>
         val pathed = Apply.scriptFile(scr).toString
         allCatch.opt { exec(pathed) } match {
           case Some(0) =>
-            Right("Installed to %s -- may not be on PATH".format(pathed))
+            Right("Installed: %s\nMay not be on executable PATH".format(pathed))
           case _ =>
-            Left("Fail. Run %s on a command line for details.".format(pathed))
+            Left("Installed: %s\nError reported; run from terminal for details.".format(pathed))
         }
     }            
   }
