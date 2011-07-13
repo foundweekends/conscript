@@ -38,13 +38,13 @@ Download the [conscript runnable jar][jar]. On most OSes you can run
 it by double-clicking, but if that doesn't work you can also run it
 from the command line.
 
-    java -jar conscript-0.3.0.jar
+    java -jar conscript-0.3.1.jar
 
-[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.0.jar
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.1.jar
 
-After that you'll have `cs` or `cs.bat` (depending on your OS) in a
-`bin` directory under your home directory. It is up to you to get that
-onto your executable search path, if it is not already.
+A "splash screen" will appear during installation. Don't close it
+until you see a message that `cs` was installed, or that something
+went wrong.
 
 ### Linux, Mac
 
