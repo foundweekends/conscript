@@ -4,7 +4,7 @@
   name: conscript
   class: conscript.Conscript
 [scala]
-  version: 2.9.0
+  version: 2.9.0-1
 [repositories]
   local
   maven-local
