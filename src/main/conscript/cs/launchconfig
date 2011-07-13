@@ -10,4 +10,3 @@
   maven-local
   scala-tools-releases
   maven-central
-  typesafe: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
