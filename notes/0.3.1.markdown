@@ -1,0 +1,11 @@
+In this update Conscript gets a splashy installer and a
+[version parameter][vers].
+
+If you already have Conscript installed, you can use it to upgrade:
+
+    cs n8han/conscript
+
+If you don't have Conscript installed, just [run this jar][jar].
+
+[vers]: https://github.com/n8han/conscript/issues/19
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.1.jar
