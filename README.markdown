@@ -1,4 +1,4 @@
-conscript: Scala at your command
+Conscript: Scala at your command
 =========================
 
 This is a tool for installing and updating Scala software programs. It
@@ -86,8 +86,6 @@ Conscripting
 ------------
 
 We hope you'll make your own programs that use conscript. The
-conscript-plugin for sbt makes these easier to build and test, and
-there's a [conscript.g8 template][csg8] to get you started. (See above
-for g8 install.)
+[conscript-plugin][cplug] makes these easier to build and test.
 
-[csg8]: https://github.com/n8han/conscript.g8#readme
+[cplug]: https://github.com/n8han/conscript-plugin
