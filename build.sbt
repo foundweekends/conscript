@@ -6,7 +6,7 @@ name := "conscript"
 
 publishTo := Some("Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/")
 
-//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 scalaVersion := "2.9.0-1"
 
