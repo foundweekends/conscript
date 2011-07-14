@@ -7,7 +7,7 @@ import util.control.Exception._
 trait Launch {
   import Conscript.http
 
-  val sbtversion = "0.10.0"
+  val sbtversion = "0.10.1"
   val sbtlaunchalias = "sbt-launch.jar"
 
   def launchJar(display: Display): Either[String, String] =
@@ -20,10 +20,7 @@ trait Launch {
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
 
-        val req = windows map { _ =>
-          // XXX need a 0.10.0 jar for windows peeps
-          url("https://github.com/downloads/eed3si9n/xsbt/sbt-launch-0.10.1-SNAPSHOT.jar")
-        } getOrElse{url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)}
+        val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
 
         http(req >>> new FileOutputStream(jar))
         windows map { _ =>
