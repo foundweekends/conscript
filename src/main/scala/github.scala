@@ -6,7 +6,7 @@ import net.liftweb.json.JsonAST._
 import scala.util.control.Exception.allCatch
 import java.io.File
 
-object Github {
+object Github extends Credentials {
   import Conscript.http
 
   def lookup(user: String, repo: String, branch: String, version: Option[String]) = {
@@ -38,6 +38,6 @@ object Github {
     }) mkString(System.getProperty("line.separator"))
   }
 
-  val gh = :/("github.com").secure / "api" / "v2" / "json"
+  val gh = withCredentials(:/("github.com").secure / "api" / "v2" / "json")
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
 }
