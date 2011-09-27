@@ -1,6 +1,6 @@
-### Features
+### New Features
 
-* Compatible with sbt 0.11.0 and installs its launcher
+* Installs sbt 0.11.0 launcher
 * Add $CONSCRIPT_OPTS to the generated launcher, [gseitz](https://github.com/n8han/conscript/pull/24)
 * Private repository support for conscript [avalade](https://github.com/n8han/conscript/pull/23)
 
@@ -13,8 +13,8 @@ run the [installation jar][jar].
 
 ### Plugin
 
-For application authors, the conscript plugin has also been
-updated. Use the new way of specify plugin dependencies:
+For application authors, the conscript plugin has also been updated
+for sbt 0.11.0. Use the new way of specify plugin dependencies:
 
     addSbtPlugin("net.databinder" % "conscript-plugin" % "0.3.2")
 
