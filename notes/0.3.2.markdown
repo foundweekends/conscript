@@ -1,0 +1,28 @@
+### Features
+
+* Compatible with sbt 0.11.0 and installs its launcher
+* Add $CONSCRIPT_OPTS to the generated launcher, [gseitz](https://github.com/n8han/conscript/pull/24)
+* Private repository support for conscript [avalade](https://github.com/n8han/conscript/pull/23)
+
+### Upgrading
+
+To upgrade conscript and the sbt launcher stored in `~/.conscript`,
+run the [installation jar][jar].
+
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.3.2.jar
+
+### Plugin
+
+For application authors, the conscript plugin has also been
+updated. Use the new way of specify plugin dependencies:
+
+    addSbtPlugin("net.databinder" % "conscript-plugin" % "0.3.2")
+
+And in your `build.sbt` or other build definition, you will now
+need to explicitly apply conscript settings:
+
+    seq(conscriptSettings :_*)
+
+For new applications, the [giter8 template][g8] is up-to-date.
+
+[g8]: https://github.com/n8han/conscript.g8#readme
