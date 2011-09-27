@@ -1,6 +1,8 @@
+seq(conscriptSettings :_*)
+
 organization := "net.databinder"
 
-version := "0.3.2-SNAPSHOT"
+version := "0.3.2"
 
 name := "conscript"
 
@@ -8,13 +10,13 @@ publishTo := Some("Scala Tools Nexus" at "http://nexus.scala-tools.org/content/r
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
-scalaVersion := "2.9.0-1"
+scalaVersion := "2.9.1"
 
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
-    "net.databinder" %% "dispatch-http" % "0.8.3",
-    "net.databinder" %% "dispatch-lift-json" % "0.8.3",
-    "com.github.scopt" %% "scopt" % "1.1.1",
+    "net.databinder" %% "dispatch-http" % "0.8.5",
+    "net.databinder" %% "dispatch-lift-json" % "0.8.5",
+    "com.github.scopt" %% "scopt" % "1.1.2",
     "org.scala-lang" % "scala-swing" % sv
   )
 }

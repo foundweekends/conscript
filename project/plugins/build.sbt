@@ -1,3 +1,5 @@
 resolvers += "Proguard plugin repo" at "http://siasia.github.com/maven2"
 
-libraryDependencies <+= sbtVersion("com.github.siasia" %% "xsbt-proguard-plugin" % _)
+addSbtPlugin("com.github.siasia" % "xsbt-proguard-plugin" % "0.1")
+
+addSbtPlugin("net.databinder" % "conscript-plugin" % "0.3.2")
