@@ -82,6 +82,14 @@ When you next run any conscript app (such as `cs`) it will fetch its
 cleaned dependencies back into the shared boot directory; generally it
 only has to look as far as the local ivy cache to find them.
 
+Mailing List
+------------
+
+Join the [Conscript mailing list][list] to ask questions and stay up to
+date on the project.
+
+[list]: https://groups.google.com/forum/?hl=en#!forum/conscript-scala
+
 Conscripting
 ------------
 
