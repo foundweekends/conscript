@@ -7,6 +7,5 @@
   version: 2.9.1
 [repositories]
   local
-  maven-local
   scala-tools-releases
   maven-central
