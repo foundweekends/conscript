@@ -17,11 +17,11 @@ object Apply extends Launch {
     }.format(script))!
   }
 
-  def config(user: String, repo: String, name: String, launch: String) = {
+  def config(user: String, repo: String, name: String, launch: Launchconfig) = {
     val launchconfig = configdir(user / repo / name / "launchconfig")
 
     val place = scriptFile(name)
-    write(launchconfig, launch + boot).orElse {
+    write(launchconfig, (launch update ConfigBootDir(forceslash(bootdir.toString))).toString).orElse {
       write(place, script(launchconfig)) orElse {
         allCatch.opt {
           place.setExecutable(true)
@@ -58,8 +58,4 @@ object Apply extends Launch {
       |java $CONSCRIPT_OPTS %s -jar %s @%s "$@"
       |""" .stripMargin format (javaopt, configdir(sbtlaunchalias), launchconfig.getCanonicalPath)
   }
-  val boot = """
-            |[boot]
-            |  directory: %s
-            |""".stripMargin.format(forceslash(bootdir.toString))
 }
