@@ -38,6 +38,12 @@ object Conscript {
       opt("b", "branch", "github branch (default: master)", { b => 
         config = config.copy(branch = b)
       })
+      opt("local", "include local repos", {
+        config = config.copy(entries = config.entries :+ InsertLocalRepository)
+      })
+      opt("no-local", "exclude local and maven-local repos", {
+        config = config.copy(entries = config.entries ++ Seq(RemoveLocalRepository, RemoveMavenLocalRepository))
+      })      
       opt("version", "print current version", {
         config = config.copy(usage = true)
       })
