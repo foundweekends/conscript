@@ -13,12 +13,13 @@ echo "
 [boot]
   directory: $CS/boot" >> $CLC
 
-mkdir -p $HOME/bin
+BIN=$HOME/bin
+mkdir -p $BIN
 
 echo "#!/bin/sh
-java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $HOME/bin/cs
+java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
-chmod a+x $HOME/bin/cs
+chmod a+x $BIN/cs
 
 LJV=0.11.0
 LJ="sbt-launch-$LJV.jar"
@@ -32,5 +33,5 @@ Fetching launcher...
 fi
 
 echo "
-conscript installed to $HOME/bin/cs
+conscript installed to $BIN/cs
 "
