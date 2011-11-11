@@ -1,0 +1,6 @@
+### Improvements
+
+* Lookup private repo credentials using git properties, as is the
+  github convention { [eed3si9n][creds] }
+
+[creds]: https://github.com/n8han/conscript/commit/402c1dc80db43c934402cb7217f44248456448bd
