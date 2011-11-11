@@ -1,6 +1,14 @@
-### Improvements
+### New Features
 
 * Lookup private repo credentials using git properties, as is the
-  github convention { [eed3si9n][creds] }
+  github convention. { [eed3si9n][creds] }
+* `--local` and `--no-local` options to include or exclude local
+  repositories from launch configurations. { [eed3si9n][local] }
 
 [creds]: https://github.com/n8han/conscript/commit/402c1dc80db43c934402cb7217f44248456448bd
+[local]: https://github.com/n8han/conscript/commit/b01635e4a6d810ab7443845ad0a558b8a34d130b
+
+### Upgrading
+
+    $ cs n8han/conscript
+    $ cs --setup
