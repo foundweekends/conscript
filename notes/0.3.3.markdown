@@ -11,4 +11,4 @@
 ### Upgrading
 
     $ cs n8han/conscript
-    $ cs --setup
+    $ cs --setup # updates to sbt 0.11.1 launcher
