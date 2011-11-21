@@ -1,0 +1,3 @@
+* Fixes problem with github credential storage. { [eed3si9n][creds] }
+
+[creds]: https://github.com/n8han/conscript/commit/de9d97306174edd88d9305493ddf1056b0cd5646
