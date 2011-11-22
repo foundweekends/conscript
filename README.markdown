@@ -82,6 +82,21 @@ When you next run any conscript app (such as `cs`) it will fetch its
 cleaned dependencies back into the shared boot directory; generally it
 only has to look as far as the local ivy cache to find them.
 
+Private Repositories
+--------------------
+
+Conscript supports **private github repos** using the [regular git-config
+settings][ghconfig] for your `github.user` and `github.password`. The
+`git` executable must be on your system path for this to work.
+
+[ghconfig]: http://help.github.com/set-your-user-name-email-and-github-token/
+
+The sbt 0.11+ launcher can access **private Maven repos** just as sbt
+itself can. Specify a credentials properties file, such as
+`~/.ivy2/.credentials`, in the `sbt.boot.credentials` JVM property or
+`SBT_CREDENTIALS` environment variable. The launcher will use these
+credentials when accessing protected resources in the specified realm.
+
 Mailing List
 ------------
 
