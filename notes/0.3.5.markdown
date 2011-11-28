@@ -1,0 +1,2 @@
+No functional changes, but fetches the sbt 0.11.2 launcher in the
+conscript installer and when the `cs --setup` command is called.
