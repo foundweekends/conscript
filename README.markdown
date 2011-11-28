@@ -91,7 +91,7 @@ settings][ghconfig] for your `github.user` and `github.password`. The
 
 [ghconfig]: http://help.github.com/set-your-user-name-email-and-github-token/
 
-The sbt 0.11+ launcher can access **private Maven repos** just as sbt
+The sbt 0.11+ launcher can access **private Maven/Ivy repos** just as sbt
 itself can. Specify a credentials properties file, such as
 `~/.ivy2/.credentials`, in the `sbt.boot.credentials` JVM property or
 `SBT_CREDENTIALS` environment variable. The launcher will use these
