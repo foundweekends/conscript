@@ -105,7 +105,7 @@ case class Launchconfig(configstring: String) {
     val values = mutable.Map[String, ArrayBuffer[String]]()
     
     for (line <- configstring.lines) {
-      """\[\w+\]""".r.findFirstIn(line.trim) map { s =>
+      """^\[\w+\]""".r.findFirstIn(line.trim) map { s =>
         sections += s
         values(s) = ArrayBuffer[String]()
       } getOrElse {
