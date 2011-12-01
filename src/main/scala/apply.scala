@@ -17,7 +17,7 @@ object Apply extends Launch {
     }.format(script))!
   }
 
-  def config(user: String, repo: String, name: String, launch: Launchconfig) = {
+  def config(user: String, repo: String, name: String, noexec: Boolean, launch: Launchconfig) = {
     val launchconfig = configdir(user / repo / name / "launchconfig")
 
     val place = scriptFile(name)
@@ -32,7 +32,7 @@ object Apply extends Launch {
       }
     }.toLeft {
       allCatch.opt {
-        exec(place.toString)
+        if (!noexec) exec(place.toString)
       } // ignore result status; the app might not have `--version`
       "Conscripted %s/%s to %s".format(user, repo, place)  
     }
