@@ -4,7 +4,7 @@ import dispatch._
 import java.io.{FileOutputStream, File}
 import util.control.Exception._
 
-trait Launch {
+trait Launch extends Credentials {
   import Conscript.http
 
   val sbtversion = "0.11.2"
@@ -54,9 +54,4 @@ trait Launch {
     catching(classOf[SecurityException]).either {
       new File(file.getParent).mkdirs()
     }.left.toOption.map { e => "Unable to create path " + file }
-  def windows =
-    System.getProperty("os.name") match {
-      case x: String if x contains "Windows" => Some(x)
-      case _ => None
-    }
 }
