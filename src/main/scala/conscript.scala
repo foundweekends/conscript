@@ -83,9 +83,11 @@ object Conscript {
       case _ => Left(parser.usage)
     }.getOrElse { Left(parser.usage) }.fold( { err =>
       display.error(err)
+      Http.shutdown
       1
     }, { msg =>
       display.info(msg)
+      Http.shutdown
       0
     })
   }
