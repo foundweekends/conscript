@@ -3,28 +3,27 @@ package conscript
 import dispatch._
 import dispatch.liftjson.Js._
 import net.liftweb.json.JsonAST._
-import scala.util.control.Exception.allCatch
 import java.io.File
 
 object Github extends Credentials {
   import Conscript.http
 
-  def lookup(user: String, repo: String, branch: String) = {
-    allCatch.opt { http(gh / "blob" / "all" / user / repo / branch ># { js =>
+  def lookup(user: String, repo: String, branch: String):
+  Promise[Seq[Promise[(String, Launchconfig)]]] =
+    http(gh / "blob" / "all" / user / repo / branch > liftjson.As.andThen(
+      'blobs ? obj
+    )).map { js =>
       for {
-        blobs <- ('blobs ? obj)(js)
-        JField(name, JString(sha)) <- blobs
+        JField(name, JString(sha)) <- js
         name <- Script.findFirstMatchIn(name)
       } yield {
-        (name.group(1), http(gh / "blob" / "show" / user / repo / sha >- { str =>
-          Launchconfig(str)
-        }))
+        val req = gh / "blob" / "show" / user / repo / sha
+        http(req > As.string).map { s =>
+          (name.group(1), Launchconfig(s))
+        }
       }
-    }) }.toRight {
-      "Error finding for scripts for %s/%s".format(user,repo)
     }
-  }
     
-  val gh = withCredentials(:/("github.com").secure / "api" / "v2" / "json")
+  def gh = withCredentials(:/("github.com").secure / "api" / "v2" / "json")
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
 }

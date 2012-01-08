@@ -22,12 +22,13 @@ trait Launch extends Credentials {
 
         val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
 
-        http(req >>> new FileOutputStream(jar))
+        http(req > As.file(jar)).get
         windows map { _ =>
           if (launchalias.exists) launchalias.delete
           else ()
-
-          http(req >>> new FileOutputStream(launchalias))
+          // should copy the one we already downloaded, but I don't
+          // have a windows box to test any changes
+          http(req > As.file(launchalias))
         } getOrElse {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor

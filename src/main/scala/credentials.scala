@@ -1,10 +1,13 @@
 package conscript
 
+import dispatch._
+import com.ning.http.client.RequestBuilder
+
 trait Credentials {
   import scala.util.control.Exception.allCatch
   
-  def withCredentials(req: dispatch.Request) =
-    credentials map { case (user, pass) => req as_! (user, pass) } getOrElse req
+  def withCredentials(req: RequestBuilder) =
+    credentials map { case (user, pass) => req as (user, pass) } getOrElse req
   
   lazy val credentials: Option[(String, String)] =
     gitConfig("github.user") flatMap { user =>

@@ -5,7 +5,7 @@ import scala.util.control.Exception.{allCatch,catching}
 object Conscript {
   import dispatch._
   import Apply.exec
-  val http = new Http with NoLogging
+  val http = new Http
 
   case class Config(project: String = "",
                     branch: String = "master",
@@ -109,18 +109,22 @@ object Conscript {
                 repo: String,
                 branch: String = "master",
                 configoverrides: Seq[ConfigEntry] = Nil) =
-    Github.lookup(user, repo, branch).right.flatMap {
-      case Nil => Left("No scripts found for %s/%s".format(user,repo))
-      case scripts =>
-        ((Right(""): Either[String, String]) /: scripts) {
-          case (either, (name, launch)) =>
+    try {
+      Github.lookup(user, repo, branch).map {
+        case Seq() => Left("No scripts found for %s/%s".format(user,repo))
+        case scripts => ((Right(""): Either[String,String]) /: scripts) {
+          (either, promise) =>
             either.right.flatMap { cur =>
+              val (name, launch) = promise.get
               val modLaunch = (launch /: configoverrides) {_ update _}
               Apply.config(user, repo, name, modLaunch).right.map {
                 cur + "\n" +  _
               }
             }
-        }
+          }
+      }.get
+    } catch {
+      case exc => Left("Error retrieving scripts: %s".format(exc.getMessage))
     }
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }

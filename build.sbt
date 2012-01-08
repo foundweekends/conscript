@@ -14,8 +14,6 @@ scalaVersion := "2.9.1"
 
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
-    "net.databinder" %% "dispatch-http" % "0.8.5",
-    "net.databinder" %% "dispatch-lift-json" % "0.8.5",
     "com.github.scopt" %% "scopt" % "1.1.2",
     "org.scala-lang" % "scala-swing" % sv
   )
