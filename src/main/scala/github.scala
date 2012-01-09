@@ -8,12 +8,11 @@ import java.io.File
 object Github extends Credentials {
   import Conscript.http
 
-  def lookup(user: String, repo: String, branch: String):
-  Promise[Seq[Promise[(String, Launchconfig)]]] =
-    http(gh / "blob" / "all" / user / repo / branch > liftjson.As.andThen(
+  def lookup(user: String, repo: String, branch: String) =
+    http(gh / "blob" / "all" / user / repo / branch > liftjson.As).map(
       'blobs ? obj
-    )).map { js =>
-      for {
+    ).flatMap { js =>
+      Promise.all(for {
         JField(name, JString(sha)) <- js
         name <- Script.findFirstMatchIn(name)
       } yield {
@@ -21,7 +20,7 @@ object Github extends Credentials {
         http(req > As.string).map { s =>
           (name.group(1), Launchconfig(s))
         }
-      }
+      })
     }
     
   def gh = withCredentials(:/("github.com").secure / "api" / "v2" / "json")

@@ -1,11 +1,11 @@
 package conscript
 
-import scala.util.control.Exception.{allCatch,catching}
+import scala.util.control.Exception.allCatch
 
 object Conscript {
   import dispatch._
   import Apply.exec
-  val http = new Http
+  val http = dispatch.Http
 
   case class Config(project: String = "",
                     branch: String = "master",
@@ -83,11 +83,11 @@ object Conscript {
       case _ => Left(parser.usage)
     }.getOrElse { Left(parser.usage) }.fold( { err =>
       display.error(err)
-      Http.shutdown
+      http.shutdown
       1
     }, { msg =>
       display.info(msg)
-      Http.shutdown
+      http.shutdown
       0
     })
   }
@@ -111,23 +111,24 @@ object Conscript {
                 repo: String,
                 branch: String = "master",
                 configoverrides: Seq[ConfigEntry] = Nil) =
-    try {
-      Github.lookup(user, repo, branch).map {
-        case Seq() => Left("No scripts found for %s/%s".format(user,repo))
-        case scripts => ((Right(""): Either[String,String]) /: scripts) {
-          (either, promise) =>
+    Github.lookup(user, repo, branch).map { scripts =>
+      if (scripts.isEmpty)
+        Left("No scripts found for %s/%s".format(user,repo))
+      else {
+        ((Right(""): Either[String,String]) /: scripts) {
+          case (either, (name, launch)) =>
             either.right.flatMap { cur =>
-              val (name, launch) = promise.get
               val modLaunch = (launch /: configoverrides) {_ update _}
               Apply.config(user, repo, name, modLaunch).right.map {
                 cur + "\n" +  _
               }
             }
           }
-      }.get
-    } catch {
-      case exc => Left("Error retrieving scripts: %s".format(exc.getMessage))
-    }
+      }
+    }.getEither.fold(
+      exc => Left("Error retrieving scripts: %s".format(exc.getMessage)),
+      identity
+    )
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
 
