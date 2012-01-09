@@ -17,9 +17,8 @@ object Github extends Credentials {
         JField(name, JString(sha)) <- js
         name <- Script.findFirstMatchIn(name)
       } yield {
-        val req = gh / "blob" / "show" / user / repo / sha
-        http(req > As.string).map { s =>
-          (name.group(1), Launchconfig(s))
+        http(gh / "blob" / "show" / user / repo / sha > As.string).map {
+          s => (name.group(1), Launchconfig(s))
         }
       })
     }
