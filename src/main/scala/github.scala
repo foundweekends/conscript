@@ -8,7 +8,8 @@ import java.io.File
 object Github extends Credentials {
   import Conscript.http
 
-  def lookup(user: String, repo: String, branch: String) =
+  def lookup(user: String, repo: String, branch: String)
+  : Promise[Traversable[(String, Launchconfig)]] =
     http(gh / "blob" / "all" / user / repo / branch > liftjson.As).map(
       'blobs ? obj
     ).flatMap { js =>
