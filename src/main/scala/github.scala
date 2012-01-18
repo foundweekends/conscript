@@ -10,17 +10,15 @@ object Github extends Credentials {
 
   def lookup(user: String, repo: String, branch: String)
   : Promise[Traversable[(String, Launchconfig)]] =
-    http(gh / "blob" / "all" / user / repo / branch > liftjson.As).map(
-      'blobs ? obj
-    ).flatMap { js =>
-      Promise.all(for {
-        JField(name, JString(sha)) <- js
-        name <- Script.findFirstMatchIn(name)
-      } yield {
-        http(gh / "blob" / "show" / user / repo / sha > As.string).map {
-          s => (name.group(1), Launchconfig(s))
-        }
-      })
+    for {
+      js <- http(gh / "blob" / "all" / user / repo / branch > liftjson.As)
+            .map('blobs ? obj)
+      JField(name, JString(sha)) <- js
+      name <- Script.findFirstMatchIn(name)
+    } yield {
+      http(gh / "blob" / "show" / user / repo / sha > As.string).map {
+        s => (name.group(1), Launchconfig(s))
+      }
     }
     
   def gh = withCredentials(:/("github.com").secure / "api" / "v2" / "json")
