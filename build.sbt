@@ -1,6 +1,6 @@
 seq(conscriptSettings :_*)
 
-organization := "net.databinder"
+organization := "net.databinder.conscript"
 
 version := "0.3.5-SNAPSHOT"
 
@@ -38,3 +38,10 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, version) map { (d, v)
     |""".stripMargin.format(v))
   Seq(file)
 }
+
+version in dlj <<= version
+
+organization in dlj <<= organization
+
+publishTo in dlj <<= publishTo
+
