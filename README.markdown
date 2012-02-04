@@ -1,6 +1,3 @@
-Conscript: Scala at your command
-=========================
-
 ![Conscript](https://github.com/n8han/conscript/raw/master/src/main/resources/conscript.png)
 
 This is a tool for installing and updating Scala software programs. It
