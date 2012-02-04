@@ -1,7 +1,7 @@
 Conscript: Scala at your command
 =========================
 
-![Conscript][https://github.com/n8han/conscript/raw/master/src/main/resources/conscript.png]
+![Conscript](https://github.com/n8han/conscript/raw/master/src/main/resources/conscript.png)
 
 This is a tool for installing and updating Scala software programs. It
 does *less* than you think, because the sbt launcher does more than
