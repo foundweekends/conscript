@@ -125,7 +125,7 @@ object Conscript {
             }
           }
       }
-    }.either.get.fold(
+    }.either().fold(
       exc => Left("Error retrieving scripts: %s".format(exc.getMessage)),
       identity
     )
