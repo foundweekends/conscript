@@ -28,7 +28,7 @@ object Conscript {
   def run(args: Array[String]): Int = {
     import scopt._
     var config = Config()
-    val parser = new OptionParser("cs", Version.version) {
+    val parser = new OptionParser("cs", BuildInfo.version) {
       opt("clean-boot", "clears boot dir", {
         config = config.copy(clean_boot = true)
       })
@@ -73,7 +73,7 @@ object Conscript {
           display.info(msg)
           configure("n8han",
                     "conscript",
-                    configoverrides = Seq(ConfigVersion(Version.version))).right.flatMap { msg =>
+                    configoverrides = Seq(ConfigVersion(BuildInfo.version))).right.flatMap { msg =>
             display.info(msg)
             examine("cs")
           }

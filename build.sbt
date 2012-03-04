@@ -31,17 +31,16 @@ minJarPath <<= (target, version) { (t,v) =>
   t / ("conscript-" + v + ".jar")
 }
 
-sourceGenerators in Compile <+= (sourceManaged in Compile, version) map { (d, v) =>
-  val file = d / "version.scala"
-  IO.write(file, """package conscript
-    |object Version { val version = "%s" }
-    |""".stripMargin.format(v))
-  Seq(file)
-}
+seq(buildInfoSettings: _*)
+
+sourceGenerators in Compile <+= buildInfo
+
+buildInfoKeys := Seq[Scoped](name, version, scalaVersion, sbtVersion)
+
+buildInfoPackage := "conscript"
 
 version in dlj <<= version
 
 organization in dlj <<= organization
 
 publishTo in dlj <<= publishTo
-
