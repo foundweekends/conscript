@@ -50,6 +50,12 @@ went wrong.
 If you prefer, you can install conscript by piping this shell script.
 
     curl https://raw.github.com/n8han/conscript/master/setup.sh | sh
+
+### Java 7
+
+If you're using a buggy preview release of Java, then Conscript will
+be buggy. Please use a relase version of Java instead. If there is 
+no final release of Java 7 for your (Mac) platform yet, use 6.
     
 Use
 ---
