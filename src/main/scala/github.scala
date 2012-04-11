@@ -12,12 +12,10 @@ object Github extends Credentials {
     val base = gh(user, repo)
     
     for {
-      sha <- shas(base, branch).unpack
-      (name, hash) <- trees(base, sha).unpack
-    } yield
-      blob(base, hash).map { lc =>
-        (name, Launchconfig(lc))
-      }
+      sha <- shas(base, branch).values.flatten
+      (name, hash) <- trees(base, sha).values
+      lc <- blob(base, hash)
+    } yield (name, Launchconfig(lc))
   }
   def shas(base: Req, branch: String): Promise[Iterable[String]] =
     http(
