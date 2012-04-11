@@ -16,7 +16,8 @@ libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
     "com.github.scopt" %% "scopt" % "1.1.2",
     "org.scala-lang" % "scala-swing" % sv,
-    "net.liftweb" %% "lift-json" % "2.4-RC1"
+    "net.liftweb" %% "lift-json" % "2.4-RC1",
+    "org.slf4j" % "slf4j-jdk14" % "1.6.2"
   )
 }
 

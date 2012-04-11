@@ -9,8 +9,7 @@ object Github extends Credentials {
   import Conscript.http
   def lookup(user: String, repo: String, branch: String)
   : Promise[Iterable[(String, Launchconfig)]] = {
-    val base = gh(user, repo)
-    
+    def base = gh(user, repo)
     for {
       sha <- shas(base, branch).values.flatten
       (name, hash) <- trees(base, sha).values
@@ -31,8 +30,10 @@ object Github extends Credentials {
       "recursive" -> "1"
     ) OK LiftJson.As).map { js =>
       for {
-        JField("path", JString(name)) <- js
-        JField("sha", JString(hash)) <- js
+        JField("tree", JArray(ary)) <- js
+        JObject(obj) <- ary
+        JField("path", JString(name)) <- obj
+        JField("sha", JString(hash)) <- obj
         name <- Script.findFirstMatchIn(name)
       } yield (name.group(1), hash)
     }
@@ -42,7 +43,7 @@ object Github extends Credentials {
       ) OK As.string)
   }
   def gh(user: String, repo: String) =
-    withCredentials(:/("github.com").secure / "repos" / user / repo)
+    withCredentials(:/("api.github.com").secure / "repos" / user / repo)
 
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
 }
