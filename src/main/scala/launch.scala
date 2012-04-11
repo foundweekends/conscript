@@ -22,7 +22,7 @@ trait Launch extends Credentials {
 
         val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
 
-        http(req > As.file(jar)).get
+        http(req > As.file(jar))()
         windows map { _ =>
           if (launchalias.exists) launchalias.delete
           else ()

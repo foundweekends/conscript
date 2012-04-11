@@ -15,7 +15,8 @@ scalaVersion := "2.9.1"
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
     "com.github.scopt" %% "scopt" % "1.1.2",
-    "org.scala-lang" % "scala-swing" % sv
+    "org.scala-lang" % "scala-swing" % sv,
+    "net.liftweb" %% "lift-json" % "2.4-RC1"
   )
 }
 
@@ -38,9 +39,3 @@ sourceGenerators in Compile <+= buildInfo
 buildInfoKeys := Seq[Scoped](name, version, scalaVersion, sbtVersion)
 
 buildInfoPackage := "conscript"
-
-version in dlj <<= version
-
-organization in dlj <<= organization
-
-publishTo in dlj <<= publishTo
