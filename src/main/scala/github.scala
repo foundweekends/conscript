@@ -31,15 +31,20 @@ object Github extends Credentials {
   def trees(base: Req, sha: String) =
     http(base / "git" / "trees" / sha <<? Map(
       "recursive" -> "1"
-    ) OK LiftJson.As).either.right.map { js =>
-      for {
-        JField("tree", JArray(ary)) <- js
-        JObject(obj) <- ary
-        JField("path", JString(name)) <- obj
-        JField("sha", JString(hash)) <- obj
-        name <- Script.findFirstMatchIn(name)
-      } yield (name.group(1), hash)
-    }.left.map(unknownError)
+    ) OK LiftJson.As).either.left.map(unknownError).map { eth =>
+      eth.right.flatMap { js =>
+        (for {
+          JField("tree", JArray(ary)) <- js
+          JObject(obj) <- ary
+          JField("path", JString(name)) <- obj
+          JField("sha", JString(hash)) <- obj
+          name <- Script.findFirstMatchIn(name)
+        } yield (name.group(1), hash)) match {
+          case Seq() => Left("No conscripts found in this repository")
+          case seq => Right(seq)
+        }
+      }
+    }
   def blob(base: Req, hash: String) = {
       http((base / "git" / "blobs" / hash).addHeader(
         "Accept", "application/vnd.github.raw"
