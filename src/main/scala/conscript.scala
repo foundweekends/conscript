@@ -111,10 +111,8 @@ object Conscript {
                 repo: String,
                 branch: String = "master",
                 configoverrides: Seq[ConfigEntry] = Nil) =
-    Github.lookup(user, repo, branch).map { scripts =>
-      if (scripts.isEmpty)
-        Left("No scripts found for %s/%s".format(user,repo))
-      else {
+    Github.lookup(user, repo, branch).map { result =>
+      result.right.flatMap { scripts =>
         ((Right(""): Either[String,String]) /: scripts) {
           case (either, (name, launch)) =>
             either.right.flatMap { cur =>
@@ -125,10 +123,7 @@ object Conscript {
             }
           }
       }
-    }.either().fold(
-      exc => Left("Error retrieving scripts: %s".format(exc.getMessage)),
-      identity
-    )
+    }()
   val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
 
