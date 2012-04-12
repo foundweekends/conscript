@@ -1,6 +1,6 @@
 [app]
   version: 0.4.0
-  org: net.databinder
+  org: net.databinder.conscript
   name: conscript
   class: conscript.Conscript
 [scala]
