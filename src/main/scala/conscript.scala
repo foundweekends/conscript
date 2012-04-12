@@ -12,7 +12,9 @@ object Conscript {
                     clean_boot: Boolean = false,
                     setup: Boolean = false,
                     usage: Boolean = false,
-                    entries: Seq[ConfigEntry] = Nil)
+                    shouldExec: Boolean = true,
+                    entries: Seq[ConfigEntry] = Nil
+                  )
 
   /** This is the entrypoint for the runnable jar, as well as
    * the sbt `run` action when in the conscript project. */
@@ -47,6 +49,9 @@ object Conscript {
       opt("version", "print current version", {
         config = config.copy(usage = true)
       })
+      opt("no-exec", "don't execute program after install", {
+        config = config.copy(shouldExec = false)
+      })
       argOpt("[<user>/<project>[/<version>]]", "github project", { p =>
         config = config.copy(project = p)
       })
@@ -73,13 +78,15 @@ object Conscript {
           display.info(msg)
           configure("n8han",
                     "conscript",
-                    configoverrides = Seq(ConfigVersion(BuildInfo.version))).right.flatMap { msg =>
+                    true,
+                    configoverrides = Seq(ConfigVersion(BuildInfo.version))
+          ).right.flatMap { msg =>
             display.info(msg)
             examine("cs")
           }
         }
-      case Config(GhProject(user, repo, version), branch, _, _, _, entries) =>
-        configure(user, repo, branch, entries ++ (Option(version) map { v => ConfigVersion(v) }).toSeq)
+      case Config(GhProject(user, repo, version), branch, _, _, _, shouldExec, entries) =>
+        configure(user, repo, shouldExec, branch, entries ++ (Option(version) map { v => ConfigVersion(v) }).toSeq)
       case _ => Left(parser.usage)
     }.getOrElse { Left(parser.usage) }.fold( { err =>
       display.error(err)
@@ -109,6 +116,7 @@ object Conscript {
 
   def configure(user: String,
                 repo: String,
+                shouldExec: Boolean,
                 branch: String = "master",
                 configoverrides: Seq[ConfigEntry] = Nil) =
     Github.lookup(user, repo, branch).map { result =>
@@ -117,7 +125,7 @@ object Conscript {
           case (either, (name, launch)) =>
             either.right.flatMap { cur =>
               val modLaunch = (launch /: configoverrides) {_ update _}
-              Apply.config(user, repo, name, modLaunch).right.map {
+              Apply.config(user, repo, name, modLaunch, shouldExec).right.map {
                 cur + "\n" +  _
               }
             }
