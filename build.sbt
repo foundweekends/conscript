@@ -22,6 +22,7 @@ seq(ProguardPlugin.proguardSettings :_*)
 
 proguardOptions ++= Seq(
   "-keep class conscript.* { *; }",
+  "-keep class dispatch.* { *; }",
   "-keep class org.apache.commons.logging.impl.LogFactoryImpl { *; }",
   "-keep class org.apache.commons.logging.impl.Jdk14Logger { *; }"
 )
