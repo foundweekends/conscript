@@ -6,11 +6,7 @@ version := "0.4.0"
 
 name := "conscript"
 
-publishTo := Some("Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/")
-
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
-scalaVersion := "2.9.1"
+scalaVersion := "2.9.1-1"
 
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
@@ -41,3 +37,40 @@ sourceGenerators in Compile <+= buildInfo
 buildInfoKeys := Seq[Scoped](name, version, scalaVersion, sbtVersion)
 
 buildInfoPackage := "conscript"
+
+homepage :=
+  Some(new java.net.URL("https://github.com/n8han/conscript/"))
+
+publishMavenStyle := true
+
+publishTo <<= version { (v: String) =>
+  val nexus = "https://oss.sonatype.org/"
+  if (v.trim.endsWith("SNAPSHOT")) 
+    Some("snapshots" at nexus + "content/repositories/snapshots") 
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}
+
+publishArtifact in Test := false
+
+licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt"))
+
+pomExtra := (
+  <scm>
+    <url>git@github.com:dispatch/reboot.git</url>
+    <connection>scm:git:git@github.com:dispatch/reboot.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>n8han</id>
+      <name>Nathan Hamblen</name>
+      <url>http://github.com/n8han</url>
+    </developer>
+    <developer>
+      <id>eed3si9n</id>
+      <name>Eugene Yokota</name>
+      <url>https://github.com/eed3si9n</url>
+    </developer>
+  </developers>)
+
+seq(lsSettings :_*)
