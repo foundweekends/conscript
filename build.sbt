@@ -2,7 +2,7 @@ seq(conscriptSettings :_*)
 
 organization := "net.databinder.conscript"
 
-version := "0.3.5-SNAPSHOT"
+version := "0.4.0"
 
 name := "conscript"
 
@@ -14,6 +14,7 @@ scalaVersion := "2.9.1"
 
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
+    "net.databinder.dispatch" %% "core" % "0.9.0-alpha5",
     "com.github.scopt" %% "scopt" % "1.1.2",
     "org.scala-lang" % "scala-swing" % sv,
     "net.liftweb" %% "lift-json" % "2.4-RC1",

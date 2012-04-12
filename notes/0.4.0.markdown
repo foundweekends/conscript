@@ -1,0 +1,26 @@
+### Obligatory Upgrade
+
+Because github is [terminating its v2 APIs][gh] on May 1, 2012 and
+these are used by all earlier versions of conscript, you must upgrade in
+order to continue using the software.
+
+Luckily, upgrading conscript is easy:
+
+    cs n8han/conscript
+
+[gh]: https://github.com/blog/1090-github-api-moving-on
+
+Do it now while your copy still works!
+
+### Improvements
+
+* Uses Dispatch reboot [to retrieve templates][reboot], concurrently
+* Added `--no-exec` switch to bypass command execution after install { [n8han][noexec] }
+* Use BuildInfo to display current version { [eed3si9n][vers] }
+* Use something called `git.exe` on Windows { [eed3si9n][git] }
+* Will still work after May 1, 2012
+
+[reboot]: https://github.com/n8han/conscript/blob/d187d43d2fadb6c1c974a94a89b235c2e89c64aa/src/main/scala/github.scala#L11-17
+[noexec]: https://github.com/n8han/conscript/commit/2a340c8696a04eb858f6f40da3109e98e9d6ea44
+[vers]: https://github.com/n8han/conscript/commit/61da0c56af7925b3f464cd7011c474adefca1554
+[git]: https://github.com/n8han/conscript/commit/1010556d1a261b40588e2d4c054ec2aa6123f867
