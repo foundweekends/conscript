@@ -7,12 +7,16 @@ trait Credentials {
   import scala.util.control.Exception.allCatch
   
   def withCredentials(req: RequestBuilder) =
-    credentials map { case (user, pass) => req as (user, pass) } getOrElse req
+    (oauth map { case token => req.addHeader("Authorization", "token %s".format(token)) }).orElse(
+      credentials map { case (user, pass) => req as (user, pass) }) getOrElse req
+  
+  def oauth: Option[String] =
+    Config.get("gh.oauth")
   
   lazy val credentials: Option[(String, String)] =
     gitConfig("github.user") flatMap { user =>
-      gitConfig("github.token") map { token =>
-        (user + "/token", token)
+      gitConfig("github.password") map { password =>
+        (user, password)
       }    
     }
   

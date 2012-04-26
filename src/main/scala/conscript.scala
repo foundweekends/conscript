@@ -13,7 +13,8 @@ object Conscript {
                     setup: Boolean = false,
                     usage: Boolean = false,
                     shouldExec: Boolean = true,
-                    entries: Seq[ConfigEntry] = Nil
+                    entries: Seq[ConfigEntry] = Nil,
+                    auth: Option[String] = None
                   )
 
   /** This is the entrypoint for the runnable jar, as well as
@@ -39,6 +40,9 @@ object Conscript {
       })
       opt("b", "branch", "github branch (default: master)", { b => 
         config = config.copy(branch = b)
+      })
+      opt("a", "auth", "obtain oauth token with <name>:<password>", { b => 
+        config = config.copy(auth = Some(b))
       })
       opt("local", "include local repos", {
         config = config.copy(entries = config.entries :+ InsertLocalRepository)
@@ -73,6 +77,11 @@ object Conscript {
         else Left("No boot directory found at " + Apply.bootdir)
       case c if c.usage =>
         Right(parser.usage)
+      case c if !c.auth.isEmpty =>
+        c.auth.get.split(":",2) match {
+          case Array(name, pass) => Authorize(name, pass)()
+          case _ => Left("-a / --auth requires <name>:<pass>")
+        }
       case c if c.setup =>
         Apply.launchJar(display).right flatMap { msg =>
           display.info(msg)
@@ -85,7 +94,7 @@ object Conscript {
             examine("cs")
           }
         }
-      case Config(GhProject(user, repo, version), branch, _, _, _, shouldExec, entries) =>
+      case Config(GhProject(user, repo, version), branch, _, _, _, shouldExec, entries, _) =>
         configure(user, repo, shouldExec, branch, entries ++ (Option(version) map { v => ConfigVersion(v) }).toSeq)
       case _ => Left(parser.usage)
     }.getOrElse { Left(parser.usage) }.fold( { err =>
