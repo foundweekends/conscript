@@ -12,7 +12,7 @@ trait Credentials {
     }).getOrElse { req }
   
   def oauth: Option[String] =
-    Config.get("gh.oauth")
+    Config.get("gh.access")
   
   def windows =
     System.getProperty("os.name") match {
