@@ -23,7 +23,8 @@ object Authorize {
     http(
         as_!(auths, user, pass).setBody(compact(render(
           ("note" -> "Conscript") ~
-          ("note_url" -> "https://github.com/n8han/conscript")
+          ("note_url" -> "https://github.com/n8han/conscript") ~
+          ("scopes" -> ("repo" :: Nil))
         ))) OK LiftJson.As
     ).either.left.map {
       case StatusCode(401) => "Unrecognized github login and password"
