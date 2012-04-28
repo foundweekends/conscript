@@ -90,11 +90,20 @@ only has to look as far as the local ivy cache to find them.
 Private Repositories
 --------------------
 
-Conscript supports **private github repos** using the [regular git-config
-settings][ghconfig] for your `github.user` and `github.password`. The
-`git` executable must be on your system path for this to work.
+Conscript supports **private github repos** using github's oauth flow
+[for non-web apps][oauth].
 
-[ghconfig]: http://help.github.com/set-your-user-name-email-and-github-token/
+[oauth]: http://developer.github.com/v3/oauth/#create-a-new-authorization
+
+To authenticate and store a permanent token, use the `--auth` parameter:
+
+    cs --auth yourname:yourpass
+
+This stores an access token in `~/.conscript/config` which is used for
+all future `cs` invocations. You can revoke tokens at any time in your
+[github account settings][tokens].
+
+[tokens]: https://github.com/settings/applications
 
 The sbt 0.11+ launcher can access **private Maven/Ivy repos** just as sbt
 itself can. Specify a credentials properties file, such as
