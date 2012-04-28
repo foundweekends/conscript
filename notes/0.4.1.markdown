@@ -1,0 +1,14 @@
+This release adds github OAuth support and restores access to private
+repositories, which was [non-functional in the last release][private].
+
+[private]: https://github.com/n8han/conscript/issues/39
+
+To authenticate and store a permanent token, use the `--auth` parameter:
+
+    cs --auth yourname:yourpass
+
+This stores an access token in `~/.conscript/config` which is used for
+all future `cs` invocations. You can revoke tokens at any time in your
+[github account settings][tokens].
+
+[tokens]: https://github.com/settings/applications
