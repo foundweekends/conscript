@@ -2,7 +2,7 @@ seq(conscriptSettings :_*)
 
 organization := "net.databinder.conscript"
 
-version := "0.4.1"
+version := "0.4.2-SNAPSHOT"
 
 name := "conscript"
 
