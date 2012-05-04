@@ -8,7 +8,7 @@ object Conscript {
   val http = dispatch.Http
 
   case class Config(project: String = "",
-                    branch: String = "master",
+                    branch: Option[String] = None,
                     clean_boot: Boolean = false,
                     setup: Boolean = false,
                     usage: Boolean = false,
@@ -39,7 +39,7 @@ object Conscript {
         config = config.copy(setup = true)
       })
       opt("b", "branch", "github branch (default: master)", { b => 
-        config = config.copy(branch = b)
+        config = config.copy(branch = Some(b))
       })
       opt("a", "auth", "obtain oauth token with <name>:<password>", { b => 
         config = config.copy(auth = Some(b))
@@ -126,7 +126,7 @@ object Conscript {
   def configure(user: String,
                 repo: String,
                 shouldExec: Boolean,
-                branch: String = "master",
+                branch: Option[String] = None,
                 configoverrides: Seq[ConfigEntry] = Nil) =
     Github.lookup(user, repo, branch).map { result =>
       result.right.flatMap { scripts =>

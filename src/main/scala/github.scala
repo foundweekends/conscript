@@ -7,18 +7,21 @@ import com.ning.http.client.{RequestBuilder=>Req}
 
 object Github extends Credentials {
   import Conscript.http
-  def lookup(user: String, repo: String, branch: String)
+  val DefaultBranch = "master"
+
+  def lookup(user: String, repo: String, branch: Option[String])
   : Promise[Either[String, Iterable[(String, Launchconfig)]]] = {
     def base = gh(user, repo)
     for {
-      sha <- shas(base, branch).right.values.flatten
+      ref <- refname(branch, base)
+      sha <- shas(base, ref).right.values.flatten
       (name, hash) <- trees(base, sha).right.values
       lc <- blob(base, hash).right
     } yield (name, Launchconfig(lc))
   }
-  def shas(base: Req, branch: String) =
+  def shas(base: Req, ref: String) =
     http(
-      base / "git" / "refs" / "heads" / branch OK LiftJson.As
+      base / "git" / "refs" / "heads" / ref OK LiftJson.As
     ).either.right.map { js =>
       for {
         JField("object", JObject(obj)) <- js
@@ -42,6 +45,30 @@ object Github extends Credentials {
         } yield (name.group(1), hash)) match {
           case Seq() => Left("No conscripts found in this repository")
           case seq => Right(seq)
+        }
+      }
+    }
+  def guaranteed[L, R](value: R) =
+    Promise((Right(value): Either[L, R]))
+  def refname(given: Option[String], base: Req) =
+    given match {
+        case Some(branch) => guaranteed[String, String](branch).right
+        case _ => masterBranch(base).left.flatMap {
+          case _ => guaranteed[String, String](DefaultBranch)
+        }.right
+      }
+  def masterBranch(base: Req) =
+    http(base OK LiftJson.As).either.left.map {
+      case StatusCode(404) => "Repository not found on github"
+      case e => unknownError(e)
+    }.map { eth =>
+      eth.right.flatMap { js =>
+        (for{
+          JObject(obj) <- js
+          JField("master_branch", JString(branch)) <- obj
+        } yield branch) match {
+          case Seq() => Left("Default master branch not found on github")
+          case seq => Right(seq.head)
         }
       }
     }
