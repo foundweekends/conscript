@@ -1,0 +1,3 @@
+* Fixes [gh-21][i21]. Use the default github branch by default.
+
+[i21]: https://github.com/n8han/conscript/issues/21
