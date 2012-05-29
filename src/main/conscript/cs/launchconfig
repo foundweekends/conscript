@@ -7,5 +7,5 @@
   version: 2.9.1
 [repositories]
   local
-  sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
+  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
   maven-central
