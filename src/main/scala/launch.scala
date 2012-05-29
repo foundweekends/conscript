@@ -7,7 +7,7 @@ import util.control.Exception._
 trait Launch extends Credentials {
   import Conscript.http
 
-  val sbtversion = "0.11.2"
+  val sbtversion = "0.11.3"
   val sbtlaunchalias = "sbt-launch.jar"
 
   def launchJar(display: Display): Either[String, String] =
@@ -20,7 +20,7 @@ trait Launch extends Credentials {
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
 
-        val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
+        val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
 
         http(req > As.file(jar))()
         windows map { _ =>

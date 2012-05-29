@@ -21,13 +21,13 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
 chmod a+x $BIN/cs
 
-LJV=0.11.2
+LJV=0.11.3
 LJ="sbt-launch-$LJV.jar"
 if [ ! -f $CS/$LJ ]; then
     echo "
 Fetching launcher...
 "
-    curl "http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/$LJV/sbt-launch.jar" \
+    curl "http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar" \
         > $CS/$LJ
     ln -sf $CS/$LJ $CS/sbt-launch.jar
 fi
