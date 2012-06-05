@@ -34,6 +34,7 @@ echo "
 
 
 echo "#!/bin/sh
+#This is conscript: https://github.com/n8han/conscript
 java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
 chmod a+x $BIN/cs
