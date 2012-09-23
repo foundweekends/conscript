@@ -1,5 +1,7 @@
 seq(conscriptSettings :_*)
 
+seq(lsSettings :_*)
+
 organization := "net.databinder.conscript"
 
 version := "0.4.2-SNAPSHOT"
@@ -35,7 +37,7 @@ seq(buildInfoSettings: _*)
 
 sourceGenerators in Compile <+= buildInfo
 
-buildInfoKeys := Seq[Scoped](name, version, scalaVersion, sbtVersion)
+buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion)
 
 buildInfoPackage := "conscript"
 
@@ -73,5 +75,3 @@ pomExtra := (
       <url>https://github.com/eed3si9n</url>
     </developer>
   </developers>)
-
-seq(lsSettings :_*)
