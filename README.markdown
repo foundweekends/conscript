@@ -37,9 +37,9 @@ Download the [conscript runnable jar][jar]. On most OSes you can run
 it by double-clicking, but if that doesn't work you can also run it
 from the command line.
 
-    java -jar conscript-0.4.0.jar
+    java -jar conscript-0.4.1.jar
 
-[jar]: https://github.com/downloads/n8han/conscript/conscript-0.4.0.jar
+[jar]: https://github.com/downloads/n8han/conscript/conscript-0.4.1.jar
 
 A "splash screen" will appear during installation. Don't close it
 until you see a message that `cs` was installed, or that something
