@@ -4,6 +4,7 @@ import dispatch._
 import net.liftweb.json.JsonAST._
 import java.io.File
 import com.ning.http.client.{RequestBuilder=>Req}
+import com.ning.http.client.ProxyServer
 
 object Github extends Credentials {
   import Conscript.http
@@ -77,8 +78,17 @@ object Github extends Credentials {
         "Accept", "application/vnd.github.raw"
       ) OK As.string).either.left.map(unknownError)
   }
-  def gh(user: String, repo: String) =
-    withCredentials(:/("api.github.com").secure / "repos" / user / repo)
+  def gh(user: String, repo: String) : Req = {
+    val req = withCredentials(:/("api.github.com").secure / "repos" / user / repo)
+
+    if(System.getProperty("https.proxyHost") != null && System.getProperty("https.proxyPort") != null) {
+      req.setProxyServer(new ProxyServer(System.getProperty("https.proxyHost"), 
+        System.getProperty("https.proxyPort").toInt))
+    }
+    
+    return req
+  }
+    
 
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
   val unknownError = (e: Throwable) =>
