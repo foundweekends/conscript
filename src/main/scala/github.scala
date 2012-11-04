@@ -81,9 +81,11 @@ object Github extends Credentials {
   def gh(user: String, repo: String) : Req = {
     val req = withCredentials(:/("api.github.com").secure / "repos" / user / repo)
 
-    if(System.getProperty("https.proxyHost") != null && System.getProperty("https.proxyPort") != null) {
-      req.setProxyServer(new ProxyServer(System.getProperty("https.proxyHost"), 
-        System.getProperty("https.proxyPort").toInt))
+    for {
+      host <- Option(System getProperty "https.proxyHost")
+      port <- Option(System getProperty "https.proxyPort")
+    } {
+      req.setProxyServer(new ProxyServer(host, port.toInt))
     }
     
     return req
