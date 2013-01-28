@@ -8,14 +8,14 @@ version := "0.4.2-SNAPSHOT"
 
 name := "conscript"
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.9.2"
 
 libraryDependencies <<= (libraryDependencies, scalaVersion) {
   (deps, sv) => deps ++ Seq(
-    "net.databinder.dispatch" %% "core" % "0.9.0-alpha5",
-    "com.github.scopt" %% "scopt" % "1.1.2",
+    "net.databinder.dispatch" %% "dispatch-core" % "0.9.5",
+    "com.github.scopt" %% "scopt" % "2.1.0",
     "org.scala-lang" % "scala-swing" % sv,
-    "net.liftweb" %% "lift-json" % "2.4-RC1",
+    "net.liftweb" %% "lift-json" % "2.5-M4",
     "org.slf4j" % "slf4j-jdk14" % "1.6.2"
   )
 }
