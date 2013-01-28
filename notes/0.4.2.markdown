@@ -1,3 +1,10 @@
-* Fixes [gh-21][i21]. Use the default github branch by default.
+Fixes and improvements
+
+* Use the default github branch (not necessarily "master") when none
+  is specified. [gh-21][i21]
+* Added support to use conscript behind a proxy server, [pull 45][p45]
+* Use sbt 0.12.2's launcher so that 2.10.x artifacts are resolved
+  without minor versions
 
 [i21]: https://github.com/n8han/conscript/issues/21
+[p45]: https://github.com/n8han/conscript/pull/45

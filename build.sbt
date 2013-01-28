@@ -4,7 +4,7 @@ seq(lsSettings :_*)
 
 organization := "net.databinder.conscript"
 
-version := "0.4.2-SNAPSHOT"
+version := "0.4.2"
 
 name := "conscript"
 
