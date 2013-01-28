@@ -7,7 +7,7 @@ import util.control.Exception._
 trait Launch extends Credentials {
   import Conscript.http
 
-  val sbtversion = "0.11.3"
+  val sbtversion = "0.12.2"
   val sbtlaunchalias = "sbt-launch.jar"
 
   def launchJar(display: Display): Either[String, String] =

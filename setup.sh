@@ -21,7 +21,7 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
 chmod a+x $BIN/cs
 
-LJV=0.11.3
+LJV=0.12.2
 LJ="sbt-launch-$LJV.jar"
 if [ ! -f $CS/$LJ ]; then
     echo "
