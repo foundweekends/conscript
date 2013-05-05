@@ -73,7 +73,7 @@ object Conscript {
     parsed.map {
       case c if c.clean_boot =>
         if (Apply.bootdir.exists && Apply.bootdir.isDirectory)
-          Clean.clean(Apply.bootdir.listFiles).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
+          Clean.clean(Apply.bootdir).toLeft("Cleaned boot directory (%s)".format(Apply.bootdir))
         else Left("No boot directory found at " + Apply.bootdir)
       case c if c.usage =>
         Right(parser.usage)
