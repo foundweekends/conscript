@@ -1,0 +1,10 @@
+This release updates Conscript to the sbt 0.13.0 launcher so that
+Scala 2.10 artifacts are correctly resolved. It also includes
+[pr #48][48] providing --clean-boot support on Windows.
+
+To upgrade:
+
+    cs n8han/conscript
+    cs --setup # updates the launcher
+
+[48]: https://github.com/n8han/conscript/pull/48
