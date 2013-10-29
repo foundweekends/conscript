@@ -4,34 +4,44 @@ seq(lsSettings :_*)
 
 organization := "net.databinder.conscript"
 
-version := "0.4.3"
+version := "0.4.3-alpha1"
 
 name := "conscript"
 
 scalaVersion := "2.9.2"
 
-libraryDependencies <<= (libraryDependencies, scalaVersion) {
-  (deps, sv) => deps ++ Seq(
+libraryDependencies <<= (libraryDependencies, scalaVersion, sbtVersion) {
+  (deps, sv, sbtv) => deps ++ Seq(
     "net.databinder.dispatch" %% "dispatch-core" % "0.9.5",
     "com.github.scopt" %% "scopt" % "2.1.0",
     "org.scala-lang" % "scala-swing" % sv,
-    "net.liftweb" %% "lift-json" % "2.5-M4",
-    "org.slf4j" % "slf4j-jdk14" % "1.6.2"
+    "org.scala-lang" % "scala-library" % sv,
+    "net.liftweb" %% "lift-json" % "2.5",
+    "org.slf4j" % "slf4j-jdk14" % "1.6.2",
+    "org.scala-sbt" % "launcher-interface" % sbtv intransitive()
   )
 }
 
-seq(ProguardPlugin.proguardSettings :_*)
+proguardSettings
 
-proguardOptions ++= Seq(
+ProguardKeys.options in Proguard ++= Seq(
   "-keep class conscript.* { *; }",
   "-keep class dispatch.* { *; }",
+  "-keep class com.ning.http.client.providers.netty.** { *; }",
   "-keep class org.apache.commons.logging.impl.LogFactoryImpl { *; }",
-  "-keep class org.apache.commons.logging.impl.Jdk14Logger { *; }"
-)
+  "-keep class org.apache.commons.logging.impl.Jdk14Logger { *; }",
+  "-dontnote",
+  "-dontwarn",
+  "-dontobfuscate",
+  "-dontoptimize"
+  )
 
-minJarPath <<= (target, version) { (t,v) =>
-  t / ("conscript-" + v + ".jar")
-}
+javaOptions in (Proguard, ProguardKeys.proguard) := Seq("-Xmx2G")
+
+ProguardKeys.outputs in Proguard <<=
+  (ProguardKeys.proguardDirectory in Proguard, version) map { (op,v) =>
+    op / ("conscript-" + v + ".jar") :: Nil
+  }
 
 seq(buildInfoSettings: _*)
 
