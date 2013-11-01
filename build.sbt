@@ -15,7 +15,6 @@ libraryDependencies <<= (libraryDependencies, scalaVersion, sbtVersion) {
     "net.databinder.dispatch" %% "dispatch-core" % "0.9.5",
     "com.github.scopt" %% "scopt" % "2.1.0",
     "org.scala-lang" % "scala-swing" % sv,
-    "org.scala-lang" % "scala-library" % sv,
     "net.liftweb" %% "lift-json" % "2.5",
     "org.slf4j" % "slf4j-jdk14" % "1.6.2"
   )
@@ -34,6 +33,17 @@ ProguardKeys.options in Proguard ++= Seq(
   "-dontobfuscate",
   "-dontoptimize"
   )
+
+ProguardKeys.inputs in Proguard <<=
+  (fullClasspath in Compile, fullClasspath in Runtime) map { (ccp, rcp) =>
+    (ccp.files ++ rcp.files).distinct.filter { f =>
+      // This is a dependency of the launcher interface. It may not be the version of scala
+      // we're using at all, and we don't want it
+      f.getName != "scala-library.jar"
+    }
+  }
+
+ProguardKeys.defaultInputFilter in Proguard := None
 
 javaOptions in (Proguard, ProguardKeys.proguard) := Seq("-Xmx2G")
 
