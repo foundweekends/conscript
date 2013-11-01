@@ -4,7 +4,7 @@ seq(lsSettings :_*)
 
 organization := "net.databinder.conscript"
 
-version := "0.4.3"
+version := "0.4.4"
 
 name := "conscript"
 
@@ -17,8 +17,7 @@ libraryDependencies <<= (libraryDependencies, scalaVersion, sbtVersion) {
     "org.scala-lang" % "scala-swing" % sv,
     "org.scala-lang" % "scala-library" % sv,
     "net.liftweb" %% "lift-json" % "2.5",
-    "org.slf4j" % "slf4j-jdk14" % "1.6.2",
-    "org.scala-sbt" % "launcher-interface" % sbtv intransitive()
+    "org.slf4j" % "slf4j-jdk14" % "1.6.2"
   )
 }
 
