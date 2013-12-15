@@ -39,7 +39,7 @@ from the command line.
 
     java -jar conscript-0.4.4.jar
 
-[jar]: https://github.com/n8han/conscript/releases/download/0.4.4/conscript-0.4.4.jar
+[jar]: https://github.com/n8han/conscript/releases/download/0.4.4-1/conscript-0.4.4-1.jar
 
 A "splash screen" will appear during installation. Don't close it
 until you see a message that `cs` was installed, or that something
