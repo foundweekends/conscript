@@ -50,7 +50,7 @@ object Github extends Credentials {
       }
     }
   def guaranteed[L, R](value: R) =
-    Promise((Right(value): Either[L, R]))
+    http.promise((Right(value): Either[L, R]))
   def refname(given: Option[String], base: Req) =
     given match {
         case Some(branch) => guaranteed[String, String](branch).right
@@ -76,7 +76,7 @@ object Github extends Credentials {
   def blob(base: Req, hash: String) = {
       http((base / "git" / "blobs" / hash).addHeader(
         "Accept", "application/vnd.github.raw"
-      ) OK As.string).either.left.map(unknownError)
+      ) OK as.String).either.left.map(unknownError)
   }
   def gh(user: String, repo: String) : Req = {
     val req = withCredentials(:/("api.github.com").secure / "repos" / user / repo)
