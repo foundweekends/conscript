@@ -28,7 +28,7 @@ trait Launch extends Credentials {
           else ()
           // should copy the one we already downloaded, but I don't
           // have a windows box to test any changes
-          http(req > as.File(launchalias))
+          http(req > as.File(launchalias))()
         } getOrElse {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
