@@ -1,5 +1,23 @@
 #!/bin/sh
 
+BIN=$HOME/bin
+mkdir -p $BIN
+
+if [ -a $BIN/cs ] ; then
+   if ! [ -f $BIN/cs ] ; then
+       echo "$BIN/cs exists but is not a regular file.  Not clobbering.  Remove $BIN/cs and run this setup script again."
+       exit 1
+   elif ! grep -q sbt-launch\\.jar $BIN/cs ; then
+       echo "$BIN/cs exists, but it does not not appear to be an old conscript file.  Not clobbering.  Remove $BIN/cs and run this setup script again."
+       exit 2
+   else
+       echo
+       echo "Existing $BIN/cs found.  Will overwrite." 
+   fi
+fi
+
+
+
 echo "
 Fetching current launch configuration...
 "
@@ -13,10 +31,10 @@ echo "
 [boot]
   directory: $CS/boot" >> $CLC
 
-BIN=$HOME/bin
-mkdir -p $BIN
+
 
 echo "#!/bin/sh
+#This is conscript: https://github.com/n8han/conscript
 java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
 chmod a+x $BIN/cs
