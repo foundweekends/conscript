@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 echo "
 Fetching current launch configuration...
 "
