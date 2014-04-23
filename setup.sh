@@ -15,7 +15,7 @@ echo "
 [boot]
   directory: $CS/boot" >> $CLC
 
-BIN=$HOME/bin
+BIN=$HOME/.bin
 mkdir -p $BIN
 
 echo "#!/bin/sh
