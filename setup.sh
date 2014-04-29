@@ -9,7 +9,7 @@ CS=$HOME/.conscript
 CSCS=$CS/n8han/conscript/cs
 CLC=$CSCS/launchconfig
 mkdir -p $CSCS
-curl https://raw.github.com/n8han/conscript/master/src/main/conscript/cs/launchconfig \
+curl https://raw.githubusercontent.com/n8han/conscript/master/src/main/conscript/cs/launchconfig \
     > $CLC
 echo "
 [boot]
