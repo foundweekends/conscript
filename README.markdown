@@ -49,7 +49,7 @@ went wrong.
 
 If you prefer, you can install conscript by piping this shell script.
 
-    curl https://raw.github.com/n8han/conscript/master/setup.sh | sh
+    curl https://raw.githubusercontent.com/n8han/conscript/master/setup.sh | sh
 
 ### Java 8
 
