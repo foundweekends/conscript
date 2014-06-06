@@ -1,10 +1,8 @@
 package conscript
 
 import com.ning.http.client.Response
+import org.json4s.native.JsonParser
 
-import net.liftweb.json._
-import JsonDSL._
-
-object LiftJson {
+object Json {
   def As(res: Response) = JsonParser.parse(dispatch.as.String(res))
 }

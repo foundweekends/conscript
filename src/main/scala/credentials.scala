@@ -1,9 +1,9 @@
 package conscript
 
-import com.ning.http.client.RequestBuilder
+import dispatch.Req
 
 trait Credentials extends OsDetect {
-  def withCredentials(req: RequestBuilder) =
+  def withCredentials(req: Req) =
     (oauth map { 
       case token => req.addHeader("Authorization", "token %s".format(token))
     }).getOrElse { req }
