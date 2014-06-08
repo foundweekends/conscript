@@ -1,26 +1,28 @@
-seq(conscriptSettings :_*)
+conscriptSettings
 
-seq(lsSettings :_*)
+lsSettings
 
 organization := "net.databinder.conscript"
 
-version := "0.4.4"
+version := "0.4.5-SNAPSHOT"
 
 name := "conscript"
 
-scalaVersion := "2.9.2"
+scalaVersion := "2.11.1"
 
-libraryDependencies <<= (libraryDependencies, scalaVersion, sbtVersion) {
-  (deps, sv, sbtv) => deps ++ Seq(
-    "net.databinder.dispatch" %% "dispatch-core" % "0.9.5",
-    "com.github.scopt" %% "scopt" % "2.1.0",
-    "org.scala-lang" % "scala-swing" % sv,
-    "net.liftweb" %% "lift-json" % "2.5",
-    "org.slf4j" % "slf4j-jdk14" % "1.6.2"
-  )
-}
+scalacOptions ++= Seq("-deprecation", "-language:_")
+
+libraryDependencies ++= Seq(
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.1",
+  "com.github.scopt" %% "scopt" % "3.2.0",
+  "org.scala-lang.modules" %% "scala-swing" % "1.0.1",
+  "org.json4s" %% "json4s-native" % "3.2.10",
+  "org.slf4j" % "slf4j-jdk14" % "1.6.2"
+)
 
 proguardSettings
+
+ProguardKeys.proguardVersion in Proguard := "4.11"
 
 ProguardKeys.options in Proguard ++= Seq(
   "-keep class conscript.* { *; }",
@@ -52,7 +54,7 @@ ProguardKeys.outputs in Proguard <<=
     op / ("conscript-" + v + ".jar") :: Nil
   }
 
-seq(buildInfoSettings: _*)
+buildInfoSettings
 
 sourceGenerators in Compile <+= buildInfo
 
@@ -79,8 +81,8 @@ licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt"))
 
 pomExtra := (
   <scm>
-    <url>git@github.com:dispatch/reboot.git</url>
-    <connection>scm:git:git@github.com:dispatch/reboot.git</connection>
+    <url>git@github.com:n8han/conscript.git</url>
+    <connection>scm:git:git@github.com:n8han/conscript.git</connection>
   </scm>
   <developers>
     <developer>

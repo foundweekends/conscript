@@ -1,9 +1,11 @@
 package conscript
 
 import scala.util.control.Exception.allCatch
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.Await
 
 object Conscript {
-  import dispatch._
   import Apply.exec
   val http = dispatch.Http
 
@@ -30,41 +32,38 @@ object Conscript {
   /** Shared by the launched version and the runnable version */
   def run(args: Array[String]): Int = {
     import scopt._
-    var config = Config()
-    val parser = new OptionParser("cs", BuildInfo.version) {
-      opt("clean-boot", "clears boot dir", {
-        config = config.copy(clean_boot = true)
-      })
-      opt("setup", "installs sbt launcher", {
-        config = config.copy(setup = true)
-      })
-      opt("b", "branch", "github branch (default: master)", { b => 
-        config = config.copy(branch = Some(b))
-      })
-      opt("a", "auth", "obtain oauth token with <name>:<password>", { b => 
-        config = config.copy(auth = Some(b))
-      })
-      opt("local", "include local repos", {
-        config = config.copy(entries = config.entries :+ InsertLocalRepository)
-      })
-      opt("no-local", "exclude local and maven-local repos", {
-        config = config.copy(entries = config.entries ++ Seq(RemoveLocalRepository, RemoveMavenLocalRepository))
-      })      
-      opt("version", "print current version", {
-        config = config.copy(usage = true)
-      })
-      opt("no-exec", "don't execute program after install", {
-        config = config.copy(shouldExec = false)
-      })
-      argOpt("[<user>/<project>[/<version>]]", "github project", { p =>
-        config = config.copy(project = p)
-      })
+    val parser = new OptionParser[Config]("cs") {
+      opt[Unit]("clean-boot").text("clears boot dir").action(
+        (_, c) => c.copy(clean_boot = true)
+      )
+      opt[Unit]("setup").text("installs sbt launcher").action(
+        (_, c) => c.copy(setup = true)
+      )
+      opt[String]('b', "branch").text("github branch (default: master)").action(
+        (b, c) => c.copy(branch = Some(b))
+      )
+      opt[String]('a', "auth").text("obtain oauth token with <name>:<password>").action(
+        (b, c) => c.copy(auth = Some(b))
+      )
+      opt[Unit]("local").text("include local repos").action(
+        (_, c) => c.copy(entries = c.entries :+ InsertLocalRepository)
+      )
+      opt[Unit]("no-local").text("exclude local and maven-local repos").action(
+        (_, c) => c.copy(entries = c.entries ++ Seq(RemoveLocalRepository, RemoveMavenLocalRepository))
+      )
+      opt[Unit]("version").text("print current version").action(
+        (_, c) => c.copy(usage = true)
+      )
+      opt[Unit]("no-exec").text("don't execute program after install").action(
+        (_, c) => c.copy(shouldExec = false)
+      )
+      arg[String]("[<user>/<project>[/<version>]]").optional.text("github project").action(
+        (p, c) => c.copy(project = p)
+      )
     }
-    val parsed =
-      if (parser.parse(args)) Some(config)
-      else None
+    val parsed = parser.parse(args, new Config())
     val display =
-      if (config.setup)
+      if (parsed.exists(_.setup))
         allCatch.opt {
           SplashDisplay
         }.getOrElse(ConsoleDisplay)
@@ -79,7 +78,7 @@ object Conscript {
         Right(parser.usage)
       case c if !c.auth.isEmpty =>
         c.auth.get.split(":",2) match {
-          case Array(name, pass) => Authorize(name, pass)()
+          case Array(name, pass) => Await.result(Authorize(name, pass), 30.seconds)
           case _ => Left("-a / --auth requires <name>:<pass>")
         }
       case c if c.setup =>
@@ -88,7 +87,7 @@ object Conscript {
           configure("n8han",
                     "conscript",
                     true,
-                    configoverrides = Seq(ConfigVersion(BuildInfo.version))
+                    configoverrides = Seq(ConfigVersion(conscript.BuildInfo.version))
           ).right.flatMap { msg =>
             display.info(msg)
             examine("cs")
@@ -120,15 +119,15 @@ object Conscript {
           case _ =>
             Left("Installed: %s\nError reported; run from terminal for details.".format(pathed))
         }
-    }            
+    }
   }
 
   def configure(user: String,
                 repo: String,
                 shouldExec: Boolean,
                 branch: Option[String] = None,
-                configoverrides: Seq[ConfigEntry] = Nil) =
-    Github.lookup(user, repo, branch).map { result =>
+                configoverrides: Seq[ConfigEntry] = Nil) = {
+    val future = Github.lookup(user, repo, branch).map { result =>
       result.right.flatMap { scripts =>
         ((Right(""): Either[String,String]) /: scripts) {
           case (either, (name, launch)) =>
@@ -140,8 +139,11 @@ object Conscript {
             }
           }
       }
-    }()
-  val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
+    }
+    Await.result(future, 30.seconds)
+  }
+
+  private val GhProject = "([^/]+)/([^/]+)(/[^/]+)?".r
 }
 
 /** The launched conscript entry point */

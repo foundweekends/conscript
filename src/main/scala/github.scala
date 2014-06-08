@@ -1,17 +1,17 @@
 package conscript
 
 import dispatch._
-import net.liftweb.json.JsonAST._
-import java.io.File
-import com.ning.http.client.{RequestBuilder=>Req}
+import org.json4s.JsonAST._
 import com.ning.http.client.ProxyServer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object Github extends Credentials {
   import Conscript.http
   val DefaultBranch = "master"
 
   def lookup(user: String, repo: String, branch: Option[String])
-  : Promise[Either[String, Iterable[(String, Launchconfig)]]] = {
+  : Future[Either[String, Iterable[(String, Launchconfig)]]] = {
     def base = gh(user, repo)
     for {
       ref <- refname(branch, base)
@@ -22,10 +22,11 @@ object Github extends Credentials {
   }
   def shas(base: Req, ref: String) =
     http(
-      base / "git" / "refs" / "heads" / ref OK LiftJson.As
+      base / "git" / "refs" / "heads" / ref OK Json.As
     ).either.right.map { js =>
       for {
-        JField("object", JObject(obj)) <- js
+        JObject(fields) <- js
+        JField("object", JObject(obj)) <- fields
         JField("sha", JString(sha)) <- obj
       } yield sha
     }.left.map {
@@ -35,10 +36,11 @@ object Github extends Credentials {
   def trees(base: Req, sha: String) =
     http(base / "git" / "trees" / sha <<? Map(
       "recursive" -> "1"
-    ) OK LiftJson.As).either.left.map(unknownError).map { eth =>
+    ) OK Json.As).either.left.map(unknownError).map { eth =>
       eth.right.flatMap { js =>
         (for {
-          JField("tree", JArray(ary)) <- js
+          JObject(fields) <- js
+          JField("tree", JArray(ary)) <- fields
           JObject(obj) <- ary
           JField("path", JString(name)) <- obj
           JField("sha", JString(hash)) <- obj
@@ -50,7 +52,7 @@ object Github extends Credentials {
       }
     }
   def guaranteed[L, R](value: R) =
-    http.promise((Right(value): Either[L, R]))
+    Future.successful(Right(value): Either[L, R])
   def refname(given: Option[String], base: Req) =
     given match {
         case Some(branch) => guaranteed[String, String](branch).right
@@ -59,16 +61,16 @@ object Github extends Credentials {
         }.right
       }
   def masterBranch(base: Req) =
-    http(base OK LiftJson.As).either.left.map {
+    http(base OK Json.As).either.left.map {
       case StatusCode(404) => "Repository not found on github"
       case e => unknownError(e)
     }.map { eth =>
       eth.right.flatMap { js =>
         (for{
           JObject(obj) <- js
-          JField("master_branch", JString(branch)) <- obj
+          JField("default_branch", JString(branch)) <- obj
         } yield branch) match {
-          case Seq() => Left("Default master branch not found on github")
+          case Seq() => Left("Default branch not found on github")
           case seq => Right(seq.head)
         }
       }
@@ -88,7 +90,7 @@ object Github extends Credentials {
       req.setProxyServer(new ProxyServer(host, port.toInt))
     }
     
-    return req
+    req
   }
     
 

@@ -1,10 +1,10 @@
 [app]
-  version: 0.4.4
+  version: 0.4.5-SNAPSHOT
   org: net.databinder.conscript
   name: conscript
   class: conscript.Conscript
 [scala]
-  version: 2.9.2
+  version: 2.11.1
 [repositories]
   local
   sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
