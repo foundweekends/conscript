@@ -61,7 +61,7 @@ Use
 
 The main thing you do with conscript is install/update and update
 commands based on templates. Templates are stored in github projects,
-which you pass into the `cs` commpand. For example, this installs the
+which you pass into the `cs` command. For example, this installs the
 [giter8](https://github.com/n8han/giter8) templating system:
 
     cs n8han/giter8
