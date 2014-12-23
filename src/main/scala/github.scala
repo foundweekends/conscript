@@ -95,7 +95,7 @@ object Github extends Credentials {
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
   val unknownError = (e: Throwable) =>
     """An unexpected error occurred: Please check your internet connection.
-      |And if you're using a pre-release version of Java, please try with
-      |a final release version.
+      |You may need to generate a github access token.
+      |see https://help.github.com/articles/creating-an-access-token-for-command-line-use/
       |Exception message: %s""".stripMargin.format(e.getMessage)
 }
