@@ -79,8 +79,8 @@ licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt"))
 
 pomExtra := (
   <scm>
-    <url>git@github.com:dispatch/reboot.git</url>
-    <connection>scm:git:git@github.com:dispatch/reboot.git</connection>
+    <url>git@github.com:n8han/conscript.git</url>
+    <connection>scm:git:git@github.com:n8han/conscript.git</connection>
   </scm>
   <developers>
     <developer>
