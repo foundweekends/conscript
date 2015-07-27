@@ -29,7 +29,7 @@ if [ ! -f $CS/$LJ ]; then
     echo "
 Fetching launcher...
 "
-    curl -L "http://dl.bintray.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar" \
+    curl -L "http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar" \
         > $CS/$LJ
     ln -sf $CS/$LJ $CS/sbt-launch.jar
 fi
