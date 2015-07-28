@@ -1,22 +1,21 @@
 #!/bin/sh
 
-set -e
+read -p "Type configuration directory (e.g. ~/.conscript): " CS
+read -p "Type installation directory (e.g.: ~/.bin): " BIN
 
-echo "
-Fetching current launch configuration...
-"
-CS=$HOME/.conscript
 CSCS=$CS/n8han/conscript/cs
 CLC=$CSCS/launchconfig
+
 mkdir -p $CSCS
+mkdir -p $BIN
+
+echo "Fetching current launch configuration..."
+
 curl https://raw.githubusercontent.com/n8han/conscript/master/src/main/conscript/cs/launchconfig \
     > $CLC
 echo "
 [boot]
   directory: $CS/boot" >> $CLC
-
-BIN=$HOME/bin
-mkdir -p $BIN
 
 echo "#!/bin/sh
 java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
