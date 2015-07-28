@@ -37,7 +37,7 @@ Download the [conscript runnable jar][jar]. On most OSes you can run
 it by double-clicking, but if that doesn't work you can also run it
 from the command line.
 
-    java -jar conscript-0.4.4.jar
+    java -jar conscript-0.4.4-1.jar
 
 [jar]: https://github.com/n8han/conscript/releases/download/0.4.4-1/conscript-0.4.4-1.jar
 
