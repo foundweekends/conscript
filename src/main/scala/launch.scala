@@ -20,7 +20,7 @@ trait Launch extends Credentials {
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
 
-        val req = url("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
+        val req = url("http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
 
         http(req > as.File(jar))()
         windows map { _ =>
