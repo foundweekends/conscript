@@ -31,4 +31,17 @@ if [ ! -f "$CS/$LJ" ]; then
     ln -sf "$CS/$LJ" "$CS/sbt-launch.jar"
 fi
 
+# Check if BIN is in PATH
+bin_in_path=$(echo "$PATH" | grep -i "$BIN")
+
+if [ -z "$bin_in_path" ]
+then
+    echo 'PATH="'"$BIN"':$PATH"' >> $HOME/.bashrc
+    exec bash
+fi 
+
+
 echo "conscript installed to $BIN/cs"
+
+# Execute Conscript
+cs
