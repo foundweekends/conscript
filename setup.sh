@@ -21,13 +21,13 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > "$BIN/cs"
 
 chmod a+x "$BIN/cs"
 
-LJV=0.13.9
+LJV=1.0.0
 LJ="sbt-launch-$LJV.jar"
 
 # If launcher is not in configuration directory
 if [ ! -f "$CS/$LJ" ]; then
     echo "Fetching launcher..."
-    wget "https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar" -O "$CS/$LJ"
+    wget "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
     ln -sf "$CS/$LJ" "$CS/sbt-launch.jar"
 fi
 
@@ -38,7 +38,7 @@ if [ -z "$bin_in_path" ]
 then
     echo 'PATH="'"$BIN"':$PATH"' >> $HOME/.bashrc
     exec bash
-fi 
+fi
 
 
 echo "conscript installed to $BIN/cs"
