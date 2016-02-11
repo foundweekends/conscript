@@ -19,7 +19,7 @@ BIN=$HOME/bin
 mkdir -p $BIN
 
 echo "#!/bin/sh
-java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
+java \$JAVA_OPTS -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
 
 chmod a+x $BIN/cs
 
