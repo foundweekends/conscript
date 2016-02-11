@@ -24,7 +24,8 @@ echo "
 $BIN="$HOME\bin"
 mkdir -Force $BIN | Out-Null
 
-echo "java $env:JAVA_OPTS -jar $CS\sbt-launch.jar @file:\$CLC %*" | Out-File -Encoding "ASCII" "$BIN\cs.bat"
+echo "@echo off
+java %JAVA_OPTS% -jar $CS\sbt-launch.jar @file:\$CLC %*" | Out-File -Encoding "ASCII" "$BIN\cs.bat"
 
 $LJV="0.13.7"
 $LJ="sbt-launch-$LJV.jar"
