@@ -27,7 +27,7 @@ mkdir -Force $BIN | Out-Null
 echo "@echo off
 java %JAVA_OPTS% -jar $CS\sbt-launch.jar @file:\$CLC %*" | Out-File -Encoding "ASCII" "$BIN\cs.bat"
 
-$LJV="0.13.7"
+$LJV="0.13.9"
 $LJ="sbt-launch-$LJV.jar"
 $url="http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar"
 if (-Not(Test-Path "$CS\$LJ" -PathType Leaf)) {
