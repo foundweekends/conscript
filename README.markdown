@@ -29,7 +29,7 @@ launch configurations, e.g. `~/bin/cs`
 Installation
 ------------
 
-There are two methods of installiation available.
+There are two methods of installation available.
 
 ### Linux, Mac, Windows
 
