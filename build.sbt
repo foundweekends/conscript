@@ -61,7 +61,7 @@ buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion)
 buildInfoPackage := "conscript"
 
 homepage :=
-  Some(new java.net.URL("https://github.com/n8han/conscript/"))
+  Some(new java.net.URL("https://github.com/foundweekends/conscript/"))
 
 publishMavenStyle := true
 
@@ -79,8 +79,8 @@ licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt"))
 
 pomExtra := (
   <scm>
-    <url>git@github.com:n8han/conscript.git</url>
-    <connection>scm:git:git@github.com:n8han/conscript.git</connection>
+    <url>git@github.com:foundweekends/conscript.git</url>
+    <connection>scm:git:git@github.com:foundweekends/conscript.git</connection>
   </scm>
   <developers>
     <developer>

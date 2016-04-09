@@ -1,4 +1,4 @@
-![Conscript](https://github.com/n8han/conscript/raw/master/src/main/resources/conscript.png)
+![Conscript](https://github.com/foundweekends/conscript/raw/master/src/main/resources/conscript.png)
 
 This is a tool for installing and updating Scala software programs. It
 does *less* than you think, because the sbt launcher does more than
@@ -21,7 +21,7 @@ it. Firstly, `~/.conscript/boot` is used as a boot directory for
 all. Program launch configurations are stored according to the github
 project name and script name, such as:
 
-    ~/.conscript/n8han/conscript/cs/launchconfig
+    ~/.conscript/foundweekends/conscript/cs/launchconfig
 
 And finally, program scripts are created in `~/bin` that reference
 launch configurations, e.g. `~/bin/cs`
@@ -39,7 +39,7 @@ from the command line.
 
     java -jar conscript-0.4.4-1.jar
 
-[jar]: https://github.com/n8han/conscript/releases/download/0.4.4-1/conscript-0.4.4-1.jar
+[jar]: https://github.com/foundweekends/conscript/releases/download/0.4.4-1/conscript-0.4.4-1.jar
 
 A "splash screen" will appear during installation. Don't close it
 until you see a message that `cs` was installed, or that something
@@ -49,7 +49,7 @@ went wrong.
 
 If you prefer, you can install conscript by piping this shell script.
 
-    curl https://raw.githubusercontent.com/n8han/conscript/master/setup.sh | sh
+    curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
 
 ### Java 8
 
@@ -62,20 +62,20 @@ Use
 The main thing you do with conscript is install/update and update
 commands based on templates. Templates are stored in github projects,
 which you pass into the `cs` command. For example, this installs the
-[giter8](https://github.com/n8han/giter8) templating system:
+[giter8](https://github.com/foundweekends/giter8) templating system:
 
-    cs n8han/giter8
+    cs foundweekends/giter8
 
 Templates specify a version of the app to use, but you can override
 that by specifying an explicit version with another slash:
 
-    cs n8han/giter8/0.2.1
+    cs foundweekends/giter8/0.2.1
 
 Project owners may also decide to push pre-release or other alternate
 templates to different branches on github. Use can tell conscript read
 templates from another branch with the `--branch` or `-b` option.
 
-    cs n8han/giter8 --branch staging
+    cs foundweekends/giter8 --branch staging
 
 And lastly, if at some point your conscript boot directory contains
 stale/suspect artifacts such as snapshot releases, you can clean it:
@@ -124,4 +124,4 @@ Conscripting
 We hope you'll make your own programs that use conscript. The
 [conscript-plugin][cplug] makes these easier to build and test.
 
-[cplug]: https://github.com/n8han/conscript-plugin
+[cplug]: https://github.com/foundweekends/conscript-plugin

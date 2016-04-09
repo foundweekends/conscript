@@ -85,7 +85,7 @@ object Conscript {
       case c if c.setup =>
         Apply.launchJar(display).right flatMap { msg =>
           display.info(msg)
-          configure("n8han",
+          configure("foundweekends",
                     "conscript",
                     true,
                     configoverrides = Seq(ConfigVersion(BuildInfo.version))
