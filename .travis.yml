@@ -1,0 +1,4 @@
+language: scala
+sudo: false
+script:
+- sbt test
