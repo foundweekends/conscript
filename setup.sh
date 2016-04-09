@@ -3,14 +3,14 @@
 read -p "Type configuration directory (e.g. $HOME/.conscript): " CS
 read -p "Type installation directory (e.g. $HOME/.bin): " BIN
 
-CSCS="$CS/n8han/conscript/cs"
+CSCS="$CS/foundweekends/conscript/cs"
 CLC="$CSCS/launchconfig"
 
 mkdir -p $CSCS
 mkdir -p "$BIN"
 
 echo "Fetching current launch configuration..."
-wget https://raw.githubusercontent.com/n8han/conscript/master/src/main/conscript/cs/launchconfig -O $CLC
+wget https://raw.githubusercontent.com/foundweekends/conscript/master/src/main/conscript/cs/launchconfig -O $CLC
 
 echo "
 [boot]
