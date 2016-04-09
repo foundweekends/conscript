@@ -1,39 +1,47 @@
 #!/bin/sh
 
-set -e
+read -p "Type configuration directory (e.g. $HOME/.conscript): " CS
+read -p "Type installation directory (e.g. $HOME/.bin): " BIN
 
-echo "
-Fetching current launch configuration...
-"
-CS=$HOME/.conscript
-CSCS=$CS/n8han/conscript/cs
-CLC=$CSCS/launchconfig
+CSCS="$CS/n8han/conscript/cs"
+CLC="$CSCS/launchconfig"
+
 mkdir -p $CSCS
-curl https://raw.githubusercontent.com/n8han/conscript/master/src/main/conscript/cs/launchconfig \
-    > $CLC
+mkdir -p "$BIN"
+
+echo "Fetching current launch configuration..."
+wget https://raw.githubusercontent.com/n8han/conscript/master/src/main/conscript/cs/launchconfig -O $CLC
+
 echo "
 [boot]
-  directory: $CS/boot" >> $CLC
-
-BIN=$HOME/bin
-mkdir -p $BIN
+  directory: $CS/boot" >> "$CLC"
 
 echo "#!/bin/sh
-java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > $BIN/cs
+java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > "$BIN/cs"
 
-chmod a+x $BIN/cs
+chmod a+x "$BIN/cs"
 
-LJV=0.13.7
+LJV=1.0.0
 LJ="sbt-launch-$LJV.jar"
-if [ ! -f $CS/$LJ ]; then
-    echo "
-Fetching launcher...
-"
-    curl -L "http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$LJV/sbt-launch.jar" \
-        > $CS/$LJ
-    ln -sf $CS/$LJ $CS/sbt-launch.jar
+
+# If launcher is not in configuration directory
+if [ ! -f "$CS/$LJ" ]; then
+    echo "Fetching launcher..."
+    wget "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
+    ln -sf "$CS/$LJ" "$CS/sbt-launch.jar"
 fi
 
-echo "
-conscript installed to $BIN/cs
-"
+# Check if BIN is in PATH
+bin_in_path=$(echo "$PATH" | grep -i "$BIN")
+
+if [ -z "$bin_in_path" ]
+then
+    echo 'PATH="'"$BIN"':$PATH"' >> $HOME/.bashrc
+    exec bash
+fi
+
+
+echo "conscript installed to $BIN/cs"
+
+# Execute Conscript
+cs
