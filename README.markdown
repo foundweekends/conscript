@@ -51,11 +51,6 @@ If you prefer, you can install conscript by piping this shell script.
 
     curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
 
-### Java 8
-
-If you're using a buggy preview release of Java, then Conscript will
-be buggy. Please use a release version of Java instead.
-    
 Use
 ---
 
