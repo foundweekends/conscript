@@ -1,11 +1,12 @@
 [app]
-  version: 0.4.4
-  org: net.databinder.conscript
+  version: 0.5.0-M1
+  org: org.foundweekends.conscript
   name: conscript
   class: conscript.Conscript
 [scala]
-  version: 2.9.2
+  version: 2.11.7
 [repositories]
   local
+  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
   sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
   maven-central
