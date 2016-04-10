@@ -1,5 +1,5 @@
 [app]
-  version: 0.5.0-M2
+  version: 0.5.0-M3
   org: org.foundweekends.conscript
   name: conscript
   class: conscript.Conscript
