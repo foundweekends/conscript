@@ -3,15 +3,16 @@ package conscript
 import dispatch._
 import net.liftweb.json.JsonAST._
 import java.io.File
-import com.ning.http.client.{RequestBuilder=>Req}
 import com.ning.http.client.ProxyServer
+import scala.concurrent.{ Future, Promise }
 
 object Github extends Credentials {
+  import scala.concurrent.ExecutionContext.Implicits.global
   import Conscript.http
   val DefaultBranch = "master"
 
   def lookup(user: String, repo: String, branch: Option[String])
-  : Promise[Either[String, Iterable[(String, Launchconfig)]]] = {
+  : Future[Either[String, Iterable[(String, Launchconfig)]]] = {
     def base = gh(user, repo)
     for {
       ref <- refname(branch, base)
@@ -49,8 +50,12 @@ object Github extends Credentials {
         }
       }
     }
-  def guaranteed[L, R](value: R) =
-    http.promise((Right(value): Either[L, R]))
+  def guaranteed[L, R](value: R): Future[Either[L, R]] =
+    {
+      val p = Promise[Either[L, R]]()
+      p.success(Right(value))
+      p.future
+    }
   def refname(given: Option[String], base: Req) =
     given match {
         case Some(branch) => guaranteed[String, String](branch).right
@@ -87,10 +92,10 @@ object Github extends Credentials {
     } {
       req.setProxyServer(new ProxyServer(host, port.toInt))
     }
-    
+
     return req
   }
-    
+
 
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
   val unknownError = (e: Throwable) =>

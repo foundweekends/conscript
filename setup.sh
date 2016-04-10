@@ -22,7 +22,7 @@ java -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > "$BIN/cs"
 chmod a+x "$BIN/cs"
 
 LJV=1.0.0
-LJ="sbt-launch-$LJV.jar"
+LJ="launcher-$LJV.jar"
 
 # If launcher is not in configuration directory
 if [ ! -f "$CS/$LJ" ]; then
