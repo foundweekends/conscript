@@ -6,12 +6,13 @@ import util.control.Exception._
 
 trait Launch extends Credentials {
   import Conscript.http
+  import scala.concurrent.ExecutionContext.Implicits.global
 
-  val sbtversion = "0.13.7"
   val sbtlaunchalias = "sbt-launch.jar"
+  val sbtLauncherVersion = "1.0.0"
 
   def launchJar(display: Display): Either[String, String] =
-      configdir("sbt-launch-%s.jar" format sbtversion) match {
+      configdir(s"launcher-$sbtLauncherVersion.jar") match {
     case jar if jar.exists => Right("Launcher already up to date, fetching next...")
     case jar =>
       try {
@@ -20,15 +21,17 @@ trait Launch extends Credentials {
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
 
-        val req = url("http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/%s/sbt-launch.jar" format sbtversion)
+        val req = url(s"https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$sbtLauncherVersion/launcher-$sbtLauncherVersion.jar")
 
-        http(req > as.File(jar))()
+        val f = http(req > as.File(jar))
+        f()
         windows map { _ =>
           if (launchalias.exists) launchalias.delete
           else ()
           // should copy the one we already downloaded, but I don't
           // have a windows box to test any changes
-          http(req > as.File(launchalias))()
+          val f = http(req > as.File(launchalias))
+          f()
         } getOrElse {
           val rt = Runtime.getRuntime
           rt.exec("ln -sf %s %s" format (jar, launchalias)).waitFor
@@ -36,8 +39,8 @@ trait Launch extends Credentials {
         Right("Fetching Conscript...")
       } catch {
         case e: Exception => 
-          Left("Error downloading sbt-launch-%s: %s".format(
-            sbtversion, e.toString
+          Left("Error downloading sbt launcher %s: %s".format(
+            sbtLauncherVersion, e.toString
           ))
       }
   }

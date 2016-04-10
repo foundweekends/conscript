@@ -3,6 +3,7 @@ package conscript
 import dispatch._
 import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
+import scala.concurrent.Future
 
 object Authorize {
   def auths = :/("api.github.com").secure.POST / "authorizations"
@@ -10,7 +11,8 @@ object Authorize {
   // rm when avaialable in released dispatch
   import com.ning.http.client.RequestBuilder
   import com.ning.http.client.Realm.{RealmBuilder,AuthScheme}
-  def as_!(subject: RequestBuilder, user: String, password: String) =
+  import scala.concurrent.ExecutionContext.Implicits.global
+  def as_!(subject: Req, user: String, password: String) =
     subject.setRealm(new RealmBuilder()
                      .setPrincipal(user)
                      .setPassword(password)
@@ -19,7 +21,7 @@ object Authorize {
                      .build())
 
   import Conscript.http
-  def apply(user: String, pass: String): Promise[Either[String, String]] =
+  def apply(user: String, pass: String): Future[Either[String, String]] =
     http(
         as_!(auths, user, pass).setBody(compact(render(
           ("note" -> "Conscript") ~
