@@ -6,12 +6,31 @@ lazy val root = (project in file(".")).
       organization := "org.foundweekends.conscript",
       version := "0.5.0-SNAPSHOT",
       scalaVersion := "2.11.8",
-      homepage := Some(url("https://github.com/foundweekends/conscript/"))
+      homepage := Some(url("https://github.com/foundweekends/conscript/")),
+      bintrayOrganization := Some("foundweekends"),
+      bintrayRepository := "maven-releases",
+      bintrayReleaseOnPublish := false,
+      bintrayPackage := "conscript",
+      licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
+      developers := List(
+        Developer("n8han", "Nathan Hamblen", "@n8han", url("http://github.com/n8han")),
+        Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
+      ),
+      scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/conscript"), "git@github.com:foundweekends/conscript.git"))
     )),
-    // conscriptSettings,
-    // lsSettings,
     name := "conscript",
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
+    bintrayPackage := (bintrayPackage in ThisBuild).value,
+    bintrayRepository := (bintrayRepository in ThisBuild).value,
+    mainClass in (Compile, packageBin) := Some("conscript.Conscript"),
+    mappings in (Compile, packageBin) := {
+      val old = (mappings in (Compile, packageBin)).value
+      old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
+    },
+    mappings in (Compile, packageSrc) := {
+      val old = (mappings in (Compile, packageSrc)).value
+      old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
+    },
     proguardSettings,
     ProguardKeys.options in Proguard ++= Seq(
       "-keep class conscript.* { *; }",
@@ -39,35 +58,15 @@ lazy val root = (project in file(".")).
       (ProguardKeys.proguardDirectory in Proguard, version) map { (op,v) =>
         op / ("conscript-" + v + ".jar") :: Nil
       },
+    artifact in (Compile, ProguardKeys.proguard) := {
+      val art = (artifact in (Compile, ProguardKeys.proguard)).value
+      art.copy(`classifier` = Some("proguard"))
+    },
+    addArtifact(artifact in (Compile, ProguardKeys.proguard), (ProguardKeys.proguard in Proguard) map { xs => xs.head }),
     buildInfoSettings,
     sourceGenerators in Compile <+= buildInfo,
     buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
-    publishTo <<= version { (v: String) =>
-      val nexus = "https://oss.sonatype.org/"
-      if (v.trim.endsWith("SNAPSHOT"))
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-    },
-    publishArtifact in Test := false,
-    licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
-    pomExtra := (
-      <scm>
-        <url>git@github.com:foundweekends/conscript.git</url>
-        <connection>scm:git:git@github.com:foundweekends/conscript.git</connection>
-      </scm>
-      <developers>
-        <developer>
-          <id>n8han</id>
-          <name>Nathan Hamblen</name>
-          <url>http://github.com/n8han</url>
-        </developer>
-        <developer>
-          <id>eed3si9n</id>
-          <name>Eugene Yokota</name>
-          <url>https://github.com/eed3si9n</url>
-        </developer>
-      </developers>)
+    publishArtifact in Test := false
   )
