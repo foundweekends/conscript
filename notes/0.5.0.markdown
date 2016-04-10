@@ -10,7 +10,7 @@ conscript (`cs`) is moved to [foundweekends][fw], an organization for people who
 
 ### CONSCRIPT_HOME changes
 
-Starting 0.5.0, scripts are created under `$CONSCRIPT_HOME/bin` instead of `$HOME/bin`. Please adjust your `PATH` accordingly.
+Starting conscript 0.5.0, scripts are created under `$CONSCRIPT_HOME/bin` instead of `$HOME/bin`. Please adjust your `PATH` accordingly.
 
 You can now use the environment variable `CONSCRIPT_HOME` to control where conscript downloads things (default: `$HOME/.conscript`).
 The directory where the scripts will be created can also be controlled via `CONSCRIPT_BIN` envonment variable. As noted above, the default value is `$CONSCRIPT_HOME/bin`.
