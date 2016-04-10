@@ -1,7 +1,7 @@
 package conscript
 
 object Config extends Launch {
-  import java.io.{ File, FileInputStream, FileOutputStream }
+  import java.io.{ FileInputStream, FileOutputStream }
   import java.util.Properties
   
   val file = configdir("config")

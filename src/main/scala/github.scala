@@ -2,7 +2,6 @@ package conscript
 
 import dispatch._
 import net.liftweb.json.JsonAST._
-import java.io.File
 import com.ning.http.client.ProxyServer
 import scala.concurrent.{ Future, Promise }
 

@@ -2,7 +2,7 @@ package conscript
 
 import scala.swing._
 import javax.imageio.ImageIO
-import java.awt.{Graphics,Color,Font,GraphicsEnvironment,RenderingHints}
+import java.awt.{Color,Font,GraphicsEnvironment,RenderingHints}
 
 trait Display {
   def info(msg: String)

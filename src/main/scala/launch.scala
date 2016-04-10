@@ -1,7 +1,7 @@
 package conscript
 
 import dispatch._
-import java.io.{FileOutputStream, File}
+import java.io.File
 import util.control.Exception._
 
 trait Launch extends Credentials {

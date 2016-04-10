@@ -9,7 +9,6 @@ object Authorize {
   def auths = :/("api.github.com").secure.POST / "authorizations"
 
   // rm when avaialable in released dispatch
-  import com.ning.http.client.RequestBuilder
   import com.ning.http.client.Realm.{RealmBuilder,AuthScheme}
   import scala.concurrent.ExecutionContext.Implicits.global
   def as_!(subject: Req, user: String, password: String) =
