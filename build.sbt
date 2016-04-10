@@ -11,7 +11,7 @@ lazy val root = (project in file(".")).
       bintrayRepository := "maven-releases",
       bintrayReleaseOnPublish := false,
       bintrayPackage := "conscript",
-      licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
+      licenses := Seq("LGPL-3.0" -> url("http://www.gnu.org/licenses/lgpl.txt")),
       developers := List(
         Developer("n8han", "Nathan Hamblen", "@n8han", url("http://github.com/n8han")),
         Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
