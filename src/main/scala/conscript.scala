@@ -5,7 +5,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.control.NonFatal
 
 object Conscript {
-  import dispatch._
+  import dispatch.{ BuildInfo => _, _ }
   import Apply.exec
   val http = dispatch.Http
 
@@ -93,7 +93,7 @@ object Conscript {
           configure("foundweekends",
                     "conscript",
                     true,
-                    configoverrides = Seq(ConfigVersion(BuildInfo.version))
+                    configoverrides = Seq(ConfigVersion(conscript.BuildInfo.version))
           ).right.flatMap { msg =>
             display.info(msg)
             examine("cs")
