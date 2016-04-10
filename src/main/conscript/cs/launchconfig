@@ -1,10 +1,10 @@
 [app]
-  version: 0.5.0-M3
+  version: 0.5.0
   org: org.foundweekends.conscript
   name: conscript
   class: conscript.Conscript
 [scala]
-  version: 2.11.7
+  version: 2.11.8
 [repositories]
   local
   foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
