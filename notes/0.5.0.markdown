@@ -1,0 +1,31 @@
+  [76]: https://github.com/foundweekends/conscript/pull/76
+  [80]: https://github.com/foundweekends/conscript/pull/80
+  [86]: https://github.com/foundweekends/conscript/pull/86
+  [@MrOutis]: https://github.com/MrOutis
+  [@andrelfpinto]: https://github.com/andrelfpinto
+  [@eed3si9n]: https://github.com/eed3si9n
+  [fw]: https://github.com/foundweekends/
+
+conscript (`cs`) is moved to [foundweekends][fw], an organization for people who like coding in the weekend.
+
+### CONSCRIPT_HOME changes
+
+Starting 0.5.0, scripts are created under `$CONSCRIPT_HOME/bin` instead of `$HOME/bin`. Please adjust your `PATH` accordingly.
+
+You can now use the environment variable `CONSCRIPT_HOME` to control where conscript downloads things (default: `$HOME/.conscript`).
+The directory where the scripts will be created can also be controlled via `CONSCRIPT_BIN` envonment variable. As noted above, the default value is `$CONSCRIPT_HOME/bin`.
+
+    export CONSCRIPT_HOME="$HOME/.conscript"
+    export CONSCRIPT_OPTS="-XX:MaxPermSize=512M -Dfile.encoding=UTF-8"
+    export PATH=$CONSCRIPT_HOME/bin:$PATH
+
+[#86][86] by [@eed3si9n][@eed3si9n]
+
+### other improvements
+
+- Includes `JAVA_OPTS` into the generated script. [#80][80] by [@andrelfpinto][@andrelfpinto]
+- Updates Scala, Dispatch, and scopt versions. [#85][85] by [@eed3si9n][@eed3si9n]
+
+### fixes
+
+- Uses sbt standalone launcher 1.0.0, instead of the sbt specific ones. [#76][76] by [@MrOutis][@MrOutis]

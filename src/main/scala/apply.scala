@@ -6,8 +6,8 @@ import java.io.File
 object Apply extends Launch {
 
   def scriptFile(name: String) = windows map { _ =>
-      homedir(("bin" / "%s.bat") format name)
-    } getOrElse { homedir("bin" / name) }
+      bindir / s"$name.bat"
+    } getOrElse { bindir / name }
 
   def exec(script: String) = {
     scala.sys.process.Process(windows.map { _ =>
