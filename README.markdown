@@ -17,17 +17,27 @@ you think. What?
 * Uses the same ivy cache as sbt itself
 
 So conscript just assumes a convention and helps you adhere to
-it. Firstly, `~/.conscript/boot` is used as a boot directory for
+it. First, you need to configure `$CONSCRIPT_HOME`
+(for example `$HOME/.conscript`).
+Then`$CONSCRIPT_HOME/boot` is used as a boot directory for
 all. Program launch configurations are stored according to the github
 project name and script name, such as:
 
-    ~/.conscript/foundweekends/conscript/cs/launchconfig
+    $CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 
-And finally, program scripts are created in `~/bin` that reference
-launch configurations, e.g. `~/bin/cs`
+And finally, program scripts are created in `$CONSCRIPT_HOME/bin` that
+reference launch configurations, e.g. `$CONSCRIPT_HOME/bin/cs`
 
 Installation
 ------------
+
+Put this in your start up shell script:
+
+```
+export CONSCRIPT_HOME="$HOME/.conscript"
+export CONSCRIPT_OPTS="-XX:MaxPermSize=512M -Dfile.encoding=UTF-8"
+export PATH=$CONSCRIPT_HOME/bin:$PATH
+```
 
 There are two methods of installation available.
 

@@ -1,12 +1,26 @@
 #!/bin/sh
 
-CS_DEFAULT=$HOME/.conscript
-read -p "Enter configuration directory (default: $CS_DEFAULT): " CS
-CS="${CS:-$CS_DEFAULT}"
-
-BIN_DEFAULT=$HOME/.bin
-read -p "Enter installation directory (default: $BIN_DEFAULT): " BIN
-BIN="${BIN:-$BIN_DEFAULT}"
+## To configure the installation of conscripted application,
+## set up the environment variable CONSCRIPT_HOME to something like $HOME/.conscript
+## This would the directory where launch JARs and launchconfigs will be donwloaded.
+##
+## By default, the scripts for the conscripted apps (g8, cs, etc.)
+## will be created under CONSCRIPT_HOME/bin.
+## This can also be configured using the environment variable CONSCRIPT_BIN.
+if [ -z "$CONSCRIPT_HOME" ]
+then
+  CS_DEFAULT=$HOME/.conscript
+  read -p "CONSCRIPT_HOME is not set. Is it ok to use $CS_DEFAULT? (Y/n): " YN
+  YN=${YN:-Yes}
+  case $YN in
+    [Yy]* ) break;;
+    * ) exit;;
+  esac
+  CS="${CS:-$CS_DEFAULT}"
+else
+  CS="$CONSCRIPT_HOME"
+fi
+BIN="${CONSCRIPT_BIN:-$CS/bin}"
 
 CSCS="$CS/foundweekends/conscript/cs"
 CLC="$CSCS/launchconfig"

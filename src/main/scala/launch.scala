@@ -38,7 +38,7 @@ trait Launch extends Credentials {
         }
         Right("Fetching Conscript...")
       } catch {
-        case e: Exception => 
+        case e: Exception =>
           Left("Error downloading sbt launcher %s: %s".format(
             sbtLauncherVersion, e.toString
           ))
@@ -46,14 +46,27 @@ trait Launch extends Credentials {
   }
 
   implicit def str2paths(a: String) = new {
-    def / (b: String) = a + File.separatorChar + b
+    def / (b: String): String = a + File.separatorChar + b
+  }
+  implicit def file2paths(parent: File) = new {
+    def / (b: String): File = new File(parent, b)
   }
   def forceslash(a: String) =
     windows map { _ =>
       "/" + (a replaceAll ("""\\""", """/"""))
     } getOrElse {a}
-  def configdir(path: String) = homedir(".conscript" / path)
-  def homedir(path: String) = new File(System.getProperty("user.home"), path)
+  lazy val conscriptHome: File =
+    sys.env.get("CONSCRIPT_HOME") match {
+      case Some(x) => new File(x)
+      case None    =>
+        new File(System.getProperty("user.home"), ".conscript")
+    }
+  lazy val bindir: File =
+    sys.env.get("CONSCRIPT_BIN") match {
+      case Some(x) => new File(x)
+      case None    => conscriptHome / "bin"
+    }
+  def configdir(path: String) = conscriptHome / path
   def mkdir(file: File) =
     catching(classOf[SecurityException]).either {
       new File(file.getParent).mkdirs()
