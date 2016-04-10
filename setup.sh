@@ -4,7 +4,7 @@ CS_DEFAULT=$HOME/.conscript
 read -p "Enter configuration directory (default: $CS_DEFAULT): " CS
 CS="${CS:-$CS_DEFAULT}"
 
-BIN_DEFAULT=$HOME/bin
+BIN_DEFAULT=$HOME/.bin
 read -p "Enter installation directory (default: $BIN_DEFAULT): " BIN
 BIN="${BIN:-$BIN_DEFAULT}"
 
