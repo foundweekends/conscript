@@ -63,10 +63,8 @@ lazy val root = (project in file(".")).
       art.copy(`classifier` = Some("proguard"))
     },
     addArtifact(artifact in (Compile, ProguardKeys.proguard), (ProguardKeys.proguard in Proguard) map { xs => xs.head }),
-    buildInfoSettings,
-    sourceGenerators in Compile <+= buildInfo,
     buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
     publishArtifact in Test := false
-  )
+  ).enablePlugins(BuildInfoPlugin)
