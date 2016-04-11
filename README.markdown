@@ -25,8 +25,9 @@ project name and script name, such as:
 
     $CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 
-And finally, program scripts are created in `$CONSCRIPT_HOME/bin` that
-reference launch configurations, e.g. `$CONSCRIPT_HOME/bin/cs`
+And finally, program scripts are created in `$CONSCRIPT_BIN`
+(default: `$CONSCRIPT_HOME/bin`) that reference launch configurations,
+for example, `~/.conscript/bin/cs`.
 
 Installation
 ------------
