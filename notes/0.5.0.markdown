@@ -1,12 +1,18 @@
   [76]: https://github.com/foundweekends/conscript/pull/76
   [80]: https://github.com/foundweekends/conscript/pull/80
+  [85]: https://github.com/foundweekends/conscript/pull/85
   [86]: https://github.com/foundweekends/conscript/pull/86
   [@MrOutis]: https://github.com/MrOutis
   [@andrelfpinto]: https://github.com/andrelfpinto
   [@eed3si9n]: https://github.com/eed3si9n
-  [fw]: https://github.com/foundweekends/
+  [fw]: https://twitter.com/eed3si9n/status/718906550568534018
 
 conscript (`cs`) is moved to [foundweekends][fw], an organization for people who like coding in the weekend.
+
+conscript is a tool for installing and updating Scala apps.
+All you need is a Github account, a Bintray account, and some time in the weekend to start publishing your apps that can be used by others:
+
+    cs foundweekends/giter8
 
 ### CONSCRIPT_HOME changes
 
