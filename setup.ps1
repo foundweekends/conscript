@@ -1,4 +1,4 @@
-# Helper function
+# Helper functions
 function GetOrElse($Value, $DefaultValue) {
   if (-Not $Value) {
     $DefaultValue
@@ -7,10 +7,19 @@ function GetOrElse($Value, $DefaultValue) {
   }
 }
 
+function Get-ProxyAddress() {
+  $env:JAVA_OPTS -match ".*-Dhttp.proxyHost=([0-9.]*) .*" | Out-Null
+  $proxyHost = $matches[1]
+  $env:JAVA_OPTS -match ".*-Dhttp.proxyPort=([0-9.]*) .*" | Out-Null
+  $proxyPort = $matches[1]
+
+  "http://${proxyHost}:${proxyPort}"
+}
+
 # Helper object to download artifacts
 $wc = New-Object System.Net.WebClient
 
-$proxy_address = "$env:http_proxy"
+$proxy_address = Get-ProxyAddress
 
 if ($proxy_address) {
   $wc.Proxy = new-object System.Net.WebProxy
