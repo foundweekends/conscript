@@ -19,20 +19,11 @@ object Clean extends OsDetect {
 
     def exec(args: String*) = allCatch.either { sys.runtime.exec(args.toArray) }
 
-    // TODO: this could be rid off when will switch scala 2.10 by the using of string substitution
-    def resolvePlaceholders(text:String)(implicit placeholders: Map[String, Any]) =
-      (text /: placeholders) {
-        case (text, (k, v)) => text.replaceAll(
-            Pattern.quote("${" + k + "}"),
-            Regex.quoteReplacement(v.toString)
-          )
-      }
-
-    def writeScript(f:File)(text:String)(implicit placeholders: Map[String, Any]) = {
+    def writeScript(f:File)(text:String) = {
       var printer = Option.empty[PrintWriter]
       allCatch.andFinally(printer.map(_.close())).either {
         printer = Some(new PrintWriter(f, "UTF-8"))
-        resolvePlaceholders(text).split("\\n").map(printer.get.println)
+        text.split("\\n").map(printer.get.println)
       }
     }
 
@@ -43,25 +34,16 @@ object Clean extends OsDetect {
       val scheduleScript = File.createTempFile("conscript-schedule-clean", ".bat")
       val createFlags = if (isXP) "/ru SYSTEM " else "/f" // win XP uses different version of schtasks
 
-      implicit val scriptPlaceholders = Map(
-        "createFlags" -> createFlags,
-        "taskName" -> taskName,
-        "scheduleScript" -> scheduleScript,
-        "cleanScript" -> cleanScript,
-        "time" -> time,
-        "file" -> file
-      )
-
       for {
         _ <- writeScript(scheduleScript) {
-            """
+            s"""
               |@echo off
               |schtasks /Create ${createFlags} /tn ${taskName} /sc ONCE /tr "${cleanScript}" /st ${time}
               |schtasks /Run /tn ${taskName}
             """.stripMargin
           } .right
         _ <- writeScript(cleanScript) {
-            """
+            s"""
               |@echo off
               |schtasks /Delete /f /tn ${taskName}
               |rmdir /q /s "${file}"
