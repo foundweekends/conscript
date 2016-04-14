@@ -1,6 +1,8 @@
 import Dependencies._
 
 lazy val root = (project in file(".")).
+  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin).
+  aggregate(plugin).
   settings(
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
@@ -19,6 +21,7 @@ lazy val root = (project in file(".")).
       scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/conscript"), "git@github.com:foundweekends/conscript.git"))
     )),
     name := "conscript",
+    crossScalaVersions := List("2.11.8"),
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
     bintrayPackage := (bintrayPackage in ThisBuild).value,
     bintrayRepository := (bintrayRepository in ThisBuild).value,
@@ -67,4 +70,16 @@ lazy val root = (project in file(".")).
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
     publishArtifact in Test := false
-  ).enablePlugins(BuildInfoPlugin)
+  )
+
+lazy val plugin = (project in file("sbt-conscript")).
+  enablePlugins(CrossPerProjectPlugin).
+  settings(
+    name := "sbt-conscript",
+    scalaVersion := "2.10.6",
+    crossScalaVersions := List("2.10.6"),
+    sbtPlugin := true,
+    bintrayOrganization := Some("sbt"),
+    bintrayRepository := "sbt-plugin-releases",
+    bintrayPackage := "sbt-conscript"
+  )
