@@ -116,18 +116,32 @@ itself can. Specify a credentials properties file, such as
 `SBT_CREDENTIALS` environment variable. The launcher will use these
 credentials when accessing protected resources in the specified realm.
 
-Mailing List
-------------
-
-Join the [Conscript mailing list][list] to ask questions and stay up to
-date on the project.
-
-[list]: https://groups.google.com/forum/?hl=en#!forum/conscript-scala
-
-Conscripting
-------------
+Making a conscripted app
+------------------------
 
 We hope you'll make your own programs that use conscript. The
-[conscript-plugin][cplug] makes these easier to build and test.
+`ConscriptPlugin` makes these easier to build and test.
 
-[cplug]: https://github.com/foundweekends/conscript-plugin
+Add this to the following `project/conscript.sbt`:
+
+```scala
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.0")
+```
+
+Next, add your sbt launchconfig file to `src/main/conscript/XYZ/launchconfig` (substitue `XYZ` with your script name such as `g8` and `cs`):
+
+```
+[app]
+  version: 0.6.9-SNAPSHOT
+  org: org.foundweekends.giter8
+  name: giter8
+  class: giter8.Giter8
+[scala]
+  version: 2.10.6
+[repositories]
+  local
+  maven-central
+  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
+```
+
+You can test the app by calling `csRun XYZ` command.
