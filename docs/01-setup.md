@@ -23,7 +23,7 @@ Depending on your OS the format might be different, but set up the following thr
 
 There are three methods of installation available
 
-<!- test -->
+<!- test test -->
 
 ### Cross platform
 

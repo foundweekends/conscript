@@ -88,6 +88,7 @@ lazy val root = (project in file(".")).
       val repo = ghkeys.updatedRepository.value
       val s = streams.value
       val r = GitKeys.gitRunner.value
+      gitConfig(repo, r, s.log)
       gitRemoveFiles(repo, (repo * "*.html").get.toList, r, s)
       val mappings =  for {
         (file, target) <- siteMappings.value
@@ -103,10 +104,7 @@ lazy val root = (project in file(".")).
       val r = GitKeys.gitRunner.value
       val s = streams.value
       val changed = gitDocsChanged(repo, r, s.log)
-      if (changed) {
-        gitConfig(repo, r, s.log)
-        ghkeys.pushSite
-      }
+      if (changed) ghkeys.pushSite
       else Def.task {}
     }).value,
     git.remoteRepo := {
