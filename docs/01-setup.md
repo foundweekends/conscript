@@ -23,8 +23,6 @@ Depending on your OS the format might be different, but set up the following thr
 
 There are three methods of installation available
 
-<!- test test -->
-
 ### Cross platform
 
 Download the conscript [runnable jar][runnable]. On most OSes you can run it by double-clicking, but if that doesn't work you can also run it from the command line.
