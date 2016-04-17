@@ -1,0 +1,83 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Conscript — Using conscript</title>
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        
+      </head>
+      <body class="color_scheme-github">
+        <a class="page prev nav" href="setup.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="how.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Using+conscript">Using conscript<a href="#Using+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>The main thing you do with conscript is install and update commands based on <code>launchconfig</code>.
+<code>launchconfig</code> files are stored in Github projects, which you pass into the <code>cs</code> command.
+For example, this installs the giter8 templating system:
+</p><pre><code class="">$ cs foundweekends/giter8
+</code></pre><p><code>launchconfig</code>s specify a version of the app to use, but you can override that by specifying an explicit version with another slash:
+</p><pre><code class="">$ cs foundweekends/giter8/0.2.1
+</code></pre><p>Project owners may also decide to push pre-release or other alternate <code>launchconfig</code> to different branches on Github. Use can tell conscript read <code>launchconfig</code>s from another branch with the <code>--branch</code> or <code>-b</code> option.
+</p><pre><code class="">$ cs foundweekends/giter8 --branch staging
+</code></pre><h3 id="Cleaning+boot+directory">Cleaning boot directory<a href="#Cleaning+boot+directory" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If at some point your conscript boot directory contains stale/suspect artifacts such as snapshot releases, you can clean it:
+</p><pre><code class="">$ cs --clean-boot
+</code></pre><p>When you next run any conscripted app (such as <code>cs</code>) it will fetch its cleaned dependencies back into the shared boot directory; generally it only has to look as far as the local ivy cache to find them.
+</p><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="how.html"> How does conscript work? </a>                        
+                        
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="index.html">Conscript</a></div><ol class="toc"> <li><div><a href="setup.html">Installing conscript</a></div></li><li><div class="current">Using conscript</div></li><li><div><a href="how.html">How does conscript work?</a></div></li><li><div><a href="private-repos.html">Private repositories</a></div></li><li><div><a href="making-app.html">Making a conscripted app</a></div></li><li><div><a href="conscripted-apps.html">Conscripted apps</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Conscript</span> — Using conscript
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        
+        
+      </body>
+    </html>

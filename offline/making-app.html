@@ -1,0 +1,119 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Conscript — Making a conscripted app</title>
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-scala.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"/><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        
+      </head>
+      <body class="color_scheme-github">
+        <a class="page prev nav" href="private-repos.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="conscripted-apps.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Making+a+conscripted+app">Making a conscripted app<a href="#Making+a+conscripted+app" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>We hope you’ll make your own apps that use conscript.
+</p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The <code>ConscriptPlugin</code> makes these easier to build and test.
+Add this to the following <code>project/conscript.sbt</code>:
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.0&quot;)
+</code></pre><p>Next enable <code>ConscriptPlugin</code> on the app subproject in <code>build.sbt</code>:
+</p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
+  eanble(ConscriptPlugin).
+  settings(
+    // other settings here
+  )
+</code></pre><p>The plugin brings in a “provided” dependency to sbt launcher-interface.
+</p><h3 id="Entry+point">Entry point<a href="#Entry+point" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Make the entry point to your app by implementing <code>xsbti.AppMain</code>.
+</p><pre><code class="prettyprint lang-scala">package example
+
+class HelloApp extends xsbti.AppMain {
+  def run(configuration: xsbti.AppConfiguration): xsbti.MainResult = {
+    // get the version of Scala used to launch the application
+    val scalaVersion = configuration.provider.scalaProvider.version
+
+    // Print a message and the arguments to the application
+    println(&quot;Hello world!  Running Scala &quot; + scalaVersion)
+    configuration.arguments.foreach(println)
+
+    new Exit(0)
+  }
+  class Exit(val code: Int) extends xsbti.Exit
+}
+</code></pre><p>After one or two command line options, you might want to take a look at <a href="https://github.com/scopt/scopt">scopt</a> to do commandline parsing.
+</p><h3 id="launchconfig">launchconfig<a href="#launchconfig" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Next, add your sbt <code>launchconfig</code> file to <code>src/main/conscript/XYZ/launchconfig</code> (substitue <code>XYZ</code> with your script name such as <code>g8</code> and <code>cs</code>):
+</p><pre><code class="">[app]
+  version: 0.1.0
+  org: com.example
+  name: hello
+  class: example.HelloApp
+[scala]
+  version: 2.11.8
+[repositories]
+  local
+  maven-central
+  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
+</code></pre><p>To learn more about the <code>launchconfig</code>, see [sbt Launcher][sbtlauncher] section of the sbt Reference Manual.
+</p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can add arbitray repositories to the repositories section, including a Bintray Maven repo.
+Here is the Bintray repo for foundweekends for example.
+</p><pre><code class="">  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
+</code></pre><h3 id="csRun">csRun<a href="#csRun" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can test the app by calling <code>csRun XYZ</code> command.
+</p><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="conscripted-apps.html"> Conscripted apps </a>                        
+                        
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="index.html">Conscript</a></div><ol class="toc"> <li><div><a href="setup.html">Installing conscript</a></div></li><li><div><a href="usage.html">Using conscript</a></div></li><li><div><a href="how.html">How does conscript work?</a></div></li><li><div><a href="private-repos.html">Private repositories</a></div></li><li><div class="current">Making a conscripted app</div></li><li><div><a href="conscripted-apps.html">Conscripted apps</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Conscript</span> — Making a conscripted app
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        
+        
+      </body>
+    </html>
