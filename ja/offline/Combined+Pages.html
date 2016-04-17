@@ -1,0 +1,174 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Conscript — Combined Pages</title>
+        <link rel="shortcut icon" href="../favicon.ico"/>
+        <link rel="stylesheet" href="../css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="../css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="../css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="../js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'ja';
+        </script>
+        <script type="text/javascript" src="../js/prettify/prettify.js"></script><script type="text/javascript" src="../js/prettify/lang-scala.js"></script><link type="text/css" rel="stylesheet" href="../css/prettify.css"/><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, projection"/>
+        
+        
+      </head>
+      <body class="color_scheme-github">
+        <a class="page prev nav" href="Contents+in+Depth.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95">Conscript のインストール方法</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9">Conscript の使い方</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み</a></div></li><li><div><a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ</a></div></li><li><div><a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p><img src="../files/conscript.png" alt="Conscript"/>
+</p><p>Conscript は、Github と Maven リポジトリをインフラとして使った Scala アプリのための配信機構だ。APT や Home Brew のように、アプリのインストールや更新を行うことができる。
+</p><p>多分思ったより少ないことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。それに関してはまた後で。
+</p><h2 id="Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95">Conscript のインストール方法<a href="#Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><h3 id="%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%81%AE%E8%A8%AD%E5%AE%9A">環境変数の設定<a href="#%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%81%AE%E8%A8%AD%E5%AE%9A" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>OS にもよって書式は異なるかもしれないが、以下の 3つの環境変数を設定する必要がある。
+</p><pre><code>export CONSCRIPT_HOME=&quot;$HOME/.conscript&quot;
+export CONSCRIPT_OPTS=&quot;-XX:MaxPermSize=512M -Dfile.encoding=UTF-8&quot;
+export PATH=$CONSCRIPT_HOME/bin:$PATH
+</code></pre><ul><li><code>CONSCRIPT_HOME</code> は conscript が様々なファイルをダウンロードする場所だ。
+</li><li><code>CONSCRIPT_OPTS</code> は conscript を使ってインストールしたアプリに渡される JVM 引数。
+</li><li>デフォルトでは conscript は起動スクリプトを <code>$CONSCRIPT_HOME/bin</code> 以下に作成する。<code>$CONSCRIPT_BIN</code> を使うことで、その場所を例えば <code>~/bin/</code> に変更できる。
+</li><li><code>PATH</code> は OS のパス変数だ。ここに <code>$CONSCRIPT_HOME/bin</code> もしくは　<code>$CONSCRIPT_BIN</code> を追加する必要がある。
+</li></ul><p>実際のインストールには 3通りの方法がある。
+</p><h3 id="%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">クロス・プラットフォーム<a href="#%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>conscript の<a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.0/conscript_2.11-0.5.0-proguard.jar">実行可能 jar</a> をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
+</p><pre><code class="">$ java -jar conscript_2.11-0.5.0-proguard.jar
+</code></pre><p>インストール中は「スプラッシュ・スクリーン」が表示される。<code>cs</code> がインストールされたというメッセージが書かれるか、エラーメッセージが表示されるまでは閉じてはいけない。
+</p><h3 id="Linux%E3%80%81+Mac">Linux、 Mac<a href="#Linux%E3%80%81+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>好みによって、シェルスクリプトをパイプすることによってインストールすることもできる。
+</p><pre><code class="">curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+</code></pre><h3 id="Windows">Windows<a href="#Windows" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>好みによって、この PowerShell <a href="https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1">スクリプト</a>をダウンロードして実行することもできる。
+</p><h2 id="Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9">Conscript の使い方<a href="#Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を用いてやる主なことは <code>launchconfig</code> に基いて書かれているコマンドのインストールと更新だ。
+<code>launchconfig</code> ファイルは Github プロジェクトにて保存されていて、それを <code>cs</code> コマンドから指定する。
+例えば、以下のようにして giter8 テンプレートシステムをインストールする:
+</p><pre><code class="">$ cs foundweekends/giter8
+</code></pre><p><code>launchconfig</code> はアプリのバージョンも指定するが、もう一つ「/」を付けて別のバージョン番号を指定することも可能だ:
+</p><pre><code class="">$ cs foundweekends/giter8/0.2.1
+</code></pre><p>プロジェクトの作者はプレリリースや別版の <code>launchconfig</code> を Gibhub 上の別のブランチに push するかもしれない。<code>--branch</code> もしくは <code>-b</code> オプションを使って、別のブランチから <code>launchconfig</code> を読み込むことができる。
+</p><pre><code class="">$ cs foundweekends/giter8 --branch staging
+</code></pre><h3 id="boot+%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3">boot ディレクトリのクリーン<a href="#boot+%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>スナップショットなどを使っていて、conscript の boot ディレクトリが古かったり、不明なアーティファクトが入っている場合はクリーンすることが可能だ:
+</p><pre><code class="">$ cs --clean-boot
+</code></pre><p>これで、次に (<code>cs</code> のような) conscript アプリを実行すると、boot ディレクトリに新しくライブラリ依存性を取ってくるようになる。大抵はローカルの Ivy キャッシュに行くだけだと思うけど。
+</p><h2 id="Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み<a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は思ったよりも<strong>少ない</strong>ことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。何を言っているんだ?
+</p><p><br><strong>conscript が行うこと:</strong>
+</p><ul><li>Github プロジェクトに <code>launchconfig</code> (ランチャー設定ファイル) があるかを問い合わせる。
+</li><li><code>launchconfig</code> をローカルのファイルシステムにコピーして、boot path の設定を書き換える。
+</li><li>ランチャー設定ファイルにもとづいて起動させるためのスクリプトを作成する。
+</li></ul><p><strong>sbt ランチャーが行うこと:</strong>
+</p><ul><li>指定された <code>launchconfig</code> を読み込む。
+</li><li>初回起動時に必要なライブラリ依存性を取ってくる。
+</li><li>sbt 本体同様に Ivy cache を用いてキャッシュする。
+</li></ul><p>conscript は、要するに sbt ランチャー周りの慣用を決め打ちして使いやすくしただけにすぎない。
+例えば、<code>$CONSCRIPT_HOME</code> をデフォルトどおり <code>$HOME/.conscript</code> に設定したとする。
+</p><p>全ての conscript アプリの boot ディレクトリとして <code>$CONSCRIPT_HOME/boot</code> が使用される。
+アプリの <code>launchconfig</code> は、Github プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
+</p><pre><code>$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
+</code></pre><p>最後に、その <code>launchconfig</code> を参照するシェルスクリプトが、<code>$CONSCRIPT_BIN</code> (デフォルト <code>$CONSCRIPT_HOME/bin</code>) 以下に作成される。
+例えば、<code>~/.conscript/bin/cs</code> という感じになる。
+このシェルスクリプトの内容は、Mac だと以下のようになっている:
+</p><pre><code class="">#!/bin/sh
+java -jar /Users/foo/.conscript/sbt-launch.jar \
+  @/Users/foo/.conscript/foundweekends/conscript/cs/launchconfig &quot;$@&quot;
+</code></pre><p>この起動スクリプトが作成された後の、アーティファクトを取得したり、アプリを実行したりといった実際の仕事は、sbt ランチャーが行っている。
+</p><h2 id="%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ<a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は Github の <a href="http://developer.github.com/v3/oauth/#create-a-new-authorization">非 web アプリ</a>用の OAuth フローを使うことで、プライベートな Github リポジトリもサポートしている。
+</p><p>認証して、永久トークンを保存するには、<code>--auth</code> オプションを使う:
+</p><pre><code class="">$ cs --auth yourname:yourpass
+</code></pre><p>これは、アクセス・トークンを <code>~/.conscript/config</code> に保存して、以降全ての
+<code>cs</code> 実行時に用いられる。このトークンは <a href="https://github.com/settings/applications">Github account settings</a> よりいつでも取り消すことができる。
+</p><p>sbt ランチャーは、sbt 本体同様にプライベートな Maven もしくは Ivy リポジトリをアクセスすることができる。
+<code>~/.ivy2/.credentials</code> などの credential プロパティファイルを <code>sbt.boot.credentials</code> JVM プロパティもしくは、<code>SBT_CREDENTIALS</code> 環境変数にて指定する。
+sbt ランチャーは、これらの認証情報を用いて realm
+内の保護されたリソースをアクセスすることができる。
+</p><h2 id="Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方<a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を使った独自アプリを作ってみよう。
+</p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>ConscriptPlugin</code> を使ってアプリを作る方法をここでは紹介する。
+まずは以下を <code>project/concript.sbt</code> に書く:
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.0&quot;)
+</code></pre><p>次に、<code>build.sbt</code> でアプリのためのサブプロジェクトで <code>ConscriptPlugin</code> を有効にする:
+</p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
+  eanble(ConscriptPlugin).
+  settings(
+    // other settings here
+  )
+</code></pre><p>このプラグインは sbt の launcher-interface に対して「provided」な依存性を追加する。
+</p><h3 id="%E3%82%A8%E3%83%B3%E3%83%88%E3%83%AA%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">エントリーポイント<a href="#%E3%82%A8%E3%83%B3%E3%83%88%E3%83%AA%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>xsbti.AppMain</code> を実装して、アプリへのエントリーポイントを作る。
+</p><pre><code class="prettyprint lang-scala">package example
+
+class HelloApp extends xsbti.AppMain {
+  def run(configuration: xsbti.AppConfiguration): xsbti.MainResult = {
+    // get the version of Scala used to launch the application
+    val scalaVersion = configuration.provider.scalaProvider.version
+
+    // Print a message and the arguments to the application
+    println(&quot;Hello world!  Running Scala &quot; + scalaVersion)
+    configuration.arguments.foreach(println)
+
+    new Exit(0)
+  }
+  class Exit(val code: Int) extends xsbti.Exit
+}
+</code></pre><p>1つか 2つのコマンドライン・オプションを作った後は、多分
+<a href="https://github.com/scopt/scopt">scopt</a> みたいなコマンドライン・パーサを使うことをお勧めする。
+</p><h3 id="launchconfig">launchconfig<a href="#launchconfig" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>次に、<code>launchconfig</code> ファイルを <code>src/main/conscript/XYZ/launchconfig</code> に置く
+(ここで、<code>XYZ</code> は <code>g8</code> や <code>cs</code> といったスクリプト名に置き換える):
+</p><pre><code class="">[app]
+  version: 0.1.0
+  org: com.example
+  name: hello
+  class: example.HelloApp
+[scala]
+  version: 2.11.8
+[repositories]
+  local
+  maven-central
+  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
+</code></pre><p><code>launchconfig</code> に関する詳細は sbt レファレンス・マニュアルの　[sbt Launcher][sbtlauncher] の項目を参照。
+</p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>repositories の項目には、Bintray を使った Maven リポジトリを含む任意のリポジトリを追加できる。
+例えば、foundweekends の Bintray リポジトリの設定は以下のようになっている。
+</p><pre><code class="">  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
+</code></pre><h3 id="csRun">csRun<a href="#csRun" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>アプリを <code>csRun XYZ</code> コマンドを sbt シェルから打ち込むことで、アプリをテストできる。
+</p><h2 id="Conscripted+apps">Conscripted apps<a href="#Conscripted+apps" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Conscript を使っているプロジェクトのリストは<a href="../conscripted-apps.html">英語版</a>にある。
+</p><p>あなたが Conscript を使っているなら是非プロジェクトを追加して pull request を送ってほしい。
+</p>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Conscript</span> — Combined Pages
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        
+        
+      </body>
+    </html>
