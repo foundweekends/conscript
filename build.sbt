@@ -3,6 +3,8 @@ import com.typesafe.sbt.SbtGhPages.{ghpages, GhPagesKeys => ghkeys}
 import com.typesafe.sbt.SbtGit.{git, GitKeys}
 import com.typesafe.sbt.git.GitRunner
 
+lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
+
 lazy val root = (project in file(".")).
   enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin).
   settings(
@@ -74,7 +76,6 @@ lazy val root = (project in file(".")).
     publishArtifact in Test := false,
     ghpages.settings,
     sourceDirectory in Pamflet := { baseDirectory.value / "docs" },
-    git.remoteRepo := "git@github.com:foundweekends/conscript.git",
     // GitKeys.gitBranch in ghkeys.updatedRepository := Some("gh-pages"),
     // This task is responsible for updating the master branch on some temp dir.
     // On the branch there are files that was generated in some other ways such as:
@@ -93,6 +94,26 @@ lazy val root = (project in file(".")).
       } yield (file, repo / target)
       IO.copy(mappings)
       repo
+    },
+    // https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
+    // 1. generate token at https://github.com/settings/tokens/new
+    // 2. encrypt the token
+    pushSiteIfChanged := (Def.taskDyn {
+      val repo = baseDirectory.value
+      val r = GitKeys.gitRunner.value
+      val s = streams.value
+      val changed = gitDocsChanged(repo, r, s.log)
+      if (changed) {
+        gitConfig(repo, r, s.log)
+        ghkeys.pushSite
+      }
+      else Def.task {}
+    }).value,
+    git.remoteRepo := {
+      sys.env.get("GH_TOKEN") match {
+        case Some(token) => s"https://${token}@github.com/foundweekends/conscript.git"
+        case _           => "git@github.com:foundweekends/conscript.git"
+      }
     }
   )
 
@@ -113,3 +134,22 @@ def gitRemoveFiles(dir: File, files: List[File], git: GitRunner, s: TaskStreams)
     git(("rm" :: "-r" :: "-f" :: "--ignore-unmatch" :: files.map(_.getAbsolutePath)) :_*)(dir, s.log)
   ()
 }
+
+def gitDocsChanged(dir: File, git: GitRunner, log: Logger): Boolean =
+  {
+    // git diff --shortstat HEAD^..HEAD docs
+    val range = sys.env.get("TRAVIS_COMMIT_RANGE") match {
+      case Some(x) => x
+      case _       => "HEAD^..HEAD"
+    }
+    val stat = git(("diff" :: "--shortstat" :: range :: "docs" :: Nil) :_*)(dir, log)
+    stat.trim.nonEmpty
+  }
+
+def gitConfig(dir: File, git: GitRunner, log: Logger): Unit =
+  sys.env.get("GH_TOKEN") match {
+    case Some(token) =>
+      git(("config" :: "user.name" :: "Travis CI" :: Nil) :_*)(dir, log)
+      git(("config" :: "user.email" :: "eed3si9n@gmail.com" :: Nil) :_*)(dir, log)
+    case _           => ()
+  }
