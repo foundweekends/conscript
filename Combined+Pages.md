@@ -93,7 +93,7 @@ you think. What?
 
 <br>**What conscript does:**
 
-- Queries a Github project for `launchconfig`s (launcher configruations)
+- Queries a Github project for `launchconfig`s (launcher configurations)
 - Copies `launchconfig`s to your local filesystem, with a personalized boot path
 - Creates scripts to execute the launch configurations
 
