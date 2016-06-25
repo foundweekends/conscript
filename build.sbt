@@ -39,6 +39,7 @@ lazy val root = (project in file(".")).
       old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
     },
     proguardSettings,
+    ProguardKeys.proguardVersion in Proguard := "5.2.1",
     ProguardKeys.options in Proguard ++= Seq(
       "-keep class conscript.* { *; }",
       "-keep class dispatch.* { *; }",
