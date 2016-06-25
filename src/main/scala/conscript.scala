@@ -7,7 +7,9 @@ import scala.util.control.NonFatal
 object Conscript {
   import dispatch.{ BuildInfo => _, _ }
   import Apply.exec
-  val http = dispatch.Http
+  val http = dispatch.Http.configure { configBuilder ⇒
+    configBuilder.setFollowRedirects(true)
+  }
 
   case class Config(project: String = "",
                     branch: Option[String] = None,
