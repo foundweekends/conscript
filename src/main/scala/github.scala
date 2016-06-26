@@ -28,14 +28,11 @@ object Github extends Credentials {
         JField("object", JObject(obj)) <- js
         JField("sha", JString(sha)) <- obj
       } yield sha
-    }.left.map {
-      case StatusCode(404) => "Repository not found on github"
-      case e => unknownError(e)
-    }
+    }.left.map(errorStatusesToMessages)
   def trees(base: Req, sha: String) =
     http(base / "git" / "trees" / sha <<? Map(
       "recursive" -> "1"
-    ) OK LiftJson.As).either.left.map(unknownError).map { eth =>
+    ) OK LiftJson.As).either.left.map(errorStatusesToMessages).map { eth =>
       eth.right.flatMap { js =>
         (for {
           JField("tree", JArray(ary)) <- js
@@ -62,11 +59,8 @@ object Github extends Credentials {
           case _ => guaranteed[String, String](DefaultBranch)
         }.right
       }
-  def masterBranch(base: Req) =
-    http(base OK LiftJson.As).either.left.map {
-      case StatusCode(404) => "Repository not found on github"
-      case e => unknownError(e)
-    }.map { eth =>
+  def masterBranch(base: Req) = {
+    http(base OK LiftJson.As).either.left.map(errorStatusesToMessages).map { eth =>
       eth.right.flatMap { js =>
         (for{
           JObject(obj) <- js
@@ -77,10 +71,11 @@ object Github extends Credentials {
         }
       }
     }
+  }
   def blob(base: Req, hash: String) = {
       http((base / "git" / "blobs" / hash).addHeader(
         "Accept", "application/vnd.github.raw"
-      ) OK as.String).either.left.map(unknownError)
+      ) OK as.String).either.left.map(errorStatusesToMessages)
   }
   def gh(user: String, repo: String) : Req = {
     val req = withCredentials(:/("api.github.com").secure / "repos" / user / repo)
@@ -95,11 +90,15 @@ object Github extends Credentials {
     return req
   }
 
-
+  val errorStatusesToMessages: (Throwable) ⇒ String = {
+    case StatusCode(404) => "Repository not found on github"
+    case StatusCode(403) =>
+      """Github responded with HTTP 403 Forbidden.
+        |You may need to generate a github access token.
+        |see https://help.github.com/articles/creating-an-access-token-for-command-line-use/""".stripMargin
+    case e =>
+      """An unexpected error occurred: Please check your internet connection.
+        |Exception message: %s""".stripMargin.format(e.getMessage)
+  }
   val Script = "^src/main/conscript/([^/]+)/launchconfig$".r
-  val unknownError = (e: Throwable) =>
-    """An unexpected error occurred: Please check your internet connection.
-      |You may need to generate a github access token.
-      |see https://help.github.com/articles/creating-an-access-token-for-command-line-use/
-      |Exception message: %s""".stripMargin.format(e.getMessage)
 }
