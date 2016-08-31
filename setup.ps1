@@ -8,9 +8,9 @@ function GetOrElse($Value, $DefaultValue) {
 }
 
 function Get-ProxyAddress() {
-  $env:JAVA_OPTS -match ".*-Dhttp.proxyHost=([0-9.]*) .*" | Out-Null
+  $env:JAVA_OPTS -match ".*-Dhttp.proxyHost=(\S+).*" | Out-Null
   $proxyHost = $matches[1]
-  $env:JAVA_OPTS -match ".*-Dhttp.proxyPort=([0-9.]*) .*" | Out-Null
+  $env:JAVA_OPTS -match ".*-Dhttp.proxyPort=([0-9]).*" | Out-Null
   $proxyPort = $matches[1]
 
   "http://${proxyHost}:${proxyPort}"
