@@ -38,7 +38,7 @@ A "splash screen" will appear during installation. Don't close it until you see 
 If you prefer, you can install conscript by piping this shell script.
 
 ```
-curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 ```
 
 ### Windows

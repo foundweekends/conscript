@@ -38,7 +38,7 @@ conscript の[実行可能 jar][runnable] をダウンロードする。最近�
 好みによって、シェルスクリプトをパイプすることによってインストールすることもできる。
 
 ```
-curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 ```
 
 ### Windows
