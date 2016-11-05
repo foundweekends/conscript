@@ -58,7 +58,7 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </p><pre><code class="">$ java -jar conscript_2.11-0.5.0-proguard.jar
 </code></pre><p>A “splash screen” will appear during installation. Don’t close it until you see a message that <code>cs</code> was installed, or that something went wrong.
 </p><h3 id="Linux%2C+Mac">Linux, Mac<a href="#Linux%2C+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you prefer, you can install conscript by piping this shell script.
-</p><pre><code class="">curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+</p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 </code></pre><h3 id="Windows">Windows<a href="#Windows" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you prefer, you can download the PowerShell <a href="https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1">script</a> and run it.
 </p><h2 id="Using+conscript">Using conscript<a href="#Using+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>The main thing you do with conscript is install and update commands based on <code>launchconfig</code>.
 <code>launchconfig</code> files are stored in Github projects, which you pass into the <code>cs</code> command.
@@ -74,7 +74,7 @@ For example, this installs the giter8 templating system:
 </p><h2 id="How+does+conscript+work%3F">How does conscript work?<a href="#How+does+conscript+work%3F" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Conscript does <em>less</em> than you think, because the sbt launcher does more than
 you think. What?
 </p><p><br><strong>What conscript does:</strong>
-</p><ul><li>Queries a Github project for <code>launchconfig</code>s (launcher configruations)
+</p><ul><li>Queries a Github project for <code>launchconfig</code>s (launcher configurations)
 </li><li>Copies <code>launchconfig</code>s to your local filesystem, with a personalized boot path
 </li><li>Creates scripts to execute the launch configurations
 </li></ul><p><strong>What sbt launcher does:</strong>
@@ -148,7 +148,7 @@ class HelloApp extends xsbti.AppMain {
   local
   maven-central
   sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
-</code></pre><p>To learn more about the <code>launchconfig</code>, see [sbt Launcher][sbtlauncher] section of the sbt Reference Manual.
+</code></pre><p>To learn more about the <code>launchconfig</code>, see <a href="http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html">sbt Launcher</a> section of the sbt Reference Manual.
 </p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can add arbitray repositories to the repositories section, including a Bintray Maven repo.
 Here is the Bintray repo for foundweekends for example.
 </p><pre><code class="">  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/

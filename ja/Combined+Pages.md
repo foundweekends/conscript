@@ -43,7 +43,7 @@ $ java -jar conscript_2.11-0.5.0-proguard.jar
 好みによって、シェルスクリプトをパイプすることによってインストールすることもできる。
 
 ```
-curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 ```
 
 ### Windows
@@ -146,7 +146,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 内の保護されたリソースをアクセスすることができる。
 
 
-  [sbtlauncehr]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Conscripted app の作り方

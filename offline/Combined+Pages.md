@@ -43,7 +43,7 @@ A "splash screen" will appear during installation. Don't close it until you see 
 If you prefer, you can install conscript by piping this shell script.
 
 ```
-curl https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh | sh
+wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 ```
 
 ### Windows
@@ -93,7 +93,7 @@ you think. What?
 
 <br>**What conscript does:**
 
-- Queries a Github project for `launchconfig`s (launcher configruations)
+- Queries a Github project for `launchconfig`s (launcher configurations)
 - Copies `launchconfig`s to your local filesystem, with a personalized boot path
 - Creates scripts to execute the launch configurations
 
@@ -153,7 +153,7 @@ itself can. Specify a credentials properties file, such as
 credentials when accessing protected resources in the specified realm.
 
 
-  [sbtlauncehr]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Making a conscripted app
