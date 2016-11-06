@@ -54,8 +54,8 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </li><li>By default Conscript will create the launching script for the apps in <code>$CONSCRIPT_HOME/bin</code>. Optionally you can change this location using <code>$CONSCRIPT_BIN</code> for example to <code>~/bin/</code>
 </li><li><code>PATH</code> is your OS’s path variable. Add <code>$CONSCRIPT_HOME/bin</code> or <code>$CONSCRIPT_BIN</code> to the path.
 </li></ul><p>There are three methods of installation available
-</p><h3 id="Cross+platform">Cross platform<a href="#Cross+platform" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Download the conscript <a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.0/conscript_2.11-0.5.0-proguard.jar">runnable jar</a>. On most OSes you can run it by double-clicking, but if that doesn’t work you can also run it from the command line.
-</p><pre><code class="">$ java -jar conscript_2.11-0.5.0-proguard.jar
+</p><h3 id="Cross+platform">Cross platform<a href="#Cross+platform" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Download the conscript <a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.1/conscript_2.11-0.5.1-proguard.jar">runnable jar</a>. On most OSes you can run it by double-clicking, but if that doesn’t work you can also run it from the command line.
+</p><pre><code class="">$ java -jar conscript_2.11-0.5.1-proguard.jar
 </code></pre><p>A “splash screen” will appear during installation. Don’t close it until you see a message that <code>cs</code> was installed, or that something went wrong.
 </p><h3 id="Linux%2C+Mac">Linux, Mac<a href="#Linux%2C+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you prefer, you can install conscript by piping this shell script.
 </p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
@@ -111,7 +111,7 @@ credentials when accessing protected resources in the specified realm.
 </p><h2 id="Making+a+conscripted+app">Making a conscripted app<a href="#Making+a+conscripted+app" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>We hope you’ll make your own apps that use conscript.
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The <code>ConscriptPlugin</code> makes these easier to build and test.
 Add this to the following <code>project/conscript.sbt</code>:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.0&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.1&quot;)
 </code></pre><p>Next enable <code>ConscriptPlugin</code> on the app subproject in <code>build.sbt</code>:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   eanble(ConscriptPlugin).
