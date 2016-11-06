@@ -1,0 +1,23 @@
+### docs
+
+Added [docs](http://www.foundweekends.org/conscript/) in [fdd407](https://github.com/foundweekends/conscript/commit/fdd407c53bfd678286d2c35ba5f517d3f39b9e79).
+
+### PowerShell installation script
+
+There's now a [PowerShell](https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1) installation script. [#89][89] by [@andrelfpinto][@andrelfpinto]
+
+### fixes
+
+- Fixes HTTP client error handling and config. [#102][102] by [@michalmela][@michalmela]
+- Fixes Conscript not respecting GitHub default branch. [#111][111] by [@padilo][@padilo]
+
+### to upgrade
+
+    $ cs foundweekend/conscript
+
+  [89]: https://github.com/foundweekends/conscript/pull/89
+  [102]: https://github.com/foundweekends/conscript/pull/102
+  [111]: https://github.com/foundweekends/conscript/pull/111
+  [@michalmela]: https://github.com/michalmela
+  [@padilo]: https://github.com/padilo
+  [@andrelfpinto]: https://github.com/andrelfpinto
