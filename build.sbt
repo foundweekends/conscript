@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
-      version := "0.5.0-SNAPSHOT",
+      version := "0.5.1",
       scalaVersion := "2.11.8",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       bintrayOrganization := Some("foundweekends"),
