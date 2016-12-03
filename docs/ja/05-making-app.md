@@ -23,7 +23,7 @@ addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "$version$")
 
 ```
 lazy val root = (project in file(".")).
-  eanble(ConscriptPlugin).
+  enablePlugins(ConscriptPlugin).
   settings(
     // other settings here
   )
