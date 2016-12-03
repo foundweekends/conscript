@@ -114,7 +114,7 @@ Add this to the following <code>project/conscript.sbt</code>:
 </p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.1&quot;)
 </code></pre><p>Next enable <code>ConscriptPlugin</code> on the app subproject in <code>build.sbt</code>:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
-  eanble(ConscriptPlugin).
+  enablePlugins(ConscriptPlugin).
   settings(
     // other settings here
   )

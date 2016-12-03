@@ -107,7 +107,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 </p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.1&quot;)
 </code></pre><p>次に、<code>build.sbt</code> でアプリのためのサブプロジェクトで <code>ConscriptPlugin</code> を有効にする:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
-  eanble(ConscriptPlugin).
+  enablePlugins(ConscriptPlugin).
   settings(
     // other settings here
   )

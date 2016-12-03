@@ -174,7 +174,7 @@ Next enable `ConscriptPlugin` on the app subproject in `build.sbt`:
 
 ```
 lazy val root = (project in file(".")).
-  eanble(ConscriptPlugin).
+  enablePlugins(ConscriptPlugin).
   settings(
     // other settings here
   )
