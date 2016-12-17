@@ -5,14 +5,14 @@ import javax.imageio.ImageIO
 import java.awt.{Color,Font,GraphicsEnvironment,RenderingHints}
 
 trait Display {
-  def info(msg: String)
-  def error(msg: String)
+  def info(msg: String): Unit
+  def error(msg: String): Unit
 }
 object ConsoleDisplay extends Display {
-  def info(msg: String) {
+  def info(msg: String): Unit = {
     println(msg)
   }
-  def error(msg: String) {
+  def error(msg: String): Unit = {
     System.err.println(msg)
   }
 }
@@ -22,11 +22,11 @@ object SplashDisplay extends Display {
   @volatile private var message: Either[String,String] =
     Right("Starting...")
 
-  def info(msg: String) {
+  def info(msg: String): Unit = {
     message = Right(msg)
     display.frame.repaint()
   }
-  def error(msg: String) {
+  def error(msg: String): Unit = {
     message = Left(msg)
     display.frame.repaint()
   }
@@ -40,7 +40,7 @@ object SplashDisplay extends Display {
       title = "Conscript Setup"
       resizable = false
       contents = new Component {
-        override def paint(g: Graphics2D) {
+        override def paint(g: Graphics2D): Unit = {
           g.clearRect(0, 0, W, H)
           g.drawImage(img, 0, 0, Color.WHITE, null)
           g.setFont(myfont)
