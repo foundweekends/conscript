@@ -23,7 +23,7 @@ object Conscript {
 
   /** This is the entrypoint for the runnable jar, as well as
    * the sbt `run` action when in the conscript project. */
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     val exit = run(args match {
       case Array() => Array("--setup")
       case _ => args
