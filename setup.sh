@@ -55,7 +55,7 @@ bin_in_path=$(echo "$PATH" | grep -i "$BIN")
 
 if [ -z "$bin_in_path" ]
 then
-    echo 'PATH="'"$BIN"':$PATH"' >> $HOME/.bashrc
+    echo 'PATH="$PATH:'"$BIN"'"' >> $HOME/.bashrc
     exec bash
 fi
 
