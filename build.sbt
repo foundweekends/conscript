@@ -53,20 +53,18 @@ lazy val root = (project in file(".")).
       "-dontobfuscate",
       "-dontoptimize"
       ),
-    ProguardKeys.inputs in Proguard <<=
-      (fullClasspath in Compile, fullClasspath in Runtime) map { (ccp, rcp) =>
-        (ccp.files ++ rcp.files).distinct.filter { f =>
-          // This is a dependency of the launcher interface. It may not be the version of scala
-          // we're using at all, and we don't want it
-          f.getName != "scala-library.jar"
-        }
-      },
+    ProguardKeys.inputs in Proguard := {
+      ((fullClasspath in Compile).value.files ++ (fullClasspath in Runtime).value.files).distinct.filter { f =>
+        // This is a dependency of the launcher interface. It may not be the version of scala
+        // we're using at all, and we don't want it
+        f.getName != "scala-library.jar"
+      }
+    },
     ProguardKeys.defaultInputFilter in Proguard := None,
     javaOptions in (Proguard, ProguardKeys.proguard) := Seq("-Xmx2G"),
-    ProguardKeys.outputs in Proguard <<=
-      (ProguardKeys.proguardDirectory in Proguard, version) map { (op,v) =>
-        op / ("conscript-" + v + ".jar") :: Nil
-      },
+    ProguardKeys.outputs in Proguard := {
+      (ProguardKeys.proguardDirectory in Proguard).value / ("conscript-" + version.value + ".jar") :: Nil
+    },
     artifact in (Compile, ProguardKeys.proguard) := {
       val art = (artifact in (Compile, ProguardKeys.proguard)).value
       art.copy(`classifier` = Some("proguard"))
