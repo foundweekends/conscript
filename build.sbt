@@ -11,7 +11,7 @@ lazy val root = (project in file(".")).
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
       version := "0.5.1",
-      scalaVersion := "2.11.9",
+      scalaVersion := "2.11.8",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       bintrayOrganization := Some("foundweekends"),
       bintrayRepository := "maven-releases",
@@ -26,7 +26,7 @@ lazy val root = (project in file(".")).
       scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/conscript"), "git@github.com:foundweekends/conscript.git"))
     )),
     name := "conscript",
-    crossScalaVersions := List("2.11.9"),
+    crossScalaVersions := List("2.11.8"),
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
     bintrayPackage := (bintrayPackage in ThisBuild).value,
     bintrayRepository := (bintrayRepository in ThisBuild).value,
