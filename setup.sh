@@ -29,7 +29,7 @@ mkdir -p $CSCS
 mkdir -p "$BIN"
 
 echo "Fetching current launch configuration..."
-wget https://raw.githubusercontent.com/foundweekends/conscript/master/src/main/conscript/cs/launchconfig -O $CLC
+curl https://raw.githubusercontent.com/foundweekends/conscript/master/src/main/conscript/cs/launchconfig -O $CLC
 
 echo "
 [boot]
@@ -46,7 +46,7 @@ LJ="launcher-$LJV.jar"
 # If launcher is not in configuration directory
 if [ ! -f "$CS/$LJ" ]; then
     echo "Fetching launcher..."
-    wget "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
+    curl "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
     ln -sf "$CS/$LJ" "$CS/sbt-launch.jar"
 fi
 
