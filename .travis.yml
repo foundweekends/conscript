@@ -1,12 +1,12 @@
 language: scala
 sudo: false
-
+jdk: oraclejdk8
 env:
   global:
     secure: TSTItMYGCn50C5QqBXCvDZJ5HxmUqT1UZ2pwyVrZU/JzWn3zftSMtsVnjX6RVWSMGZIFC+b9u08aJFcDt03zQpMjD9WmglebO5RIufxc2Tbk6wBevVDYduKaNoTD2J2U6JOs1Ff8QP6q7vNdBfUBN7exaaF4MCw0GsanqriQIeA=
 
 script:
-- sbt plugin/scripted test
+- sbt test "project plugin" "^ scripted"
 
 after_success:
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sbt pushSiteIfChanged

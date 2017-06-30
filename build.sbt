@@ -8,10 +8,10 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 lazy val root = (project in file(".")).
   enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin).
   settings(
+    scalaVersion := "2.11.8",
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
       version := "0.5.2-SNAPSHOT",
-      scalaVersion := "2.11.8",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       bintrayOrganization := Some("foundweekends"),
       bintrayRepository := "maven-releases",
@@ -119,14 +119,44 @@ lazy val plugin = (project in file("sbt-conscript")).
   enablePlugins(CrossPerProjectPlugin).
   settings(
     name := "sbt-conscript",
-    scalaVersion := "2.10.6",
-    crossScalaVersions := List("2.10.6"),
     sbtPlugin := true,
     bintrayOrganization := Some("sbt"),
     bintrayRepository := "sbt-plugin-releases",
     bintrayPackage := "sbt-conscript",
+    crossSbtVersions := Seq("0.13.15", "1.0.0-M6"),
     ScriptedPlugin.scriptedSettings,
     ScriptedPlugin.scriptedBufferLog := false,
+    // https://github.com/sbt/sbt/issues/3245
+    ScriptedPlugin.scripted := {
+      val args = ScriptedPlugin.asInstanceOf[{
+        def scriptedParser(f: File): complete.Parser[Seq[String]]
+      }].scriptedParser(sbtTestDirectory.value).parsed
+      val prereq: Unit = scriptedDependencies.value
+      try {
+        if((sbtVersion in pluginCrossBuild).value == "1.0.0-M6") {
+          ScriptedPlugin.scriptedTests.value.asInstanceOf[{
+            def run(x1: File, x2: Boolean, x3: Array[String], x4: File, x5: Array[String], x6: java.util.List[File]): Unit
+          }].run(
+            sbtTestDirectory.value,
+            scriptedBufferLog.value,
+            args.toArray,
+            sbtLauncher.value,
+            scriptedLaunchOpts.value.toArray,
+            new java.util.ArrayList()
+          )
+        } else {
+          ScriptedPlugin.scriptedTests.value.asInstanceOf[{
+            def run(x1: File, x2: Boolean, x3: Array[String], x4: File, x5: Array[String]): Unit
+          }].run(
+            sbtTestDirectory.value,
+            scriptedBufferLog.value,
+            args.toArray,
+            sbtLauncher.value,
+            scriptedLaunchOpts.value.toArray
+          )
+        }
+      } catch { case e: java.lang.reflect.InvocationTargetException => throw e.getCause }
+    },
     scriptedLaunchOpts ++= sys.process.javaVmArguments.filter(
       a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
     ),
