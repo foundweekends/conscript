@@ -51,7 +51,7 @@ object ConscriptPlugin extends AutoPlugin {
       configs(output).find {
         p => configName(p) == name
       }.getOrElse { sys.error("No launchconfig found for " + name) }
-    }.getOrElse { sys.error("Usage: cs-run <appname> [args ...]") }
+    }.getOrElse { sys.error("Usage: csRun <appname> [args ...]") }
     "sbt @%s %s".format(config,
                         args.toList.tail.mkString(" ")
     ) ! match {
