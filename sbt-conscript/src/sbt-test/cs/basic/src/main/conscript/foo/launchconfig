@@ -1,0 +1,10 @@
+[app]
+  version: 0.1.0-SNAPSHOT
+  org: com.example
+  name: hello
+  class: example.Hello
+[scala]
+  version: 2.11.11
+[repositories]
+  local
+  maven-central

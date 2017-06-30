@@ -1,0 +1,3 @@
+> csWrite
+> csRun foo a b
+> check
