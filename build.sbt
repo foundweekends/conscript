@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
-      version := "0.5.1",
+      version := "0.5.2-SNAPSHOT",
       scalaVersion := "2.11.8",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       bintrayOrganization := Some("foundweekends"),
@@ -124,7 +124,13 @@ lazy val plugin = (project in file("sbt-conscript")).
     sbtPlugin := true,
     bintrayOrganization := Some("sbt"),
     bintrayRepository := "sbt-plugin-releases",
-    bintrayPackage := "sbt-conscript"
+    bintrayPackage := "sbt-conscript",
+    ScriptedPlugin.scriptedSettings,
+    ScriptedPlugin.scriptedBufferLog := false,
+    scriptedLaunchOpts ++= sys.process.javaVmArguments.filter(
+      a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
+    ),
+    scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
 
 def gitRemoveFiles(dir: File, files: List[File], git: GitRunner, s: TaskStreams): Unit = {
