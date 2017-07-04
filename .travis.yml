@@ -12,7 +12,8 @@ before_cache:
 - find $HOME/.sbt -name "*.lock" | xargs rm
 - find $HOME/.ivy2/cache -name "ivydata-*.properties" | xargs rm
 script:
-- sbt test "project plugin" "^ scripted"
+- sbt publishLocal test "project plugin" "^ scripted"
+- java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
 
 after_success:
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sbt pushSiteIfChanged

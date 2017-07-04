@@ -11,6 +11,19 @@ object Conscript {
     configBuilder.setFollowRedirects(true)
   }
 
+  private[this] def shutdownDispatch(): Unit = {
+    try {
+      dispatch.Http.shutdown()
+    } catch {
+      case NonFatal(e) => e.printStackTrace()
+    }
+    try {
+      http.shutdown()
+    } catch {
+      case NonFatal(e) => e.printStackTrace()
+    }
+  }
+
   case class Config(project: String = "",
                     branch: Option[String] = None,
                     clean_boot: Boolean = false,
@@ -106,11 +119,11 @@ object Conscript {
       case _ => Left(parser.usage)
     }.getOrElse { Left(parser.usage) }.fold( { err =>
       display.error(err)
-      http.shutdown
+      shutdownDispatch()
       1
     }, { msg =>
       display.info(msg)
-      http.shutdown
+      shutdownDispatch()
       0
     })
   }
