@@ -2,16 +2,62 @@ import Dependencies._
 import com.typesafe.sbt.SbtGhPages.{ghpages, GhPagesKeys => ghkeys}
 import com.typesafe.sbt.SbtGit.{git, GitKeys}
 import com.typesafe.sbt.git.GitRunner
+import ReleaseTransformations._
 
 lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
+
+val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 lazy val root = (project in file(".")).
   enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin).
   settings(
+    updateLaunchconfig := {
+      val mainClassName = (discoveredMainClasses in Compile).value match {
+        case Seq(m) => m
+        case zeroOrMulti => sys.error(s"could not found main class. $zeroOrMulti")
+      }
+      if(isSnapshot.value) {
+        streams.value.log.warn(s"update launchconfig ${version.value}")
+      }
+      val launchconfig = s"""[app]
+      |  version: ${version.value}
+      |  org: ${organization.value}
+      |  name: ${normalizedName.value}
+      |  class: ${mainClassName}
+      |[scala]
+      |  version: ${scalaVersion.value}
+      |[repositories]
+      |  local
+      |  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
+      |  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
+      |  maven-central
+      |""".stripMargin
+      val f = (baseDirectory in ThisBuild).value / "src/main/conscript/cs/launchconfig"
+      IO.write(f, launchconfig)
+      val r = GitKeys.gitRunner.value
+      val s = streams.value.log
+      r("add", f.getName)(baseDirectory.value, s)
+      r("commit", "-m", "update " + f)(baseDirectory.value, s)
+      f
+    },
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      releaseStepCommandAndRemaining(s"^ plugin/scripted"),
+      setReleaseVersion,
+      releaseStepTask(updateLaunchconfig),
+      commitReleaseVersion,
+      tagRelease,
+      releaseStepCommandAndRemaining(s";publish;^ plugin/publish"),
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    ),
     scalaVersion := "2.11.8",
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
-      version := "0.5.2-SNAPSHOT",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       bintrayOrganization := Some("foundweekends"),
       bintrayRepository := "maven-releases",
