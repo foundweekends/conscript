@@ -43,7 +43,7 @@
       <a name="toc"></a>
       <h4 class="toctitle">Contents</h4>
       <div class="tocbody">
-      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95">Conscript のインストール方法</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9">Conscript の使い方</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み</a></div></li><li><div><a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ</a></div></li><li><div><a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript は、Github と Maven リポジトリをインフラとして使った Scala アプリのための配信機構だ。APT や Home Brew のように、アプリのインストールや更新を行うことができる。
+      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95">Conscript のインストール方法</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9">Conscript の使い方</a></div></li><li><div><a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み</a></div></li><li><div><a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ</a></div></li><li><div><a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript は、GitHub と Maven リポジトリをインフラとして使った Scala アプリのための配信機構だ。APT や Home Brew のように、アプリのインストールや更新を行うことができる。
 </p><p>多分思ったより少ないことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。それに関してはまた後で。
 </p><h2 id="Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95">Conscript のインストール方法<a href="#Conscript+%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><h3 id="%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%81%AE%E8%A8%AD%E5%AE%9A">環境変数の設定<a href="#%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%81%AE%E8%A8%AD%E5%AE%9A" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>OS にもよって書式は異なるかもしれないが、以下の 3つの環境変数を設定する必要がある。
 </p><pre><code>export CONSCRIPT_HOME=&quot;$HOME/.conscript&quot;
@@ -54,14 +54,14 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </li><li>デフォルトでは conscript は起動スクリプトを <code>$CONSCRIPT_HOME/bin</code> 以下に作成する。<code>$CONSCRIPT_BIN</code> を使うことで、その場所を例えば <code>~/bin/</code> に変更できる。
 </li><li><code>PATH</code> は OS のパス変数だ。ここに <code>$CONSCRIPT_HOME/bin</code> もしくは　<code>$CONSCRIPT_BIN</code> を追加する必要がある。
 </li></ul><p>実際のインストールには 3通りの方法がある。
-</p><h3 id="%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">クロス・プラットフォーム<a href="#%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>conscript の<a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.1/conscript_2.11-0.5.1-proguard.jar">実行可能 jar</a> をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
-</p><pre><code class="">$ java -jar conscript_2.11-0.5.1-proguard.jar
+</p><h3 id="%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">クロス・プラットフォーム<a href="#%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>conscript の<a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.2/conscript_2.11-0.5.2-proguard.jar">実行可能 jar</a> をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
+</p><pre><code class="">$ java -jar conscript_2.11-0.5.2-proguard.jar
 </code></pre><p>インストール中は「スプラッシュ・スクリーン」が表示される。<code>cs</code> がインストールされたというメッセージが書かれるか、エラーメッセージが表示されるまでは閉じてはいけない。
 </p><h3 id="Linux%E3%80%81+Mac">Linux、 Mac<a href="#Linux%E3%80%81+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>好みによって、シェルスクリプトをパイプすることによってインストールすることもできる。
 </p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 </code></pre><h3 id="Windows">Windows<a href="#Windows" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>好みによって、この PowerShell <a href="https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1">スクリプト</a>をダウンロードして実行することもできる。
 </p><h2 id="Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9">Conscript の使い方<a href="#Conscript+%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を用いてやる主なことは <code>launchconfig</code> に基いて書かれているコマンドのインストールと更新だ。
-<code>launchconfig</code> ファイルは Github プロジェクトにて保存されていて、それを <code>cs</code> コマンドから指定する。
+<code>launchconfig</code> ファイルは GitHub プロジェクトにて保存されていて、それを <code>cs</code> コマンドから指定する。
 例えば、以下のようにして giter8 テンプレートシステムをインストールする:
 </p><pre><code class="">$ cs foundweekends/giter8
 </code></pre><p><code>launchconfig</code> はアプリのバージョンも指定するが、もう一つ「/」を付けて別のバージョン番号を指定することも可能だ:
@@ -73,7 +73,7 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </code></pre><p>これで、次に (<code>cs</code> のような) conscript アプリを実行すると、boot ディレクトリに新しくライブラリ依存性を取ってくるようになる。大抵はローカルの Ivy キャッシュに行くだけだと思うけど。
 </p><h2 id="Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み<a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は思ったよりも<strong>少ない</strong>ことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。何を言っているんだ?
 </p><p><br><strong>conscript が行うこと:</strong>
-</p><ul><li>Github プロジェクトに <code>launchconfig</code> (ランチャー設定ファイル) があるかを問い合わせる。
+</p><ul><li>GitHub プロジェクトに <code>launchconfig</code> (ランチャー設定ファイル) があるかを問い合わせる。
 </li><li><code>launchconfig</code> をローカルのファイルシステムにコピーして、boot path の設定を書き換える。
 </li><li>ランチャー設定ファイルにもとづいて起動させるためのスクリプトを作成する。
 </li></ul><p><strong>sbt ランチャーが行うこと:</strong>
@@ -83,7 +83,7 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </li></ul><p>conscript は、要するに sbt ランチャー周りの慣用を決め打ちして使いやすくしただけにすぎない。
 例えば、<code>$CONSCRIPT_HOME</code> をデフォルトどおり <code>$HOME/.conscript</code> に設定したとする。
 </p><p>全ての conscript アプリの boot ディレクトリとして <code>$CONSCRIPT_HOME/boot</code> が使用される。
-アプリの <code>launchconfig</code> は、Github プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
+アプリの <code>launchconfig</code> は、GitHub プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
 </p><pre><code>$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 </code></pre><p>最後に、その <code>launchconfig</code> を参照するシェルスクリプトが、<code>$CONSCRIPT_BIN</code> (デフォルト <code>$CONSCRIPT_HOME/bin</code>) 以下に作成される。
 例えば、<code>~/.conscript/bin/cs</code> という感じになる。
@@ -92,11 +92,11 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 java -jar /Users/foo/.conscript/sbt-launch.jar \
   @/Users/foo/.conscript/foundweekends/conscript/cs/launchconfig &quot;$@&quot;
 </code></pre><p>この起動スクリプトが作成された後の、アーティファクトを取得したり、アプリを実行したりといった実際の仕事は、sbt ランチャーが行っている。
-</p><h2 id="%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ<a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は Github の <a href="http://developer.github.com/v3/oauth/#create-a-new-authorization">非 web アプリ</a>用の OAuth フローを使うことで、プライベートな Github リポジトリもサポートしている。
+</p><h2 id="%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ<a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は GitHub の <a href="http://developer.github.com/v3/oauth/#create-a-new-authorization">非 web アプリ</a>用の OAuth フローを使うことで、プライベートな GitHub リポジトリもサポートしている。
 </p><p>認証して、永久トークンを保存するには、<code>--auth</code> オプションを使う:
 </p><pre><code class="">$ cs --auth yourname:yourpass
 </code></pre><p>これは、アクセス・トークンを <code>~/.conscript/config</code> に保存して、以降全ての
-<code>cs</code> 実行時に用いられる。このトークンは <a href="https://github.com/settings/applications">Github account settings</a> よりいつでも取り消すことができる。
+<code>cs</code> 実行時に用いられる。このトークンは <a href="https://github.com/settings/applications">GitHub account settings</a> よりいつでも取り消すことができる。
 </p><p>sbt ランチャーは、sbt 本体同様にプライベートな Maven もしくは Ivy リポジトリをアクセスすることができる。
 <code>~/.ivy2/.credentials</code> などの credential プロパティファイルを <code>sbt.boot.credentials</code> JVM プロパティもしくは、<code>SBT_CREDENTIALS</code> 環境変数にて指定する。
 sbt ランチャーは、これらの認証情報を用いて realm
@@ -104,7 +104,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 </p><h2 id="Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方<a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を使った独自アプリを作ってみよう。
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>ConscriptPlugin</code> を使ってアプリを作る方法をここでは紹介する。
 まずは以下を <code>project/concript.sbt</code> に書く:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.1&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.2&quot;)
 </code></pre><p>次に、<code>build.sbt</code> でアプリのためのサブプロジェクトで <code>ConscriptPlugin</code> を有効にする:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   enablePlugins(ConscriptPlugin).
@@ -138,7 +138,7 @@ class HelloApp extends xsbti.AppMain {
   name: hello
   class: example.HelloApp
 [scala]
-  version: 2.11.9
+  version: 2.11.8
 [repositories]
   local
   maven-central

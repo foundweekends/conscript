@@ -2,12 +2,12 @@
 Conscript
 =========
 
-Conscript is a distribution mechanism for Scala apps using Github and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
+Conscript is a distribution mechanism for Scala apps using GitHub and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
 
 It does less than you think, because the sbt launcher does more than you think. More on that later.
 
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.1/conscript_2.11-0.5.1-proguard.jar
+  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.2/conscript_2.11-0.5.2-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Installing conscript
@@ -33,7 +33,7 @@ There are three methods of installation available
 Download the conscript [runnable jar][runnable]. On most OSes you can run it by double-clicking, but if that doesn't work you can also run it from the command line.
 
 ```
-$ java -jar conscript_2.11-0.5.1-proguard.jar
+$ java -jar conscript_2.11-0.5.2-proguard.jar
 ```
 
 A "splash screen" will appear during installation. Don't close it until you see a message that `cs` was installed, or that something went wrong.
@@ -55,7 +55,7 @@ Using conscript
 ---------------
 
 The main thing you do with conscript is install and update commands based on `launchconfig`.
-`launchconfig` files are stored in Github projects, which you pass into the `cs` command.
+`launchconfig` files are stored in GitHub projects, which you pass into the `cs` command.
 For example, this installs the giter8 templating system:
 
 ```
@@ -68,7 +68,7 @@ $ cs foundweekends/giter8
 $ cs foundweekends/giter8/0.2.1
 ```
 
-Project owners may also decide to push pre-release or other alternate `launchconfig` to different branches on Github. Use can tell conscript read `launchconfig`s from another branch with the `--branch` or `-b` option.
+Project owners may also decide to push pre-release or other alternate `launchconfig` to different branches on GitHub. Use can tell conscript read `launchconfig`s from another branch with the `--branch` or `-b` option.
 
 ```
 $ cs foundweekends/giter8 --branch staging
@@ -93,7 +93,7 @@ you think. What?
 
 <br>**What conscript does:**
 
-- Queries a Github project for `launchconfig`s (launcher configurations)
+- Queries a GitHub project for `launchconfig`s (launcher configurations)
 - Copies `launchconfig`s to your local filesystem, with a personalized boot path
 - Creates scripts to execute the launch configurations
 
@@ -109,7 +109,7 @@ Suppose you've configured `$CONSCRIPT_HOME` to `$HOME/.conscript`.
 
 Then `$CONSCRIPT_HOME/boot` is used as a boot directory for
 all.
-App `launchconfig`s are stored according to the Github
+App `launchconfig`s are stored according to the GitHub
 project name and the script name, such as:
 
     $CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
@@ -144,7 +144,7 @@ $ cs --auth yourname:yourpass
 
 This stores an access token in `~/.conscript/config` which is used for
 all future `cs` invocations. You can revoke tokens at any time in your
-[Github account settings][tokens].
+[GitHub account settings][tokens].
 
 The sbt launcher can access **private Maven/Ivy repos** just as sbt
 itself can. Specify a credentials properties file, such as
@@ -167,7 +167,7 @@ The `ConscriptPlugin` makes these easier to build and test.
 Add this to the following `project/conscript.sbt`:
 
 ```scala
-addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.1")
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.2")
 ```
 
 Next enable `ConscriptPlugin` on the app subproject in `build.sbt`:
@@ -217,7 +217,7 @@ Next, add your sbt `launchconfig` file to `src/main/conscript/XYZ/launchconfig` 
   name: hello
   class: example.HelloApp
 [scala]
-  version: 2.11.9
+  version: 2.11.8
 [repositories]
   local
   maven-central
@@ -246,12 +246,12 @@ You can test the app by calling `csRun XYZ` command.
 Conscripted apps
 ----------------
 
-Because conscipt uses a known path `/src/main/conscript/` on Github, we can [search][search] the Github repos to discover conscripted apps.
+Because conscipt uses a known path `/src/main/conscript/` on GitHub, we can [search][search] the GitHub repos to discover conscripted apps.
 
 Let us know if you've written a conscripted app.
 
 - [foundweekends/conscript](https://github.com/foundweekends/conscript). conscript itself is a conscripted app.
-- [foundweekends/giter8](https://github.com/foundweekends/giter8). giter8 is a tool to apply templated hosted on Github.
+- [foundweekends/giter8](https://github.com/foundweekends/giter8). giter8 is a tool to apply templated hosted on GitHub.
 - [foundweekends/pamflet](https://github.com/foundweekends/pamflet). A publishing application for short texts.
 - [sbt/sbt](https://github.com/sbt/sbt). sbt provides apps for `sbt`, `scalas` ([sbt Script runner][scriptrunner]), and `screpl`.
 - [n8han/herald](https://github.com/n8han/herald). Tell the world about your latest software release.

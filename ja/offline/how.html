@@ -41,7 +41,7 @@
           <div class="span-16 prepend-1 append-1 contents">
             <h2 id="Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">Conscript の仕組み<a href="#Conscript+%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は思ったよりも<strong>少ない</strong>ことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。何を言っているんだ?
 </p><p><br><strong>conscript が行うこと:</strong>
-</p><ul><li>Github プロジェクトに <code>launchconfig</code> (ランチャー設定ファイル) があるかを問い合わせる。
+</p><ul><li>GitHub プロジェクトに <code>launchconfig</code> (ランチャー設定ファイル) があるかを問い合わせる。
 </li><li><code>launchconfig</code> をローカルのファイルシステムにコピーして、boot path の設定を書き換える。
 </li><li>ランチャー設定ファイルにもとづいて起動させるためのスクリプトを作成する。
 </li></ul><p><strong>sbt ランチャーが行うこと:</strong>
@@ -51,7 +51,7 @@
 </li></ul><p>conscript は、要するに sbt ランチャー周りの慣用を決め打ちして使いやすくしただけにすぎない。
 例えば、<code>$CONSCRIPT_HOME</code> をデフォルトどおり <code>$HOME/.conscript</code> に設定したとする。
 </p><p>全ての conscript アプリの boot ディレクトリとして <code>$CONSCRIPT_HOME/boot</code> が使用される。
-アプリの <code>launchconfig</code> は、Github プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
+アプリの <code>launchconfig</code> は、GitHub プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
 </p><pre><code>$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 </code></pre><p>最後に、その <code>launchconfig</code> を参照するシェルスクリプトが、<code>$CONSCRIPT_BIN</code> (デフォルト <code>$CONSCRIPT_HOME/bin</code>) 以下に作成される。
 例えば、<code>~/.conscript/bin/cs</code> という感じになる。

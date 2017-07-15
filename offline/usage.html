@@ -40,12 +40,12 @@
         <div class="container contentswrapper">
           <div class="span-16 prepend-1 append-1 contents">
             <h2 id="Using+conscript">Using conscript<a href="#Using+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>The main thing you do with conscript is install and update commands based on <code>launchconfig</code>.
-<code>launchconfig</code> files are stored in Github projects, which you pass into the <code>cs</code> command.
+<code>launchconfig</code> files are stored in GitHub projects, which you pass into the <code>cs</code> command.
 For example, this installs the giter8 templating system:
 </p><pre><code class="">$ cs foundweekends/giter8
 </code></pre><p><code>launchconfig</code>s specify a version of the app to use, but you can override that by specifying an explicit version with another slash:
 </p><pre><code class="">$ cs foundweekends/giter8/0.2.1
-</code></pre><p>Project owners may also decide to push pre-release or other alternate <code>launchconfig</code> to different branches on Github. Use can tell conscript read <code>launchconfig</code>s from another branch with the <code>--branch</code> or <code>-b</code> option.
+</code></pre><p>Project owners may also decide to push pre-release or other alternate <code>launchconfig</code> to different branches on GitHub. Use can tell conscript read <code>launchconfig</code>s from another branch with the <code>--branch</code> or <code>-b</code> option.
 </p><pre><code class="">$ cs foundweekends/giter8 --branch staging
 </code></pre><h3 id="Cleaning+boot+directory">Cleaning boot directory<a href="#Cleaning+boot+directory" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If at some point your conscript boot directory contains stale/suspect artifacts such as snapshot releases, you can clean it:
 </p><pre><code class="">$ cs --clean-boot

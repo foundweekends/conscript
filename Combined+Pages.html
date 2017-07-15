@@ -43,7 +43,7 @@
       <a name="toc"></a>
       <h4 class="toctitle">Contents</h4>
       <div class="tocbody">
-      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Installing+conscript">Installing conscript</a></div></li><li><div><a href="#Using+conscript">Using conscript</a></div></li><li><div><a href="#How+does+conscript+work%3F">How does conscript work?</a></div></li><li><div><a href="#Private+repositories">Private repositories</a></div></li><li><div><a href="#Making+a+conscripted+app">Making a conscripted app</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript is a distribution mechanism for Scala apps using Github and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
+      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Installing+conscript">Installing conscript</a></div></li><li><div><a href="#Using+conscript">Using conscript</a></div></li><li><div><a href="#How+does+conscript+work%3F">How does conscript work?</a></div></li><li><div><a href="#Private+repositories">Private repositories</a></div></li><li><div><a href="#Making+a+conscripted+app">Making a conscripted app</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript is a distribution mechanism for Scala apps using GitHub and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
 </p><p>It does less than you think, because the sbt launcher does more than you think. More on that later.
 </p><h2 id="Installing+conscript">Installing conscript<a href="#Installing+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><h3 id="Set+up+environment+variables">Set up environment variables<a href="#Set+up+environment+variables" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Depending on your OS the format might be different, but set up the following three environment variables.
 </p><pre><code>export CONSCRIPT_HOME=&quot;$HOME/.conscript&quot;
@@ -61,12 +61,12 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
 </code></pre><h3 id="Windows">Windows<a href="#Windows" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you prefer, you can download the PowerShell <a href="https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1">script</a> and run it.
 </p><h2 id="Using+conscript">Using conscript<a href="#Using+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>The main thing you do with conscript is install and update commands based on <code>launchconfig</code>.
-<code>launchconfig</code> files are stored in Github projects, which you pass into the <code>cs</code> command.
+<code>launchconfig</code> files are stored in GitHub projects, which you pass into the <code>cs</code> command.
 For example, this installs the giter8 templating system:
 </p><pre><code class="">$ cs foundweekends/giter8
 </code></pre><p><code>launchconfig</code>s specify a version of the app to use, but you can override that by specifying an explicit version with another slash:
 </p><pre><code class="">$ cs foundweekends/giter8/0.2.1
-</code></pre><p>Project owners may also decide to push pre-release or other alternate <code>launchconfig</code> to different branches on Github. Use can tell conscript read <code>launchconfig</code>s from another branch with the <code>--branch</code> or <code>-b</code> option.
+</code></pre><p>Project owners may also decide to push pre-release or other alternate <code>launchconfig</code> to different branches on GitHub. Use can tell conscript read <code>launchconfig</code>s from another branch with the <code>--branch</code> or <code>-b</code> option.
 </p><pre><code class="">$ cs foundweekends/giter8 --branch staging
 </code></pre><h3 id="Cleaning+boot+directory">Cleaning boot directory<a href="#Cleaning+boot+directory" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If at some point your conscript boot directory contains stale/suspect artifacts such as snapshot releases, you can clean it:
 </p><pre><code class="">$ cs --clean-boot
@@ -74,7 +74,7 @@ For example, this installs the giter8 templating system:
 </p><h2 id="How+does+conscript+work%3F">How does conscript work?<a href="#How+does+conscript+work%3F" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Conscript does <em>less</em> than you think, because the sbt launcher does more than
 you think. What?
 </p><p><br><strong>What conscript does:</strong>
-</p><ul><li>Queries a Github project for <code>launchconfig</code>s (launcher configurations)
+</p><ul><li>Queries a GitHub project for <code>launchconfig</code>s (launcher configurations)
 </li><li>Copies <code>launchconfig</code>s to your local filesystem, with a personalized boot path
 </li><li>Creates scripts to execute the launch configurations
 </li></ul><p><strong>What sbt launcher does:</strong>
@@ -86,7 +86,7 @@ it.
 Suppose you’ve configured <code>$CONSCRIPT_HOME</code> to <code>$HOME/.conscript</code>.
 </p><p>Then <code>$CONSCRIPT_HOME/boot</code> is used as a boot directory for
 all.
-App <code>launchconfig</code>s are stored according to the Github
+App <code>launchconfig</code>s are stored according to the GitHub
 project name and the script name, such as:
 </p><pre><code>$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 </code></pre><p>And finally, shell scripts are created in <code>$CONSCRIPT_BIN</code>
@@ -102,7 +102,7 @@ java -jar /Users/foo/.conscript/sbt-launch.jar \
 </p><pre><code class="">$ cs --auth yourname:yourpass
 </code></pre><p>This stores an access token in <code>~/.conscript/config</code> which is used for
 all future <code>cs</code> invocations. You can revoke tokens at any time in your
-<a href="https://github.com/settings/applications">Github account settings</a>.
+<a href="https://github.com/settings/applications">GitHub account settings</a>.
 </p><p>The sbt launcher can access <strong>private Maven/Ivy repos</strong> just as sbt
 itself can. Specify a credentials properties file, such as
 <code>~/.ivy2/.credentials</code>, in the <code>sbt.boot.credentials</code> JVM property or
@@ -153,10 +153,10 @@ class HelloApp extends xsbti.AppMain {
 Here is the Bintray repo for foundweekends for example.
 </p><pre><code class="">  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
 </code></pre><h3 id="csRun">csRun<a href="#csRun" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can test the app by calling <code>csRun XYZ</code> command.
-</p><h2 id="Conscripted+apps">Conscripted apps<a href="#Conscripted+apps" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Because conscipt uses a known path <code>/src/main/conscript/</code> on Github, we can <a href="https://github.com/search?o=desc&amp;q=+path%3Asrc%2Fmain%2Fconscript++org&amp;ref=searchresults&amp;s=indexed&amp;type=Code&amp;utf8=%E2%9C%93">search</a> the Github repos to discover conscripted apps.
+</p><h2 id="Conscripted+apps">Conscripted apps<a href="#Conscripted+apps" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Because conscipt uses a known path <code>/src/main/conscript/</code> on GitHub, we can <a href="https://github.com/search?o=desc&amp;q=+path%3Asrc%2Fmain%2Fconscript++org&amp;ref=searchresults&amp;s=indexed&amp;type=Code&amp;utf8=%E2%9C%93">search</a> the GitHub repos to discover conscripted apps.
 </p><p>Let us know if you’ve written a conscripted app.
 </p><ul><li><a href="https://github.com/foundweekends/conscript">foundweekends/conscript</a>. conscript itself is a conscripted app.
-</li><li><a href="https://github.com/foundweekends/giter8">foundweekends/giter8</a>. giter8 is a tool to apply templated hosted on Github.
+</li><li><a href="https://github.com/foundweekends/giter8">foundweekends/giter8</a>. giter8 is a tool to apply templated hosted on GitHub.
 </li><li><a href="https://github.com/foundweekends/pamflet">foundweekends/pamflet</a>. A publishing application for short texts.
 </li><li><a href="https://github.com/sbt/sbt">sbt/sbt</a>. sbt provides apps for <code>sbt</code>, <code>scalas</code> (<a href="http://www.scala-sbt.org/0.13/docs/Scripts.html">sbt Script runner</a>), and <code>screpl</code>.
 </li><li><a href="https://github.com/n8han/herald">n8han/herald</a>. Tell the world about your latest software release.

@@ -39,11 +39,11 @@
           </a>
         <div class="container contentswrapper">
           <div class="span-16 prepend-1 append-1 contents">
-            <h2 id="%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ<a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は Github の <a href="http://developer.github.com/v3/oauth/#create-a-new-authorization">非 web アプリ</a>用の OAuth フローを使うことで、プライベートな Github リポジトリもサポートしている。
+            <h2 id="%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">プライベート・リポジトリ<a href="#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%BB%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript は GitHub の <a href="http://developer.github.com/v3/oauth/#create-a-new-authorization">非 web アプリ</a>用の OAuth フローを使うことで、プライベートな GitHub リポジトリもサポートしている。
 </p><p>認証して、永久トークンを保存するには、<code>--auth</code> オプションを使う:
 </p><pre><code class="">$ cs --auth yourname:yourpass
 </code></pre><p>これは、アクセス・トークンを <code>~/.conscript/config</code> に保存して、以降全ての
-<code>cs</code> 実行時に用いられる。このトークンは <a href="https://github.com/settings/applications">Github account settings</a> よりいつでも取り消すことができる。
+<code>cs</code> 実行時に用いられる。このトークンは <a href="https://github.com/settings/applications">GitHub account settings</a> よりいつでも取り消すことができる。
 </p><p>sbt ランチャーは、sbt 本体同様にプライベートな Maven もしくは Ivy リポジトリをアクセスすることができる。
 <code>~/.ivy2/.credentials</code> などの credential プロパティファイルを <code>sbt.boot.credentials</code> JVM プロパティもしくは、<code>SBT_CREDENTIALS</code> 環境変数にて指定する。
 sbt ランチャーは、これらの認証情報を用いて realm

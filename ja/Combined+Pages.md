@@ -2,7 +2,7 @@
 Conscript
 =========
 
-Conscript は、Github と Maven リポジトリをインフラとして使った Scala アプリのための配信機構だ。APT や Home Brew のように、アプリのインストールや更新を行うことができる。
+Conscript は、GitHub と Maven リポジトリをインフラとして使った Scala アプリのための配信機構だ。APT や Home Brew のように、アプリのインストールや更新を行うことができる。
 
 多分思ったより少ないことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。それに関してはまた後で。
 
@@ -55,7 +55,7 @@ Conscript の使い方
 -----------------
 
 conscript を用いてやる主なことは `launchconfig` に基いて書かれているコマンドのインストールと更新だ。
-`launchconfig` ファイルは Github プロジェクトにて保存されていて、それを `cs` コマンドから指定する。
+`launchconfig` ファイルは GitHub プロジェクトにて保存されていて、それを `cs` コマンドから指定する。
 例えば、以下のようにして giter8 テンプレートシステムをインストールする:
 
 ```
@@ -92,7 +92,7 @@ conscript は思ったよりも**少ない**ことしか行わない。なぜな
 
 <br>**conscript が行うこと:**
 
-- Github プロジェクトに `launchconfig` (ランチャー設定ファイル) があるかを問い合わせる。
+- GitHub プロジェクトに `launchconfig` (ランチャー設定ファイル) があるかを問い合わせる。
 - `launchconfig` をローカルのファイルシステムにコピーして、boot path の設定を書き換える。
 - ランチャー設定ファイルにもとづいて起動させるためのスクリプトを作成する。
 
@@ -106,7 +106,7 @@ conscript は、要するに sbt ランチャー周りの慣用を決め打ち�
 例えば、`$CONSCRIPT_HOME` をデフォルトどおり `$HOME/.conscript` に設定したとする。
 
 全ての conscript アプリの boot ディレクトリとして `$CONSCRIPT_HOME/boot` が使用される。
-アプリの `launchconfig` は、Github プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
+アプリの `launchconfig` は、GitHub プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
 
     $CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 
@@ -129,7 +129,7 @@ java -jar /Users/foo/.conscript/sbt-launch.jar \
 プライベート・リポジトリ
 --------------------
 
-conscript は Github の [非 web アプリ][oauth]用の OAuth フローを使うことで、プライベートな Github リポジトリもサポートしている。
+conscript は GitHub の [非 web アプリ][oauth]用の OAuth フローを使うことで、プライベートな GitHub リポジトリもサポートしている。
 
 認証して、永久トークンを保存するには、`--auth` オプションを使う:
 
@@ -138,7 +138,7 @@ $ cs --auth yourname:yourpass
 ```
 
 これは、アクセス・トークンを `~/.conscript/config` に保存して、以降全ての
-`cs` 実行時に用いられる。このトークンは [Github account settings][tokens] よりいつでも取り消すことができる。
+`cs` 実行時に用いられる。このトークンは [GitHub account settings][tokens] よりいつでも取り消すことができる。
 
 sbt ランチャーは、sbt 本体同様にプライベートな Maven もしくは Ivy リポジトリをアクセスすることができる。
 `~/.ivy2/.credentials` などの credential プロパティファイルを `sbt.boot.credentials` JVM プロパティもしくは、`SBT_CREDENTIALS` 環境変数にて指定する。
