@@ -8,9 +8,14 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
+lazy val commonSettings = Seq(
+  crossSbtVersions := Seq("0.13.15", "1.0.0-M6")
+)
+
 lazy val root = (project in file(".")).
   enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin).
   settings(
+    commonSettings,
     updateLaunchconfig := {
       val mainClassName = (discoveredMainClasses in Compile).value match {
         case Seq(m) => m
@@ -156,12 +161,12 @@ lazy val root = (project in file(".")).
 lazy val plugin = (project in file("sbt-conscript")).
   enablePlugins(CrossPerProjectPlugin).
   settings(
+    commonSettings,
     name := "sbt-conscript",
     sbtPlugin := true,
     bintrayOrganization := Some("sbt"),
     bintrayRepository := "sbt-plugin-releases",
     bintrayPackage := "sbt-conscript",
-    crossSbtVersions := Seq("0.13.15", "1.0.0-M6"),
     ScriptedPlugin.scriptedSettings,
     ScriptedPlugin.scriptedBufferLog := false,
     // https://github.com/sbt/sbt/issues/3245
