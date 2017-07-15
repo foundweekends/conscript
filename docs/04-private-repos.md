@@ -19,7 +19,7 @@ To authenticate and store a permanent token, use the `--auth` parameter:
 
 This stores an access token in `~/.conscript/config` which is used for
 all future `cs` invocations. You can revoke tokens at any time in your
-[Github account settings][tokens].
+[GitHub account settings][tokens].
 
 The sbt launcher can access **private Maven/Ivy repos** just as sbt
 itself can. Specify a credentials properties file, such as

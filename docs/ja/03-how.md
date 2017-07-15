@@ -9,7 +9,7 @@ conscript は思ったよりも**少ない**ことしか行わない。なぜな
 
 <br>**conscript が行うこと:**
 
-- Github プロジェクトに `launchconfig` (ランチャー設定ファイル) があるかを問い合わせる。
+- GitHub プロジェクトに `launchconfig` (ランチャー設定ファイル) があるかを問い合わせる。
 - `launchconfig` をローカルのファイルシステムにコピーして、boot path の設定を書き換える。
 - ランチャー設定ファイルにもとづいて起動させるためのスクリプトを作成する。
 
@@ -23,7 +23,7 @@ conscript は、要するに sbt ランチャー周りの慣用を決め打ち�
 例えば、`\$CONSCRIPT_HOME` をデフォルトどおり `\$HOME/.conscript` に設定したとする。
 
 全ての conscript アプリの boot ディレクトリとして `\$CONSCRIPT_HOME/boot` が使用される。
-アプリの `launchconfig` は、Github プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
+アプリの `launchconfig` は、GitHub プロジェクト名とスクリプトの名前の両方にもとづいたパスに保存される。具体例で説明すると、
 
     \$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig
 

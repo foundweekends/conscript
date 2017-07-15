@@ -10,7 +10,7 @@
 conscript (`cs`) is moved to [foundweekends][fw], an organization for people who like coding in the weekend.
 
 conscript is a tool for installing and updating Scala apps.
-All you need is a Github account, a Bintray account, and some time in the weekend to start publishing your apps that can be used by others:
+All you need is a GitHub account, a Bintray account, and some time in the weekend to start publishing your apps that can be used by others:
 
     cs foundweekends/giter8
 
