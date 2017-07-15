@@ -8,7 +8,7 @@ out: private-repos.html
 プライベート・リポジトリ
 --------------------
 
-conscript は Github の [非 web アプリ][oauth]用の OAuth フローを使うことで、プライベートな Github リポジトリもサポートしている。
+conscript は GitHub の [非 web アプリ][oauth]用の OAuth フローを使うことで、プライベートな GitHub リポジトリもサポートしている。
 
 認証して、永久トークンを保存するには、`--auth` オプションを使う:
 
@@ -17,7 +17,7 @@ conscript は Github の [非 web アプリ][oauth]用の OAuth フローを使�
 ```
 
 これは、アクセス・トークンを `~/.conscript/config` に保存して、以降全ての
-`cs` 実行時に用いられる。このトークンは [Github account settings][tokens] よりいつでも取り消すことができる。
+`cs` 実行時に用いられる。このトークンは [GitHub account settings][tokens] よりいつでも取り消すことができる。
 
 sbt ランチャーは、sbt 本体同様にプライベートな Maven もしくは Ivy リポジトリをアクセスすることができる。
 `~/.ivy2/.credentials` などの credential プロパティファイルを `sbt.boot.credentials` JVM プロパティもしくは、`SBT_CREDENTIALS` 環境変数にて指定する。

@@ -10,7 +10,7 @@ you think. What?
 
 <br>**What conscript does:**
 
-- Queries a Github project for `launchconfig`s (launcher configurations)
+- Queries a GitHub project for `launchconfig`s (launcher configurations)
 - Copies `launchconfig`s to your local filesystem, with a personalized boot path
 - Creates scripts to execute the launch configurations
 
@@ -26,7 +26,7 @@ Suppose you've configured `\$CONSCRIPT_HOME` to `\$HOME/.conscript`.
 
 Then `\$CONSCRIPT_HOME/boot` is used as a boot directory for
 all.
-App `launchconfig`s are stored according to the Github
+App `launchconfig`s are stored according to the GitHub
 project name and the script name, such as:
 
     \$CONSCRIPT_HOME/foundweekends/conscript/cs/launchconfig

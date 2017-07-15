@@ -8,12 +8,12 @@ out: conscripted-apps.html
 Conscripted apps
 ----------------
 
-Because conscipt uses a known path `/src/main/conscript/` on Github, we can [search][search] the Github repos to discover conscripted apps.
+Because conscipt uses a known path `/src/main/conscript/` on GitHub, we can [search][search] the GitHub repos to discover conscripted apps.
 
 Let us know if you've written a conscripted app.
 
 - [foundweekends/conscript](https://github.com/foundweekends/conscript). conscript itself is a conscripted app.
-- [foundweekends/giter8](https://github.com/foundweekends/giter8). giter8 is a tool to apply templated hosted on Github.
+- [foundweekends/giter8](https://github.com/foundweekends/giter8). giter8 is a tool to apply templated hosted on GitHub.
 - [foundweekends/pamflet](https://github.com/foundweekends/pamflet). A publishing application for short texts.
 - [sbt/sbt](https://github.com/sbt/sbt). sbt provides apps for `sbt`, `scalas` ([sbt Script runner][scriptrunner]), and `screpl`.
 - [n8han/herald](https://github.com/n8han/herald). Tell the world about your latest software release.
