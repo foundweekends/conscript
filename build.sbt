@@ -142,9 +142,6 @@ lazy val root = (project in file(".")).
       IO.copy(mappings)
       repo
     },
-    // https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
-    // 1. generate token at https://github.com/settings/tokens/new
-    // 2. encrypt the token
     pushSiteIfChanged := (Def.taskDyn {
       val repo = baseDirectory.value
       val r = GitKeys.gitRunner.value
@@ -153,12 +150,7 @@ lazy val root = (project in file(".")).
       if (changed) ghkeys.pushSite
       else Def.task {}
     }).value,
-    git.remoteRepo := {
-      sys.env.get("GH_TOKEN") match {
-        case Some(token) => s"https://${token}@github.com/foundweekends/conscript.git"
-        case _           => "git@github.com:foundweekends/conscript.git"
-      }
-    }
+    git.remoteRepo := "git@github.com:foundweekends/conscript.git"
   )
 
 lazy val plugin = (project in file("sbt-conscript")).
@@ -227,8 +219,8 @@ def gitDocsChanged(dir: File, git: GitRunner, log: Logger): Boolean =
   }
 
 def gitConfig(dir: File, git: GitRunner, log: Logger): Unit =
-  sys.env.get("GH_TOKEN") match {
-    case Some(token) =>
+  sys.env.get("TRAVIS") match {
+    case Some(_) =>
       git(("config" :: "user.name" :: "Travis CI" :: Nil) :_*)(dir, log)
       git(("config" :: "user.email" :: "eed3si9n@gmail.com" :: Nil) :_*)(dir, log)
     case _           => ()

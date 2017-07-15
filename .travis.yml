@@ -3,7 +3,7 @@ sudo: false
 jdk: oraclejdk8
 env:
   global:
-    secure: TSTItMYGCn50C5QqBXCvDZJ5HxmUqT1UZ2pwyVrZU/JzWn3zftSMtsVnjX6RVWSMGZIFC+b9u08aJFcDt03zQpMjD9WmglebO5RIufxc2Tbk6wBevVDYduKaNoTD2J2U6JOs1Ff8QP6q7vNdBfUBN7exaaF4MCw0GsanqriQIeA=
+    secure: MbkM6or1WrmhoEqpW6P3zkMFDY0uWvN9WyA/zIfLVRnlwx7FR2x6eGzXUUYc8eGvWvngvWyePRfGr+PGTq4sVRUGK6xZ1CcQIg8o/puFV7Ghfxf2BAxJQWhZhg2fvwx04NtEKV9+gLhB8NF+XnHHN6ZQr3bbgWIgDYYea7Ckd5M=
 cache:
   directories:
   - "$HOME/.ivy2/cache"
@@ -14,6 +14,5 @@ before_cache:
 script:
 - sbt publishLocal test "project plugin" "^ scripted"
 - java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
-
 after_success:
-- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sbt pushSiteIfChanged
+- ./publish-site.sh
