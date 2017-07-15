@@ -54,8 +54,8 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </li><li>デフォルトでは conscript は起動スクリプトを <code>$CONSCRIPT_HOME/bin</code> 以下に作成する。<code>$CONSCRIPT_BIN</code> を使うことで、その場所を例えば <code>~/bin/</code> に変更できる。
 </li><li><code>PATH</code> は OS のパス変数だ。ここに <code>$CONSCRIPT_HOME/bin</code> もしくは　<code>$CONSCRIPT_BIN</code> を追加する必要がある。
 </li></ul><p>実際のインストールには 3通りの方法がある。
-</p><h3 id="%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">クロス・プラットフォーム<a href="#%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>conscript の<a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.1/conscript_2.11-0.5.1-proguard.jar">実行可能 jar</a> をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
-</p><pre><code class="">$ java -jar conscript_2.11-0.5.1-proguard.jar
+</p><h3 id="%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">クロス・プラットフォーム<a href="#%E3%82%AF%E3%83%AD%E3%82%B9%E3%83%BB%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>conscript の<a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.2/conscript_2.11-0.5.2-proguard.jar">実行可能 jar</a> をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
+</p><pre><code class="">$ java -jar conscript_2.11-0.5.2-proguard.jar
 </code></pre><p>インストール中は「スプラッシュ・スクリーン」が表示される。<code>cs</code> がインストールされたというメッセージが書かれるか、エラーメッセージが表示されるまでは閉じてはいけない。
 </p><h3 id="Linux%E3%80%81+Mac">Linux、 Mac<a href="#Linux%E3%80%81+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>好みによって、シェルスクリプトをパイプすることによってインストールすることもできる。
 </p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
@@ -104,7 +104,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 </p><h2 id="Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方<a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を使った独自アプリを作ってみよう。
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>ConscriptPlugin</code> を使ってアプリを作る方法をここでは紹介する。
 まずは以下を <code>project/concript.sbt</code> に書く:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.1&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.2&quot;)
 </code></pre><p>次に、<code>build.sbt</code> でアプリのためのサブプロジェクトで <code>ConscriptPlugin</code> を有効にする:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   enablePlugins(ConscriptPlugin).
@@ -138,7 +138,7 @@ class HelloApp extends xsbti.AppMain {
   name: hello
   class: example.HelloApp
 [scala]
-  version: 2.11.9
+  version: 2.11.8
 [repositories]
   local
   maven-central
