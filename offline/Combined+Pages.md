@@ -292,3 +292,4 @@ Let us know if you've written a conscripted app.
 - [paulmr/quiptic-to-puz](https://github.com/paulmr/quiptic-to-puz). Unofficial scraper for some specific crosswords.
 - [alexarchambault/artifact-app](https://github.com/alexarchambault/artifact-app). Run app from Ivy/maven modules.
 - [kazuhito-m/mindmeister2trello-importer](https://github.com/kazuhito-m/mindmeister2trello-importer). Mindmeister to Trello importer.
+- [xuwei-k/mima](https://github.com/xuwei-k/mima) conscript typesafe/migration-manager
