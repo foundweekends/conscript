@@ -9,7 +9,7 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 lazy val commonSettings = Seq(
-  crossSbtVersions := Seq("0.13.16", "1.0.0-RC3")
+  crossSbtVersions := Seq("0.13.16", "1.0.0")
 )
 
 lazy val root = (project in file(".")).
