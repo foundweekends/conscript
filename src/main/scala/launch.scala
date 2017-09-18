@@ -9,7 +9,7 @@ trait Launch extends Credentials {
   import scala.concurrent.ExecutionContext.Implicits.global
 
   val sbtlaunchalias = "sbt-launch.jar"
-  val sbtLauncherVersion = "1.0.0"
+  val sbtLauncherVersion = "1.0.1"
 
   def launchJar(display: Display): Either[String, String] =
       configdir(s"launcher-$sbtLauncherVersion.jar") match {
