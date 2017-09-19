@@ -40,7 +40,7 @@ java \$JAVA_OPTS -jar $CS/sbt-launch.jar @$CLC \"\$@\"" > "$BIN/cs"
 
 chmod a+x "$BIN/cs"
 
-LJV=1.0.0
+LJV=1.0.1
 LJ="launcher-$LJV.jar"
 
 # If launcher is not in configuration directory

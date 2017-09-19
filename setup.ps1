@@ -68,7 +68,7 @@ echo "
 echo "@echo off
 java %JAVA_OPTS% -jar $CS\sbt-launch.jar @file:\$CLC %*" | Out-File -Encoding "ASCII" "$BIN\cs.bat"
 
-$LJV = "1.0.0"
+$LJV = "1.0.1"
 $LJ = "launcher-$LJV.jar"
 
 # If launcher is not in configuration directory
