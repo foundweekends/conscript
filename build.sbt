@@ -13,7 +13,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file(".")).
-  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin).
+  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin, SbtProguard).
   settings(
     commonSettings,
     updateLaunchconfig := {
@@ -90,9 +90,8 @@ lazy val root = (project in file(".")).
       val old = (mappings in (Compile, packageSrc)).value
       old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
     },
-    proguardSettings,
-    ProguardKeys.proguardVersion in Proguard := "5.2.1",
-    ProguardKeys.options in Proguard ++= Seq(
+    proguardVersion in Proguard := "5.2.1",
+    proguardOptions in Proguard ++= Seq(
       "-keep class conscript.* { *; }",
       "-keep class dispatch.* { *; }",
       "-keep class com.ning.http.util.** { *; }",
@@ -104,23 +103,23 @@ lazy val root = (project in file(".")).
       "-dontobfuscate",
       "-dontoptimize"
       ),
-    ProguardKeys.inputs in Proguard := {
+    proguardInputs in Proguard := {
       ((fullClasspath in Compile).value.files ++ (fullClasspath in Runtime).value.files).distinct.filter { f =>
         // This is a dependency of the launcher interface. It may not be the version of scala
         // we're using at all, and we don't want it
         f.getName != "scala-library.jar"
       }
     },
-    ProguardKeys.defaultInputFilter in Proguard := None,
-    javaOptions in (Proguard, ProguardKeys.proguard) := Seq("-Xmx2G"),
-    ProguardKeys.outputs in Proguard := {
-      (ProguardKeys.proguardDirectory in Proguard).value / ("conscript-" + version.value + ".jar") :: Nil
+    proguardDefaultInputFilter in Proguard := None,
+    javaOptions in (Proguard, proguard) := Seq("-Xmx2G"),
+    proguardOutputs in Proguard := {
+      (proguardDirectory in Proguard).value / ("conscript-" + version.value + ".jar") :: Nil
     },
-    artifact in (Compile, ProguardKeys.proguard) := {
-      val art = (artifact in (Compile, ProguardKeys.proguard)).value
+    artifact in (Compile, proguard) := {
+      val art = (artifact in (Compile, proguard)).value
       art.copy(`classifier` = Some("proguard"))
     },
-    addArtifact(artifact in (Compile, ProguardKeys.proguard), (ProguardKeys.proguard in Proguard) map { xs => xs.head }),
+    addArtifact(artifact in (Compile, proguard), (proguard in Proguard) map { xs => xs.head }),
     buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
