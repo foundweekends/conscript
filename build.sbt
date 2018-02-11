@@ -1,5 +1,4 @@
 import Dependencies._
-import com.typesafe.sbt.SbtGhPages.{ghpages, GhPagesKeys => ghkeys}
 import com.typesafe.sbt.SbtGit.{git, GitKeys}
 import com.typesafe.sbt.git.GitRunner
 import ReleaseTransformations._
@@ -13,7 +12,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file(".")).
-  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin, SbtProguard).
+  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin, SbtProguard, GhpagesPlugin).
   settings(
     commonSettings,
     updateLaunchconfig := {
@@ -124,7 +123,6 @@ lazy val root = (project in file(".")).
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    ghpages.settings,
     sourceDirectory in Pamflet := { baseDirectory.value / "docs" },
     // GitKeys.gitBranch in ghkeys.updatedRepository := Some("gh-pages"),
     // This task is responsible for updating the master branch on some temp dir.
@@ -133,9 +131,9 @@ lazy val root = (project in file(".")).
     //
     // This task's job is to call "git rm" on files and directories that this project owns
     // and then copy over the newly generated files.
-    ghkeys.synchLocal := {
+    ghpagesSynchLocal := {
       // sync the generated site
-      val repo = ghkeys.updatedRepository.value
+      val repo = ghpagesUpdatedRepository.value
       val s = streams.value
       val r = GitKeys.gitRunner.value
       gitConfig(repo, r, s.log)
@@ -151,7 +149,7 @@ lazy val root = (project in file(".")).
       val r = GitKeys.gitRunner.value
       val s = streams.value
       val changed = gitDocsChanged(repo, r, s.log)
-      if (changed) ghkeys.pushSite
+      if (changed) ghpagesPushSite
       else Def.task {}
     }).value,
     git.remoteRepo := "git@github.com:foundweekends/conscript.git"
