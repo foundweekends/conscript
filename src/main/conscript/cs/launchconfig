@@ -4,7 +4,7 @@
   name: conscript
   class: conscript.Conscript
 [scala]
-  version: 2.11.8
+  version: 2.11.12
 [repositories]
   local
   foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
