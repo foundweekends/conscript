@@ -212,7 +212,7 @@ class HelloApp extends xsbti.AppMain {
   name: hello
   class: example.HelloApp
 [scala]
-  version: 2.11.8
+  version: 2.11.12
 [repositories]
   local
   maven-central
