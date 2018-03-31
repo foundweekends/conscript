@@ -45,10 +45,10 @@ trait Launch extends Credentials {
       }
   }
 
-  implicit def str2paths(a: String) = new {
+  implicit class Str2paths(a: String) {
     def / (b: String): String = a + File.separatorChar + b
   }
-  implicit def file2paths(parent: File) = new {
+  implicit class File2paths(parent: File) {
     def / (b: String): File = new File(parent, b)
   }
   def forceslash(a: String) =
