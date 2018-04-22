@@ -77,7 +77,7 @@ To learn more about the `launchconfig`, see [sbt Launcher][sbtlauncher] section 
 
 ### Bintray
 
-You can add arbitray repositories to the repositories section, including a Bintray Maven repo.
+You can add arbitrary repositories to the repositories section, including a Bintray Maven repo.
 Here is the Bintray repo for foundweekends for example.
 
 ```
