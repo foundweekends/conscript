@@ -80,7 +80,7 @@ object Clean extends OsDetect {
 
   private def cleanRec(file:File):Option[String] =
     if (file.isDirectory)
-      (Option.empty[String] /: file.listFiles) { (a, f) =>
+      file.listFiles.foldLeft(Option.empty[String]) { (a, f) =>
         a orElse cleanRec(f)
       } .orElse(delete(file))
     else delete(file)
