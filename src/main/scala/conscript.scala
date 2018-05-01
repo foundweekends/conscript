@@ -151,10 +151,10 @@ object Conscript {
     {
       val f = Github.lookup(user, repo, branch).map { result =>
         result.right.flatMap { scripts =>
-          ((Right(""): Either[String,String]) /: scripts) {
+          scripts.foldLeft(Right(""): Either[String,String]) {
             case (either, (name, launch)) =>
               either.right.flatMap { cur =>
-                val modLaunch = (launch /: configoverrides) {_ update _}
+                val modLaunch = configoverrides.foldLeft(launch) {_ update _}
                 Apply.config(user, repo, name, modLaunch, shouldExec).right.map {
                   cur + "\n" +  _
                 }
