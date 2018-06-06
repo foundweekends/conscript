@@ -155,6 +155,11 @@ lazy val root = (project in file(".")).
     git.remoteRepo := "git@github.com:foundweekends/conscript.git"
   )
 
+lazy val javaVmArgs: List[String] = {
+  import scala.collection.JavaConverters._
+  java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
+}
+
 lazy val plugin = (project in file("sbt-conscript")).
   enablePlugins(CrossPerProjectPlugin).
   settings(
@@ -166,7 +171,7 @@ lazy val plugin = (project in file("sbt-conscript")).
     bintrayPackage := "sbt-conscript",
     ScriptedPlugin.scriptedSettings,
     ScriptedPlugin.scriptedBufferLog := false,
-    scriptedLaunchOpts ++= sys.process.javaVmArguments.filter(
+    scriptedLaunchOpts ++= javaVmArgs.filter(
       a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
     ),
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
