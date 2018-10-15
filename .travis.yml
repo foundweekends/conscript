@@ -1,6 +1,5 @@
 language: scala
 sudo: false
-jdk: oraclejdk8
 env:
   global:
     secure: MbkM6or1WrmhoEqpW6P3zkMFDY0uWvN9WyA/zIfLVRnlwx7FR2x6eGzXUUYc8eGvWvngvWyePRfGr+PGTq4sVRUGK6xZ1CcQIg8o/puFV7Ghfxf2BAxJQWhZhg2fvwx04NtEKV9+gLhB8NF+XnHHN6ZQr3bbgWIgDYYea7Ckd5M=
@@ -11,8 +10,14 @@ cache:
 before_cache:
 - find $HOME/.sbt -name "*.lock" | xargs rm
 - find $HOME/.ivy2/cache -name "ivydata-*.properties" | xargs rm
-script:
-- sbt publishLocal test "project plugin" "^ scripted"
-- java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
+matrix:
+  include:
+  - jdk: oraclejdk8
+    script:
+    - sbt publishLocal test "project plugin" "^ scripted"
+    - java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
+  - jdk: openjdk11
+    script:
+    - sbt test # TODO https://github.com/sbt/sbt-proguard/issues/33
 after_success:
 - ./publish-site.sh
