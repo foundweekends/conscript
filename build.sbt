@@ -166,6 +166,14 @@ lazy val plugin = (project in file("sbt-conscript")).
     commonSettings,
     name := "sbt-conscript",
     sbtPlugin := true,
+    scalaVersion := {
+      VersionNumber((sbtBinaryVersion in pluginCrossBuild).value) match {
+        case VersionNumber(Seq(0, 13, _*), _, _) =>
+          "2.10.7"
+        case _ =>
+          "2.12.7"
+      }
+    },
     bintrayOrganization := Some("sbt"),
     bintrayRepository := "sbt-plugin-releases",
     bintrayPackage := "sbt-conscript",
