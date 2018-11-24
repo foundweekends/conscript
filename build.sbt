@@ -41,7 +41,7 @@ lazy val root = (project in file(".")).
       val r = GitKeys.gitRunner.value
       val s = streams.value.log
       r("add", f.getAbsolutePath)(baseDirectory.value, s)
-      r("commit", "-m", "update " + f)(baseDirectory.value, s)
+      r("commit", "-m", "update " + f.getName)(baseDirectory.value, s)
       f
     },
     releaseProcess := Seq[ReleaseStep](
