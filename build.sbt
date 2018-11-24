@@ -40,7 +40,7 @@ lazy val root = (project in file(".")).
       IO.write(f, launchconfig)
       val r = GitKeys.gitRunner.value
       val s = streams.value.log
-      r("add", f.getName)(baseDirectory.value, s)
+      r("add", f.getAbsolutePath)(baseDirectory.value, s)
       r("commit", "-m", "update " + f)(baseDirectory.value, s)
       f
     },
