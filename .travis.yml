@@ -17,6 +17,7 @@ matrix:
     - sbt publishLocal test "project plugin" "^ scripted"
     - java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
   - jdk: openjdk11
+    dist: xenial
     script:
     - sbt test # TODO https://github.com/sbt/sbt-proguard/issues/33
 after_success:
