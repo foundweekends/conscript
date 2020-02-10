@@ -33,7 +33,6 @@ lazy val root = (project in file(".")).
       |[repositories]
       |  local
       |  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
-      |  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
       |  maven-central
       |""".stripMargin
       val f = (baseDirectory in ThisBuild).value / "src/main/conscript/cs/launchconfig"

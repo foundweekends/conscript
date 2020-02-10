@@ -72,7 +72,6 @@ class HelloApp extends xsbti.AppMain {
 [repositories]
   local
   maven-central
-  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
 ```
 
 `launchconfig` に関する詳細は sbt レファレンス・マニュアルの　[sbt Launcher][sbtlauncher] の項目を参照。

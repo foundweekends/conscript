@@ -70,7 +70,6 @@ Next, add your sbt `launchconfig` file to `src/main/conscript/XYZ/launchconfig` 
 [repositories]
   local
   maven-central
-  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
 ```
 
 To learn more about the `launchconfig`, see [sbt Launcher][sbtlauncher] section of the sbt Reference Manual.
