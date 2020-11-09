@@ -90,7 +90,7 @@ object Github extends Credentials {
     return req
   }
 
-  val errorStatusesToMessages: (Throwable) ⇒ String = {
+  val errorStatusesToMessages: (Throwable) => String = {
     case StatusCode(404) => "Repository not found on github"
     case StatusCode(403) =>
       """Github responded with HTTP 403 Forbidden.
