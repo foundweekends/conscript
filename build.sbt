@@ -39,8 +39,8 @@ lazy val root = (project in file(".")).
       IO.write(f, launchconfig)
       val r = GitKeys.gitRunner.value
       val s = streams.value.log
-      r("add", f.getAbsolutePath)(baseDirectory.value, s)
-      r("commit", "-m", "update " + f.getName)(baseDirectory.value, s)
+      r("add", f.getAbsolutePath)((baseDirectory in LocalRootProject).value, s)
+      r("commit", "-m", "update " + f.getName)((baseDirectory in LocalRootProject).value, s)
       f
     },
     releaseProcess := Seq[ReleaseStep](
@@ -122,7 +122,7 @@ lazy val root = (project in file(".")).
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    sourceDirectory in Pamflet := { baseDirectory.value / "docs" },
+    sourceDirectory in Pamflet := { (baseDirectory in LocalRootProject).value / "docs" },
     // GitKeys.gitBranch in ghkeys.updatedRepository := Some("gh-pages"),
     // This task is responsible for updating the master branch on some temp dir.
     // On the branch there are files that was generated in some other ways such as:
@@ -143,7 +143,7 @@ lazy val root = (project in file(".")).
       repo
     },
     pushSiteIfChanged := (Def.taskDyn {
-      val repo = baseDirectory.value
+      val repo = (baseDirectory in LocalRootProject).value
       val r = GitKeys.gitRunner.value
       val s = streams.value
       val changed = gitDocsChanged(repo, r, s.log)
