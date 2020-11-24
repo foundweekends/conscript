@@ -1,0 +1,38 @@
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+  - cron: '0 11 * * *'
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - java: 8
+          - java: 11
+    steps:
+    - uses: olafurpg/setup-scala@v10
+      with:
+        java-version: "adopt@1.${{ matrix.java }}"
+    - uses: actions/checkout@v2.3.4
+    - uses: coursier/cache-action@v5
+    - run: sbt -v test
+    - if: ${{ matrix.java == 8 }} # TODO https://github.com/sbt/sbt-proguard/issues/33
+      run: |
+        sbt -v publishLocal "project plugin" "^ scripted" &&
+        java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
+    - uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY_1 }}
+    - name: Push to gh-pages
+      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.java == 8 }}
+      run: |
+        git config --global user.email "74864734+foundweekends-bot[bot]@users.noreply.github.com"
+        git config --global user.name "foundweekends-bot[bot]"
+        # https://github.com/sbt/sbt-ghpages/commit/cbedd8edb8
+        export SBT_GHPAGES_COMMIT_MESSAGE="auto commit on CI https://github.com/foundweekends/conscript/commit/${{ github.sha }}"
+        sbt -v pushSiteIfChanged

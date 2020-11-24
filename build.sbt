@@ -135,7 +135,6 @@ lazy val root = (project in file(".")).
       val repo = ghpagesUpdatedRepository.value
       val s = streams.value
       val r = GitKeys.gitRunner.value
-      gitConfig(repo, r, s.log)
       gitRemoveFiles(repo, (repo * "*.html").get.toList, r, s)
       val mappings =  for {
         (file, target) <- siteMappings.value
@@ -199,12 +198,4 @@ def gitDocsChanged(dir: File, git: GitRunner, log: Logger): Boolean =
     }
     val stat = git(("diff" :: "--shortstat" :: range :: "docs" :: Nil) :_*)(dir, log)
     stat.trim.nonEmpty
-  }
-
-def gitConfig(dir: File, git: GitRunner, log: Logger): Unit =
-  sys.env.get("TRAVIS") match {
-    case Some(_) =>
-      git(("config" :: "user.name" :: "Travis CI" :: Nil) :_*)(dir, log)
-      git(("config" :: "user.email" :: "eed3si9n@gmail.com" :: Nil) :_*)(dir, log)
-    case _           => ()
   }
