@@ -196,6 +196,6 @@ def gitDocsChanged(dir: File, git: GitRunner, log: Logger): Boolean =
       case Some(x) => x
       case _       => "HEAD^..HEAD"
     }
-    val stat = git(("diff" :: "--shortstat" :: range :: "docs" :: Nil) :_*)(dir, log)
+    val stat = git(("diff" :: "--shortstat" :: range :: "--" :: "docs" :: Nil) :_*)(dir, log)
     stat.trim.nonEmpty
   }
