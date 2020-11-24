@@ -44,7 +44,7 @@
             <h2 id="Making+a+conscripted+app">Making a conscripted app<a href="#Making+a+conscripted+app" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>We hope you’ll make your own apps that use conscript.
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The <code>ConscriptPlugin</code> makes these easier to build and test.
 Add this to the following <code>project/conscript.sbt</code>:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.2&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.3&quot;)
 </code></pre><p>Next enable <code>ConscriptPlugin</code> on the app subproject in <code>build.sbt</code>:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   enablePlugins(ConscriptPlugin).
@@ -80,7 +80,6 @@ class HelloApp extends xsbti.AppMain {
 [repositories]
   local
   maven-central
-  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
 </code></pre><p>To learn more about the <code>launchconfig</code>, see <a href="http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html">sbt Launcher</a> section of the sbt Reference Manual.
 </p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can add arbitrary repositories to the repositories section, including a Bintray Maven repo.
 Here is the Bintray repo for foundweekends for example.

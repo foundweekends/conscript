@@ -44,7 +44,7 @@
             <h2 id="Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9">Conscripted app の作り方<a href="#Conscripted+app+%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>conscript を使った独自アプリを作ってみよう。
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>ConscriptPlugin</code> を使ってアプリを作る方法をここでは紹介する。
 まずは以下を <code>project/concript.sbt</code> に書く:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.2&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.3&quot;)
 </code></pre><p>次に、<code>build.sbt</code> でアプリのためのサブプロジェクトで <code>ConscriptPlugin</code> を有効にする:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   enablePlugins(ConscriptPlugin).
@@ -82,7 +82,6 @@ class HelloApp extends xsbti.AppMain {
 [repositories]
   local
   maven-central
-  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
 </code></pre><p><code>launchconfig</code> に関する詳細は sbt レファレンス・マニュアルの　<a href="http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html">sbt Launcher</a> の項目を参照。
 </p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>repositories の項目には、Bintray を使った Maven リポジトリを含む任意のリポジトリを追加できる。
 例えば、foundweekends の Bintray リポジトリの設定は以下のようになっている。
