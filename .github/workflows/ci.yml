@@ -38,11 +38,11 @@ jobs:
         fetch-depth: 10
     - uses: coursier/cache-action@v5
     - uses: webfactory/ssh-agent@v0.4.1
-      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.java == 8 }}
+      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY_1 }}
     - name: Push to gh-pages
-      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.java == 8 }}
+      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       run: |
         git config --global user.email "74864734+foundweekends-bot[bot]@users.noreply.github.com"
         git config --global user.name "foundweekends-bot[bot]"
