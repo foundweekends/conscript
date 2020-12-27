@@ -5,6 +5,15 @@ on:
   schedule:
   - cron: '0 11 * * *'
 jobs:
+  setup_script_unix:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - uses: olafurpg/setup-scala@v10
+      with:
+        java-version: "adopt@1.8"
+    - uses: actions/checkout@v2.3.4
+    - run: ./setup.sh
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -26,7 +35,7 @@ jobs:
         sbt -v publishLocal "project plugin" "^ scripted" &&
         java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
   push_gh_pages:
-    needs: test
+    needs: [test, setup_script_unix]
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
