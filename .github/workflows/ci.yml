@@ -14,6 +14,7 @@ jobs:
         java-version: "adopt@1.8"
     - uses: actions/checkout@v2.3.4
     - run: ./setup.sh
+    - run: ~/.conscript/bin/cs --version
   setup_script_windows:
     timeout-minutes: 10
     runs-on: windows-latest
