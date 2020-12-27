@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Tue Nov 24 16:48:36 UTC 2020
+# Sun Dec 27 02:04:40 UTC 2020
 css/custom.css
 index.html
 setup.html
@@ -10,23 +10,22 @@ making-app.html
 conscripted-apps.html
 Contents+in+Depth.html
 Combined+Pages.html
-files/conscript.png
 files/conscript.svg
+files/conscript.png
 favicon.ico
 img/fork.png
 img/twitter-bird-dark-bgs.png
+css/bootstrap.min.css
+css/bootstrap.min.css.map
 css/pamflet.css
 css/pamflet-grid.css
 css/pamflet-print.css
 css/color_scheme-redmond.css
 css/color_scheme-github.css
 css/color_scheme-monokai.css
-css/blueprint/screen.css
-css/blueprint/grid.css
-css/blueprint/print.css
-css/blueprint/ie.css
-js/jquery-1.6.2.min.js
-js/jquery.collapse.js
+js/bootstrap.bundle.min.js
+js/bootstrap.bundle.min.js.map
+js/jquery-3.3.1.min.js
 js/pamflet.js
 css/prettify.css
 js/prettify/prettify.js

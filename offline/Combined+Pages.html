@@ -5,12 +5,7 @@
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <title>Conscript — Combined Pages</title>
         <link rel="shortcut icon" href="favicon.ico"/>
-        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
-        <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
-        <![endif]-->
+        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
@@ -18,8 +13,8 @@
         <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="js/pamflet.js"></script>
         <script type="text/javascript">
           Pamflet.page.language = 'en';
@@ -32,18 +27,16 @@
         
       </head>
       <body class="color_scheme-github">
-        <a class="page prev nav" href="Contents+in+Depth.html">
-            <span class="space">&nbsp;</span>
-            <span class="flip arrow">❧</span>
-          </a>
-        <div class="container contentswrapper">
-          <div class="span-16 prepend-1 append-1 contents">
-            <div class="tocwrapper show">
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Installing+conscript">Installing conscript</a></div></li><li><div><a href="#Using+conscript">Using conscript</a></div></li><li><div><a href="#How+does+conscript+work%3F">How does conscript work?</a></div></li><li><div><a href="#Private+repositories">Private repositories</a></div></li><li><div><a href="#Making+a+conscripted+app">Making a conscripted app</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div></div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript is a distribution mechanism for Scala apps using GitHub and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
+        <div class="container-fluid contentswrapper h-100">
+          <div class="row minh-100">
+          <div class="col-md-4 col-xl-3 leftcolumn">&nbsp;</div><div class="col-md-8 col-xs-9">
+                  <div class="rightcolmn contents">
+                    <div class="tocwrapper">
+        
+        <div class="tocbody show" id="toc">
+        <h4 class="toctitle">Contents</h4>
+        <div><a href="#Conscript">Conscript</a></div><ol class="toc"> <li><div><a href="#Installing+conscript">Installing conscript</a></div></li><li><div><a href="#Using+conscript">Using conscript</a></div></li><li><div><a href="#How+does+conscript+work%3F">How does conscript work?</a></div></li><li><div><a href="#Private+repositories">Private repositories</a></div></li><li><div><a href="#Making+a+conscripted+app">Making a conscripted app</a></div></li><li><div><a href="#Conscripted+apps">Conscripted apps</a></div></li> </ol></div>
+      </div><h1 id="Conscript">Conscript<a href="#Conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p>Conscript is a distribution mechanism for Scala apps using GitHub and Maven repositories as the infrastructure. You can use it to install and update apps similar to APT or Home Brew.
 </p><p>It does less than you think, because the sbt launcher does more than you think. More on that later.
 </p><h2 id="Installing+conscript">Installing conscript<a href="#Installing+conscript" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><h3 id="Set+up+environment+variables">Set up environment variables<a href="#Set+up+environment+variables" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Depending on your OS the format might be different, but set up the following three environment variables.
 </p><pre><code>export CONSCRIPT_HOME=&quot;$HOME/.conscript&quot;
@@ -54,8 +47,8 @@ export PATH=$CONSCRIPT_HOME/bin:$PATH
 </li><li>By default Conscript will create the launching script for the apps in <code>$CONSCRIPT_HOME/bin</code>. Optionally you can change this location using <code>$CONSCRIPT_BIN</code> for example to <code>~/bin/</code>
 </li><li><code>PATH</code> is your OS’s path variable. Add <code>$CONSCRIPT_HOME/bin</code> or <code>$CONSCRIPT_BIN</code> to the path.
 </li></ul><p>There are three methods of installation available
-</p><h3 id="Cross+platform">Cross platform<a href="#Cross+platform" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Download the conscript <a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.2/conscript_2.11-0.5.2-proguard.jar">runnable jar</a>. On most OSes you can run it by double-clicking, but if that doesn’t work you can also run it from the command line.
-</p><pre><code class="">$ java -jar conscript_2.11-0.5.2-proguard.jar
+</p><h3 id="Cross+platform">Cross platform<a href="#Cross+platform" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Download the conscript <a href="https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.4/conscript_2.11-0.5.4-proguard.jar">runnable jar</a>. On most OSes you can run it by double-clicking, but if that doesn’t work you can also run it from the command line.
+</p><pre><code class="">$ java -jar conscript_2.11-0.5.4-proguard.jar
 </code></pre><p>A “splash screen” will appear during installation. Don’t close it until you see a message that <code>cs</code> was installed, or that something went wrong.
 </p><h3 id="Linux%2C+Mac">Linux, Mac<a href="#Linux%2C+Mac" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you prefer, you can install conscript by piping this shell script.
 </p><pre><code class="">wget https://raw.githubusercontent.com/foundweekends/conscript/master/setup.sh -O - | sh
@@ -111,7 +104,7 @@ credentials when accessing protected resources in the specified realm.
 </p><h2 id="Making+a+conscripted+app">Making a conscripted app<a href="#Making+a+conscripted+app" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>We hope you’ll make your own apps that use conscript.
 </p><h3 id="ConscriptPlugin">ConscriptPlugin<a href="#ConscriptPlugin" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The <code>ConscriptPlugin</code> makes these easier to build and test.
 Add this to the following <code>project/conscript.sbt</code>:
-</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.2&quot;)
+</p><pre><code class="prettyprint lang-scala">addSbtPlugin(&quot;org.foundweekends.conscript&quot; % &quot;sbt-conscript&quot; % &quot;0.5.4&quot;)
 </code></pre><p>Next enable <code>ConscriptPlugin</code> on the app subproject in <code>build.sbt</code>:
 </p><pre><code class="">lazy val root = (project in file(&quot;.&quot;)).
   enablePlugins(ConscriptPlugin).
@@ -147,8 +140,7 @@ class HelloApp extends xsbti.AppMain {
 [repositories]
   local
   maven-central
-  sonatype-releases: https://oss.sonatype.org/content/repositories/releases/
-</code></pre><p>To learn more about the <code>launchconfig</code>, see <a href="http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html">sbt Launcher</a> section of the sbt Reference Manual.
+</code></pre><p>To learn more about the <code>launchconfig</code>, see <a href="https://www.scala-sbt.org/1.x/docs/Sbt-Launcher.html">sbt Launcher</a> section of the sbt Reference Manual.
 </p><h3 id="Bintray">Bintray<a href="#Bintray" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>You can add arbitrary repositories to the repositories section, including a Bintray Maven repo.
 Here is the Bintray repo for foundweekends for example.
 </p><pre><code class="">  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
@@ -158,7 +150,7 @@ Here is the Bintray repo for foundweekends for example.
 </p><ul><li><a href="https://github.com/foundweekends/conscript">foundweekends/conscript</a>. conscript itself is a conscripted app.
 </li><li><a href="https://github.com/foundweekends/giter8">foundweekends/giter8</a>. giter8 is a tool to apply templated hosted on GitHub.
 </li><li><a href="https://github.com/foundweekends/pamflet">foundweekends/pamflet</a>. A publishing application for short texts.
-</li><li><a href="https://github.com/sbt/sbt">sbt/sbt</a>. sbt provides apps for <code>sbt</code>, <code>scalas</code> (<a href="http://www.scala-sbt.org/0.13/docs/Scripts.html">sbt Script runner</a>), and <code>screpl</code>.
+</li><li><a href="https://github.com/sbt/sbt">sbt/sbt</a>. sbt provides apps for <code>sbt</code>, <code>scalas</code> (<a href="https://www.scala-sbt.org/1.x/docs/Scripts.html">sbt Script runner</a>), and <code>screpl</code>.
 </li><li><a href="https://github.com/n8han/herald">n8han/herald</a>. Tell the world about your latest software release.
 </li><li><a href="https://github.com/softprops/picture-show">softprops/picture-show</a>. slip and slide picture shows for the web.
 </li><li><a href="https://github.com/softprops/unplanned">softprops/unplanned</a>. instant http.
@@ -196,13 +188,15 @@ Here is the Bintray repo for foundweekends for example.
 </li><li><a href="https://github.com/kazuhito-m/mindmeister2trello-importer">kazuhito-m/mindmeister2trello-importer</a>. Mindmeister to Trello importer.
 </li><li><a href="https://github.com/xuwei-k/mima">xuwei-k/mima</a> conscript typesafe/migration-manager
 </li></ul>
-          </div>
+                  </div>
+                </div>
+          </div> <!-- row -->
         </div>
         <div class="header">
-          <div class="container">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 top nav">
-            <div class="span-16 title">
+          <div class="container-fluid top nav">
+        <div class="row justify-content-md-center w-100">
+          <div class="col-md-auto">
+            <div class="title">
               <span>Conscript</span> — Combined Pages
             </div>
           </div>

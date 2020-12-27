@@ -7,7 +7,7 @@ Conscript is a distribution mechanism for Scala apps using GitHub and Maven repo
 It does less than you think, because the sbt launcher does more than you think. More on that later.
 
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.3/conscript_2.11-0.5.3-proguard.jar
+  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.4/conscript_2.11-0.5.4-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Installing conscript
@@ -33,7 +33,7 @@ There are three methods of installation available
 Download the conscript [runnable jar][runnable]. On most OSes you can run it by double-clicking, but if that doesn't work you can also run it from the command line.
 
 ```
-$ java -jar conscript_2.11-0.5.3-proguard.jar
+$ java -jar conscript_2.11-0.5.4-proguard.jar
 ```
 
 A "splash screen" will appear during installation. Don't close it until you see a message that `cs` was installed, or that something went wrong.
@@ -153,7 +153,7 @@ itself can. Specify a credentials properties file, such as
 credentials when accessing protected resources in the specified realm.
 
 
-  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: https://www.scala-sbt.org/1.x/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Making a conscripted app
@@ -167,7 +167,7 @@ The `ConscriptPlugin` makes these easier to build and test.
 Add this to the following `project/conscript.sbt`:
 
 ```scala
-addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.3")
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.4")
 ```
 
 Next enable `ConscriptPlugin` on the app subproject in `build.sbt`:
@@ -240,7 +240,7 @@ You can test the app by calling `csRun XYZ` command.
 
 
   [search]: https://github.com/search?o=desc&q=+path%3Asrc%2Fmain%2Fconscript++org&ref=searchresults&s=indexed&type=Code&utf8=%E2%9C%93
-  [scriptrunner]: http://www.scala-sbt.org/0.13/docs/Scripts.html
+  [scriptrunner]: https://www.scala-sbt.org/1.x/docs/Scripts.html
 
 Conscripted apps
 ----------------

@@ -7,7 +7,7 @@ Conscript は、GitHub と Maven リポジトリをインフラとして使っ�
 多分思ったより少ないことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。それに関してはまた後で。
 
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.3/conscript_2.11-0.5.3-proguard.jar
+  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.4/conscript_2.11-0.5.4-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Conscript のインストール方法
@@ -33,7 +33,7 @@ OS にもよって書式は異なるかもしれないが、以下の 3つの環
 conscript の[実行可能 jar][runnable] をダウンロードする。最近の OS だとダブルクリックするだけで実行できるけども、それがうまくいかなければ、コマンドラインからも実行できる。
 
 ```
-$ java -jar conscript_2.11-0.5.3-proguard.jar
+$ java -jar conscript_2.11-0.5.4-proguard.jar
 ```
 
 インストール中は「スプラッシュ・スクリーン」が表示される。`cs` がインストールされたというメッセージが書かれるか、エラーメッセージが表示されるまでは閉じてはいけない。
@@ -146,7 +146,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 内の保護されたリソースをアクセスすることができる。
 
 
-  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: https://www.scala-sbt.org/1.x/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Conscripted app の作り方
@@ -160,7 +160,7 @@ conscript を使った独自アプリを作ってみよう。
 まずは以下を `project/concript.sbt` に書く:
 
 ```scala
-addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.3")
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.4")
 ```
 
 次に、`build.sbt` でアプリのためのサブプロジェクトで `ConscriptPlugin` を有効にする:

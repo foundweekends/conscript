@@ -146,7 +146,7 @@ sbt ランチャーは、これらの認証情報を用いて realm
 内の保護されたリソースをアクセスすることができる。
 
 
-  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: https://www.scala-sbt.org/1.x/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Conscripted app の作り方
