@@ -2,7 +2,7 @@
 out: making-app.html
 ---
 
-  [sbtlauncher]: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
+  [sbtlauncher]: https://www.scala-sbt.org/1.x/docs/Sbt-Launcher.html
   [scopt]: https://github.com/scopt/scopt
 
 Conscripted app の作り方

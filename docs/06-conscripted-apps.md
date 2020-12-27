@@ -3,7 +3,7 @@ out: conscripted-apps.html
 ---
 
   [search]: https://github.com/search?o=desc&q=+path%3Asrc%2Fmain%2Fconscript++org&ref=searchresults&s=indexed&type=Code&utf8=%E2%9C%93
-  [scriptrunner]: http://www.scala-sbt.org/0.13/docs/Scripts.html
+  [scriptrunner]: https://www.scala-sbt.org/1.x/docs/Scripts.html
 
 Conscripted apps
 ----------------
