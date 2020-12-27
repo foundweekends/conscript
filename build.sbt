@@ -88,7 +88,7 @@ lazy val root = (project in file(".")).
       val old = (mappings in (Compile, packageSrc)).value
       old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
     },
-    proguardVersion in Proguard := "6.2.2",
+    proguardVersion in Proguard := "7.0.1",
     proguardOptions in Proguard ++= Seq(
       "-keep class conscript.* { *; }",
       "-keep class dispatch.* { *; }",
