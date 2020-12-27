@@ -8,11 +8,11 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 lazy val commonSettings = Seq(
-  crossSbtVersions := Seq("0.13.18", "1.0.4")
+  crossSbtVersions := Seq("1.2.8")
 )
 
 lazy val root = (project in file(".")).
-  enablePlugins(BuildInfoPlugin, CrossPerProjectPlugin, PamfletPlugin, SbtProguard, GhpagesPlugin).
+  enablePlugins(BuildInfoPlugin, PamfletPlugin, SbtProguard, GhpagesPlugin).
   settings(
     commonSettings,
     updateLaunchconfig := {
@@ -20,8 +20,9 @@ lazy val root = (project in file(".")).
         case Seq(m) => m
         case zeroOrMulti => sys.error(s"could not found main class. $zeroOrMulti")
       }
+      val s = streams.value.log
       if(isSnapshot.value) {
-        streams.value.log.warn(s"update launchconfig ${version.value}")
+        s.warn(s"update launchconfig ${version.value}")
       }
       val launchconfig = s"""[app]
       |  version: ${version.value}
@@ -38,7 +39,6 @@ lazy val root = (project in file(".")).
       val f = (baseDirectory in ThisBuild).value / "src/main/conscript/cs/launchconfig"
       IO.write(f, launchconfig)
       val r = GitKeys.gitRunner.value
-      val s = streams.value.log
       r("add", f.getAbsolutePath)((baseDirectory in LocalRootProject).value, s)
       r("commit", "-m", "update " + f.getName)((baseDirectory in LocalRootProject).value, s)
       f
@@ -115,7 +115,7 @@ lazy val root = (project in file(".")).
     },
     artifact in (Compile, proguard) := {
       val art = (artifact in (Compile, proguard)).value
-      art.copy(`classifier` = Some("proguard"))
+      art.withClassifier(Some("proguard"))
     },
     addArtifact(artifact in (Compile, proguard), (proguard in Proguard) map { xs => xs.head }),
     buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion),
@@ -164,24 +164,14 @@ lazy val javaVmArgs: List[String] = {
 }
 
 lazy val plugin = (project in file("sbt-conscript")).
-  enablePlugins(CrossPerProjectPlugin).
+  enablePlugins(SbtPlugin).
   settings(
     commonSettings,
     name := "sbt-conscript",
-    sbtPlugin := true,
-    scalaVersion := {
-      VersionNumber((sbtBinaryVersion in pluginCrossBuild).value) match {
-        case VersionNumber(Seq(0, 13, _*), _, _) =>
-          "2.10.7"
-        case _ =>
-          "2.12.7"
-      }
-    },
     bintrayOrganization := Some("sbt"),
     bintrayRepository := "sbt-plugin-releases",
     bintrayPackage := "sbt-conscript",
-    ScriptedPlugin.scriptedSettings,
-    ScriptedPlugin.scriptedBufferLog := false,
+    scriptedBufferLog := false,
     scriptedLaunchOpts ++= javaVmArgs.filter(
       a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)
     ),
