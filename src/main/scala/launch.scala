@@ -21,7 +21,7 @@ trait Launch extends Credentials {
         if (!launchalias.getParentFile.exists) mkdir(launchalias)
         else ()
 
-        val req = url(s"https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$sbtLauncherVersion/launcher-$sbtLauncherVersion.jar")
+        val req = url(s"https://repo1.maven.org/maven2/org/scala-sbt/launcher/$sbtLauncherVersion/launcher-$sbtLauncherVersion.jar")
 
         val f = http(req > as.File(jar))
         f()

@@ -74,7 +74,7 @@ $LJ = "launcher-$LJV.jar"
 # If launcher is not in configuration directory
 if (-Not(Test-Path "$CS\$LJ" -PathType Leaf)) {
   echo "Fetching launcher..."
-  $url = "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar"
+  $url = "https://repo1.maven.org/maven2/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar"
   $wc.DownloadFile($url, "$CS/$LJ")
   if (Test-Path "$CS\sbt-launch.jar") {
     rm "$CS\sbt-launch.jar"

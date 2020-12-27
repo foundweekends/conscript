@@ -46,7 +46,7 @@ LJ="launcher-$LJV.jar"
 # If launcher is not in configuration directory
 if [ ! -f "$CS/$LJ" ]; then
     echo "Fetching launcher..."
-    wget "https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
+    wget "https://repo1.maven.org/maven2/org/scala-sbt/launcher/$LJV/launcher-$LJV.jar" -O "$CS/$LJ"
     ln -sf "$CS/$LJ" "$CS/sbt-launch.jar"
 fi
 

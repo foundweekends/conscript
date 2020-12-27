@@ -63,7 +63,7 @@ object ConscriptPlugin extends AutoPlugin {
     val launcher = s"launcher-$launcherVersion.jar"
     val launcherFile = conscriptHome / launcher
     if(!launcherFile.exists) {
-      val u = url(s"https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/$launcherVersion/launcher-$launcherVersion.jar")
+      val u = url(s"https://repo1.maven.org/maven2/org/scala-sbt/launcher/$launcherVersion/launcher-$launcherVersion.jar")
       sbt.io.Using.urlInputStream(u) { inputStream =>
         IO.transfer(inputStream, launcherFile)
       }
