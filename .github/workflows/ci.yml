@@ -14,6 +14,15 @@ jobs:
         java-version: "adopt@1.8"
     - uses: actions/checkout@v2.3.4
     - run: ./setup.sh
+  setup_script_windows:
+    timeout-minutes: 10
+    runs-on: windows-latest
+    steps:
+    - uses: olafurpg/setup-scala@v10
+      with:
+        java-version: "adopt@1.8"
+    - uses: actions/checkout@v2.3.4
+    - run: Powershell.exe -File setup.ps1
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -35,7 +44,7 @@ jobs:
         sbt -v publishLocal "project plugin" "^ scripted" &&
         java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
   push_gh_pages:
-    needs: [test, setup_script_unix]
+    needs: [test, setup_script_unix, setup_script_windows]
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
