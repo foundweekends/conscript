@@ -66,10 +66,10 @@ lazy val root = (project in file(".")).
       bintrayRepository := "maven-releases",
       bintrayReleaseOnPublish := false,
       bintrayPackage := "conscript",
-      licenses := Seq("LGPL-3.0" -> url("http://www.gnu.org/licenses/lgpl.txt")),
+      licenses := Seq("LGPL-3.0" -> url("https://www.gnu.org/licenses/lgpl.txt")),
       scalacOptions ++= Seq("-language:_", "-deprecation", "-Xlint", "-Xfuture"),
       developers := List(
-        Developer("n8han", "Nathan Hamblen", "@n8han", url("http://github.com/n8han")),
+        Developer("n8han", "Nathan Hamblen", "@n8han", url("https://github.com/n8han")),
         Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
       ),
       scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/conscript"), "git@github.com:foundweekends/conscript.git"))
