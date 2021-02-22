@@ -2,7 +2,7 @@
 out: setup.html
 ---
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/$version$/conscript_2.11-$version$-proguard.jar
+  [runnable]: https://repo1.maven.org/maven2/org/foundweekends/conscript/conscript_2.11/$version$/conscript_2.11-$version$-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Conscript のインストール方法
