@@ -7,7 +7,7 @@ Conscript は、GitHub と Maven リポジトリをインフラとして使っ�
 多分思ったより少ないことしか行わない。なぜなら sbt ランチャーが思ったより多くのことをこなすからだ。それに関してはまた後で。
 
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.5/conscript_2.11-0.5.5-proguard.jar
+  [runnable]: https://repo1.maven.org/maven2/org/foundweekends/conscript/conscript_2.11/0.5.5/conscript_2.11-0.5.5-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Conscript のインストール方法

@@ -7,7 +7,7 @@ Conscript is a distribution mechanism for Scala apps using GitHub and Maven repo
 It does less than you think, because the sbt launcher does more than you think. More on that later.
 
 
-  [runnable]: https://dl.bintray.com/foundweekends/maven-releases/org/foundweekends/conscript/conscript_2.11/0.5.4/conscript_2.11-0.5.4-proguard.jar
+  [runnable]: https://repo1.maven.org/maven2/org/foundweekends/conscript/conscript_2.11/0.5.5/conscript_2.11-0.5.5-proguard.jar
   [ps]: https://raw.githubusercontent.com/foundweekends/conscript/master/setup.ps1
 
 Installing conscript
@@ -33,7 +33,7 @@ There are three methods of installation available
 Download the conscript [runnable jar][runnable]. On most OSes you can run it by double-clicking, but if that doesn't work you can also run it from the command line.
 
 ```
-$ java -jar conscript_2.11-0.5.4-proguard.jar
+$ java -jar conscript_2.11-0.5.5-proguard.jar
 ```
 
 A "splash screen" will appear during installation. Don't close it until you see a message that `cs` was installed, or that something went wrong.
@@ -167,7 +167,7 @@ The `ConscriptPlugin` makes these easier to build and test.
 Add this to the following `project/conscript.sbt`:
 
 ```scala
-addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.4")
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.5")
 ```
 
 Next enable `ConscriptPlugin` on the app subproject in `build.sbt`:
@@ -224,15 +224,6 @@ Next, add your sbt `launchconfig` file to `src/main/conscript/XYZ/launchconfig` 
 ```
 
 To learn more about the `launchconfig`, see [sbt Launcher][sbtlauncher] section of the sbt Reference Manual.
-
-### Bintray
-
-You can add arbitrary repositories to the repositories section, including a Bintray Maven repo.
-Here is the Bintray repo for foundweekends for example.
-
-```
-  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
-```
 
 ### csRun
 
