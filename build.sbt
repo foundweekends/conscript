@@ -8,6 +8,8 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 lazy val commonSettings = Seq(
+  publishTo := sonatypePublishToBundle.value,
+  sonatypeProfileName := "org.foundweekends",
   crossSbtVersions := Seq("1.2.8")
 )
 
@@ -33,7 +35,6 @@ lazy val root = (project in file(".")).
       |  version: ${scalaVersion.value}
       |[repositories]
       |  local
-      |  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
       |  maven-central
       |""".stripMargin
       val f = (baseDirectory in ThisBuild).value / "src/main/conscript/cs/launchconfig"
@@ -53,7 +54,8 @@ lazy val root = (project in file(".")).
       releaseStepTask(updateLaunchconfig),
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommandAndRemaining(s";publish;^ plugin/publish"),
+      releaseStepCommandAndRemaining(s";publishSigned;^ plugin/publishSigned"),
+      releaseStepCommandAndRemaining("sonatypeBundleRelease"),
       setNextVersion,
       commitNextVersion,
       pushChanges
@@ -62,10 +64,6 @@ lazy val root = (project in file(".")).
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
-      bintrayOrganization := Some("foundweekends"),
-      bintrayRepository := "maven-releases",
-      bintrayReleaseOnPublish := false,
-      bintrayPackage := "conscript",
       licenses := Seq("LGPL-3.0" -> url("https://www.gnu.org/licenses/lgpl.txt")),
       scalacOptions ++= Seq("-language:_", "-deprecation", "-Xlint", "-Xfuture"),
       developers := List(
@@ -77,8 +75,6 @@ lazy val root = (project in file(".")).
     name := "conscript",
     crossScalaVersions := List("2.11.12"),
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
-    bintrayPackage := (bintrayPackage in ThisBuild).value,
-    bintrayRepository := (bintrayRepository in ThisBuild).value,
     mainClass in (Compile, packageBin) := Some("conscript.Conscript"),
     mappings in (Compile, packageBin) := {
       val old = (mappings in (Compile, packageBin)).value
@@ -168,9 +164,6 @@ lazy val plugin = (project in file("sbt-conscript")).
   settings(
     commonSettings,
     name := "sbt-conscript",
-    bintrayOrganization := Some("sbt"),
-    bintrayRepository := "sbt-plugin-releases",
-    bintrayPackage := "sbt-conscript",
     scriptedBufferLog := false,
     scriptedLaunchOpts ++= javaVmArgs.filter(
       a => Seq("-Xmx", "-Xms", "-XX", "-Dsbt.log.noformat").exists(a.startsWith)

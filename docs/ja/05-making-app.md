@@ -76,15 +76,6 @@ class HelloApp extends xsbti.AppMain {
 
 `launchconfig` に関する詳細は sbt レファレンス・マニュアルの　[sbt Launcher][sbtlauncher] の項目を参照。
 
-### Bintray
-
-repositories の項目には、Bintray を使った Maven リポジトリを含む任意のリポジトリを追加できる。
-例えば、foundweekends の Bintray リポジトリの設定は以下のようになっている。
-
-```
-  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
-```
-
 ### csRun
 
 アプリを `csRun XYZ` コマンドを sbt シェルから打ち込むことで、アプリをテストできる。

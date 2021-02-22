@@ -74,15 +74,6 @@ Next, add your sbt `launchconfig` file to `src/main/conscript/XYZ/launchconfig` 
 
 To learn more about the `launchconfig`, see [sbt Launcher][sbtlauncher] section of the sbt Reference Manual.
 
-### Bintray
-
-You can add arbitrary repositories to the repositories section, including a Bintray Maven repo.
-Here is the Bintray repo for foundweekends for example.
-
-```
-  foundweekends-maven-releases: https://dl.bintray.com/foundweekends/maven-releases/
-```
-
 ### csRun
 
 You can test the app by calling `csRun XYZ` command.
