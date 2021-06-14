@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).
   settings(
     commonSettings,
     updateLaunchconfig := {
-      val mainClassName = (discoveredMainClasses in Compile).value match {
+      val mainClassName = (Compile / discoveredMainClasses).value match {
         case Seq(m) => m
         case zeroOrMulti => sys.error(s"could not found main class. $zeroOrMulti")
       }
@@ -37,11 +37,11 @@ lazy val root = (project in file(".")).
       |  local
       |  maven-central
       |""".stripMargin
-      val f = (baseDirectory in ThisBuild).value / "src/main/conscript/cs/launchconfig"
+      val f = (ThisBuild / baseDirectory).value / "src/main/conscript/cs/launchconfig"
       IO.write(f, launchconfig)
       val r = GitKeys.gitRunner.value
-      r("add", f.getAbsolutePath)((baseDirectory in LocalRootProject).value, s)
-      r("commit", "-m", "update " + f.getName)((baseDirectory in LocalRootProject).value, s)
+      r("add", f.getAbsolutePath)((LocalRootProject / baseDirectory).value, s)
+      r("commit", "-m", "update " + f.getName)((LocalRootProject / baseDirectory).value, s)
       f
     },
     releaseProcess := Seq[ReleaseStep](
@@ -75,17 +75,17 @@ lazy val root = (project in file(".")).
     name := "conscript",
     crossScalaVersions := List("2.11.12"),
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
-    mainClass in (Compile, packageBin) := Some("conscript.Conscript"),
-    mappings in (Compile, packageBin) := {
-      val old = (mappings in (Compile, packageBin)).value
+    Compile / packageBin / mainClass := Some("conscript.Conscript"),
+    (Compile / packageBin / mappings) := {
+      val old = (Compile / packageBin / mappings).value
       old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
     },
-    mappings in (Compile, packageSrc) := {
-      val old = (mappings in (Compile, packageSrc)).value
+    (Compile / packageSrc / mappings) := {
+      val old = (Compile / packageSrc / mappings).value
       old filter { case (_, p) => p != "META-INF/MANIFEST.MF" }
     },
-    proguardVersion in Proguard := "7.0.1",
-    proguardOptions in Proguard ++= Seq(
+    Proguard / proguardVersion := "7.0.1",
+    Proguard / proguardOptions ++= Seq(
       "-keep class conscript.* { *; }",
       "-keep class dispatch.* { *; }",
       "-keep class com.ning.http.util.** { *; }",
@@ -97,28 +97,28 @@ lazy val root = (project in file(".")).
       "-dontobfuscate",
       "-dontoptimize"
       ),
-    proguardInputs in Proguard := {
-      ((fullClasspath in Compile).value.files ++ (fullClasspath in Runtime).value.files).distinct.filter { f =>
+    (Proguard / proguardInputs) := {
+      ((Compile / fullClasspath).value.files ++ (Runtime / fullClasspath).value.files).distinct.filter { f =>
         // This is a dependency of the launcher interface. It may not be the version of scala
         // we're using at all, and we don't want it
         f.getName != "scala-library.jar"
       }
     },
-    proguardDefaultInputFilter in Proguard := None,
-    javaOptions in (Proguard, proguard) := Seq("-Xmx2G"),
-    proguardOutputs in Proguard := {
-      (proguardDirectory in Proguard).value / ("conscript-" + version.value + ".jar") :: Nil
+    Proguard / proguardDefaultInputFilter := None,
+    Proguard / proguard / javaOptions := Seq("-Xmx2G"),
+    (Proguard / proguardOutputs) := {
+      (Proguard / proguardDirectory).value / ("conscript-" + version.value + ".jar") :: Nil
     },
-    artifact in (Compile, proguard) := {
-      val art = (artifact in (Compile, proguard)).value
+    (Compile / proguard / artifact) := {
+      val art = (Compile / proguard / artifact).value
       art.withClassifier(Some("proguard"))
     },
-    addArtifact(artifact in (Compile, proguard), (proguard in Proguard) map { xs => xs.head }),
+    addArtifact((Compile / proguard / artifact), (Proguard / proguard) map { xs => xs.head }),
     buildInfoKeys := Seq(name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
-    publishArtifact in Test := false,
-    sourceDirectory in Pamflet := { (baseDirectory in LocalRootProject).value / "docs" },
+    Test / publishArtifact := false,
+    (Pamflet / sourceDirectory) := { (LocalRootProject / baseDirectory).value / "docs" },
     // GitKeys.gitBranch in ghkeys.updatedRepository := Some("gh-pages"),
     // This task is responsible for updating the master branch on some temp dir.
     // On the branch there are files that was generated in some other ways such as:
@@ -139,7 +139,7 @@ lazy val root = (project in file(".")).
       repo
     },
     pushSiteIfChanged := (Def.taskDyn {
-      val repo = (baseDirectory in LocalRootProject).value
+      val repo = (LocalRootProject / baseDirectory).value
       val r = GitKeys.gitRunner.value
       val s = streams.value
       val changed = gitDocsChanged(repo, r, s.log)
