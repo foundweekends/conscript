@@ -42,8 +42,7 @@ jobs:
     - uses: actions/checkout@v2.3.4
     - uses: coursier/cache-action@v6
     - run: sbt -v test
-    - if: ${{ matrix.java == 8 }} # TODO https://github.com/sbt/sbt-proguard/issues/33
-      run: |
+    - run: |
         sbt -v publishLocal "project plugin" "^ scripted" &&
         java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
   push_gh_pages:
