@@ -12,7 +12,7 @@ jobs:
     - uses: olafurpg/setup-scala@v13
       with:
         java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.0
     - run: ./setup.sh
     - run: ~/.conscript/bin/cs --version
   setup_script_windows:
@@ -22,7 +22,7 @@ jobs:
     - uses: olafurpg/setup-scala@v13
       with:
         java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.0
     - run: Powershell.exe -File setup.ps1
     - shell: cmd
       run: "%HOMEDRIVE%%HOMEPATH%\\.conscript\\bin\\cs --version"
@@ -39,7 +39,7 @@ jobs:
     - uses: olafurpg/setup-scala@v13
       with:
         java-version: "adopt@1.${{ matrix.java }}"
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.0
     - uses: coursier/cache-action@v6
     - run: sbt -v test
     - run: |
@@ -53,7 +53,7 @@ jobs:
     - uses: olafurpg/setup-scala@v13
       with:
         java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.0
       with:
         fetch-depth: 10
     - uses: coursier/cache-action@v6
