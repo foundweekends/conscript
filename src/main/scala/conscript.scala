@@ -8,7 +8,7 @@ object Conscript {
   import dispatch.{ BuildInfo => _, _ }
   import Apply.exec
   val http = dispatch.Http.configure { configBuilder =>
-    configBuilder.setFollowRedirects(true)
+    configBuilder.setFollowRedirect(true)
   }
 
   private[this] def shutdownDispatch(): Unit = {
