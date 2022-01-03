@@ -17,7 +17,7 @@ object ConscriptPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     List(
       csSbtLauncherVersion := "1.1.6",
-      libraryDependencies += "org.scala-sbt" % "launcher" % csSbtLauncherVersion.value % "provided",
+      libraryDependencies += "org.scala-sbt" % "launcher-interface" % csSbtLauncherVersion.value % "provided",
       sourceDirectory in csRun := { (sourceDirectory in Compile).value / conscriptStr },
       target in csRun := { target.value / conscriptStr },
       csBoot := { (target in csRun).value / "boot" },
