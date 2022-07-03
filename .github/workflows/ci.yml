@@ -9,20 +9,22 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-    - uses: olafurpg/setup-scala@v13
+    - uses: actions/setup-java@v3
       with:
-        java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.4.0
+        java-version: 8
+        distribution: temurin
+    - uses: actions/checkout@v3
     - run: ./setup.sh
     - run: ~/.conscript/bin/cs --version
   setup_script_windows:
     timeout-minutes: 10
     runs-on: windows-latest
     steps:
-    - uses: olafurpg/setup-scala@v13
+    - uses: actions/setup-java@v3
       with:
-        java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.4.0
+        java-version: 8
+        distribution: temurin
+    - uses: actions/checkout@v3
     - run: Powershell.exe -File setup.ps1
     - shell: cmd
       run: "%HOMEDRIVE%%HOMEPATH%\\.conscript\\bin\\cs --version"
@@ -36,10 +38,11 @@ jobs:
           - java: 8
           - java: 11
     steps:
-    - uses: olafurpg/setup-scala@v13
+    - uses: actions/setup-java@v3
       with:
-        java-version: "adopt@1.${{ matrix.java }}"
-    - uses: actions/checkout@v2.4.0
+        java-version: "${{ matrix.java }}"
+        distribution: temurin
+    - uses: actions/checkout@v3
     - uses: coursier/cache-action@v6
     - run: sbt -v test
     - run: |
@@ -50,10 +53,11 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
-    - uses: olafurpg/setup-scala@v13
+    - uses: actions/setup-java@v3
       with:
-        java-version: "adopt@1.8"
-    - uses: actions/checkout@v2.4.0
+        java-version: 8
+        distribution: temurin
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 10
     - uses: coursier/cache-action@v6
