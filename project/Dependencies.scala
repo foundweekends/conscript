@@ -1,7 +1,7 @@
 import sbt._
 
 object Dependencies {
-  val launcherInterface = "org.scala-sbt" % "launcher-interface" % "1.3.3"
+  val launcherInterface = "org.scala-sbt" % "launcher-interface" % "1.4.0"
   val scalaSwing        = "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
   val dispatchCore      = "net.databinder.dispatch" %% "dispatch-core" % "0.12.3"
   val scopt             = "com.github.scopt" %% "scopt" % "4.1.0"
