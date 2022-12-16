@@ -1,6 +1,6 @@
 import Dependencies._
-import com.typesafe.sbt.SbtGit.{git, GitKeys}
-import com.typesafe.sbt.git.GitRunner
+import com.github.sbt.git.SbtGit.{git, GitKeys}
+import com.github.sbt.git.GitRunner
 import ReleaseTransformations._
 
 lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
