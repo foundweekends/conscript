@@ -18,7 +18,7 @@ jobs:
         app_id: 89697
         private_key: ${{ secrets.FOUNDWEEKENDS_BOT_KEY }}
     - name: Launch Scala Steward
-      uses: scala-steward-org/scala-steward-action@e9867454be4f6030cdec074fda9786b6ae05b6f6 # v2.49.0
+      uses: scala-steward-org/scala-steward-action@a5515d934b0dfb84f0ff6432ecc2bd6a57d13e70 # v2.50.0
       with:
         github-token: ${{ steps.generate_token.outputs.token }}
         author-email: "74864734+foundweekends-bot[bot]@users.noreply.github.com"
