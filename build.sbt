@@ -7,6 +7,20 @@ lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
+def buildInfo(packageName: String, v: String) = Def.settings(
+  Compile / sourceGenerators += task {
+    val src = s"""package ${packageName}
+      |
+      |private[${packageName}] object ConscriptBuildInfo {
+      |  def sbtLauncherVersion: String = "${v}"
+      |}
+      |""".stripMargin
+    val f = (Compile / sourceManaged).value / "conscript" / "ConscriptBuildInfo.scala"
+    IO.write(f, src)
+    Seq(f)
+  },
+)
+
 lazy val commonSettings = Seq(
   publishTo := sonatypePublishToBundle.value,
   sonatypeProfileName := "org.foundweekends",
@@ -17,6 +31,25 @@ lazy val root = (project in file(".")).
   enablePlugins(BuildInfoPlugin, PamfletPlugin, SbtProguard, GhpagesPlugin).
   settings(
     commonSettings,
+    buildInfo(packageName = "conscript", v = sbtLauncherDeps.revision),
+    libraryDependencies += sbtLauncherDeps,
+    pomPostProcess := { node =>
+      import scala.xml.{NodeSeq, Node}
+      val rule = new scala.xml.transform.RewriteRule {
+        override def transform(n: Node) = {
+          if (List(
+            n.label == "dependency",
+            (n \ "groupId").text == sbtLauncherDeps.organization,
+            (n \ "artifactId").text == sbtLauncherDeps.name,
+          ).forall(identity)) {
+            NodeSeq.Empty
+          } else {
+            n
+          }
+        }
+      }
+      new scala.xml.transform.RuleTransformer(rule).transform(node)(0)
+    },
     updateLaunchconfig := {
       val mainClassName = (Compile / discoveredMainClasses).value match {
         case Seq(m) => m
@@ -163,6 +196,7 @@ lazy val plugin = (project in file("sbt-conscript")).
   enablePlugins(SbtPlugin).
   settings(
     commonSettings,
+    buildInfo(packageName = "sbtconscript", v = Dependencies.launcherInterface.revision),
     name := "sbt-conscript",
     scriptedBufferLog := false,
     scriptedLaunchOpts ++= javaVmArgs.filter(
