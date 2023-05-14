@@ -1,7 +1,6 @@
 import Dependencies._
-import com.github.sbt.git.SbtGit.{git, GitKeys}
-import com.github.sbt.git.GitRunner
 import ReleaseTransformations._
+import scala.sys.process.Process
 
 lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
 
@@ -28,7 +27,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file(".")).
-  enablePlugins(BuildInfoPlugin, PamfletPlugin, SbtProguard, GhpagesPlugin).
+  enablePlugins(BuildInfoPlugin, SbtProguard).
   settings(
     commonSettings,
     buildInfo(packageName = "conscript", v = sbtLauncherDeps.revision),
@@ -72,9 +71,8 @@ lazy val root = (project in file(".")).
       |""".stripMargin
       val f = (ThisBuild / baseDirectory).value / "src/main/conscript/cs/launchconfig"
       IO.write(f, launchconfig)
-      val r = GitKeys.gitRunner.value
-      r("add", f.getAbsolutePath)((LocalRootProject / baseDirectory).value, s)
-      r("commit", "-m", "update " + f.getName)((LocalRootProject / baseDirectory).value, s)
+      Process(Seq("git", "add", f.getAbsolutePath), (LocalRootProject / baseDirectory).value).!
+      Process(Seq("git", "commit", "-m", "update " + f.getName), (LocalRootProject / baseDirectory).value).!
       f
     },
     releaseProcess := Seq[ReleaseStep](
@@ -151,40 +149,13 @@ lazy val root = (project in file(".")).
     buildInfoPackage := "conscript",
     publishMavenStyle := true,
     Test / publishArtifact := false,
-    (Pamflet / sourceDirectory) := { (LocalRootProject / baseDirectory).value / "docs" },
-    // GitKeys.gitBranch in ghkeys.updatedRepository := Some("gh-pages"),
-    // This task is responsible for updating the master branch on some temp dir.
-    // On the branch there are files that was generated in some other ways such as:
-    // - CNAME file
-    //
-    // This task's job is to call "git rm" on files and directories that this project owns
-    // and then copy over the newly generated files.
-    ghpagesSynchLocal := {
-      // sync the generated site
-      val repo = ghpagesUpdatedRepository.value
-      val s = streams.value
-      val r = GitKeys.gitRunner.value
-      gitRemoveFiles(repo, (repo * "*.html").get.toList, r, s)
-      val mappings =  for {
-        (file, target) <- siteMappings.value
-      } yield (file, repo / target)
-      IO.copy(mappings)
-      repo
+    TaskKey[Unit]("makeSite") := {
+      val output = target.value / "site"
+      IO.delete(output)
+      val src = (LocalRootProject / baseDirectory).value / "docs"
+      val storage = pamflet.FileStorage(src, Nil)
+      pamflet.Produce(storage.globalized, output)
     },
-    pushSiteIfChanged := (Def.taskDyn {
-      val repo = (LocalRootProject / baseDirectory).value
-      val r = GitKeys.gitRunner.value
-      val s = streams.value
-      val changed = gitDocsChanged(repo, r, s.log)
-      if (changed) {
-        ghpagesPushSite
-      } else {
-        Def.task {
-          s.log.info("skip push site")
-        }
-      }
-    }).value,
-    git.remoteRepo := "git@github.com:foundweekends/conscript.git"
   )
 
 lazy val javaVmArgs: List[String] = {
@@ -204,20 +175,3 @@ lazy val plugin = (project in file("sbt-conscript")).
     ),
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
-
-def gitRemoveFiles(dir: File, files: List[File], git: GitRunner, s: TaskStreams): Unit = {
-  if(!files.isEmpty)
-    git(("rm" :: "-r" :: "-f" :: "--ignore-unmatch" :: files.map(_.getAbsolutePath)) :_*)(dir, s.log)
-  ()
-}
-
-def gitDocsChanged(dir: File, git: GitRunner, log: Logger): Boolean =
-  {
-    // git diff --shortstat HEAD^..HEAD docs
-    val range = sys.env.get("TRAVIS_COMMIT_RANGE") match {
-      case Some(x) => x
-      case _       => "HEAD^..HEAD"
-    }
-    val stat = git(("diff" :: "--shortstat" :: range :: "--" :: "docs" :: Nil) :_*)(dir, log)
-    stat.trim.nonEmpty
-  }

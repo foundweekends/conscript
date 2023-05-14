@@ -61,15 +61,12 @@ jobs:
       with:
         fetch-depth: 10
     - uses: coursier/cache-action@v6
-    - uses: webfactory/ssh-agent@v0.8.0
-      if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-      with:
-        ssh-private-key: ${{ secrets.DEPLOY_KEY_1 }}
+    - run: sbt makeSite
     - name: Push to gh-pages
       if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-      run: |
-        git config --global user.email "74864734+foundweekends-bot[bot]@users.noreply.github.com"
-        git config --global user.name "foundweekends-bot[bot]"
-        # https://github.com/sbt/sbt-ghpages/commit/cbedd8edb8
-        export SBT_GHPAGES_COMMIT_MESSAGE="auto commit on CI https://github.com/foundweekends/conscript/commit/${{ github.sha }}"
-        sbt -v pushSiteIfChanged
+      uses: JamesIves/github-pages-deploy-action@ba1486788b0490a235422264426c45848eac35c6 # v4.4.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: target/site
+        CLEAN: true
