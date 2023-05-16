@@ -2,8 +2,6 @@ import Dependencies._
 import ReleaseTransformations._
 import scala.sys.process.Process
 
-lazy val pushSiteIfChanged = taskKey[Unit]("push the site if changed")
-
 val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 def buildInfo(packageName: String, v: String) = Def.settings(
@@ -155,6 +153,8 @@ lazy val root = (project in file(".")).
       val src = (LocalRootProject / baseDirectory).value / "docs"
       val storage = pamflet.FileStorage(src, Nil)
       pamflet.Produce(storage.globalized, output)
+      IO.delete(output / "offline")
+      IO.delete(output / "ja" / "offline")
     },
   )
 
