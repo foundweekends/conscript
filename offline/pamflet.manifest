@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Sun May 14 08:00:06 UTC 2023
+# Tue May 16 03:31:58 UTC 2023
 css/custom.css
 index.html
 setup.html
@@ -25,7 +25,7 @@ css/color_scheme-github.css
 css/color_scheme-monokai.css
 js/bootstrap.bundle.min.js
 js/bootstrap.bundle.min.js.map
-js/jquery-3.3.1.min.js
+js/jquery.min.js
 js/pamflet.js
 css/prettify.css
 js/prettify/prettify.js
