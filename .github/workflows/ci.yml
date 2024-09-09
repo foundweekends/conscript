@@ -64,7 +64,7 @@ jobs:
     - run: sbt makeSite
     - name: Push to gh-pages
       if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-      uses: JamesIves/github-pages-deploy-action@94f3c658273cf92fb48ef99e5fbc02bd2dc642b2 # v4.6.3
+      uses: JamesIves/github-pages-deploy-action@920cbb300dcd3f0568dbc42700c61e2fd9e6139c # v4.6.4
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
