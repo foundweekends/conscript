@@ -45,7 +45,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
     - run: sbt -v test
     - run: |
-        sbt -v publishLocal "project plugin" "^ scripted" &&
+        sbt -v publishLocal plugin2_12/scripted plugin3/scripted &&
         java -jar ./target/scala-2.11/proguard/conscript-*.jar --version
   push_gh_pages:
     needs: [test, setup_script_unix, setup_script_windows]

@@ -8,6 +8,7 @@ object ConscriptPlugin extends AutoPlugin {
   override lazy val requires = plugins.JvmPlugin
   object autoImport {
     lazy val csBoot = settingKey[File]("Boot directory used by csRun")
+    @transient
     lazy val csWrite = taskKey[Unit]("Write test launchconfig files to conscript-output")
     lazy val csRun = inputKey[Unit]("Run a named launchconfig, with parameters")
     lazy val csSbtLauncherVersion = settingKey[String]("sbt launcher version")
@@ -64,14 +65,14 @@ object ConscriptPlugin extends AutoPlugin {
     val launcherFile = conscriptHome / launcher
     if(!launcherFile.exists) {
       val u = url(s"https://repo1.maven.org/maven2/org/scala-sbt/launcher/$launcherVersion/launcher-$launcherVersion.jar")
-      sbt.io.Using.urlInputStream(u) { inputStream =>
+      sbt.io.Using.urlInputStream(ConscriptPluginCompat.toURL(u)) { inputStream =>
         IO.transfer(inputStream, launcherFile)
       }
     }
     val f = new sbt.ForkRun(ForkOptions())
     f.run(
       mainClass = "xsbt.boot.Boot",
-      classpath = launcherFile :: Nil,
+      classpath = ConscriptPluginCompat.toClasspath(launcherFile) :: Nil,
       options = ("@" + config.toString) :: args.toList.tail,
       log = streams.value.log
     )
