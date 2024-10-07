@@ -29,7 +29,6 @@ lazy val commonSettings = Seq(
         Seq("-language:_", "-Xlint", "-Xfuture")
     }
   },
-  crossSbtVersions := Seq("1.2.8")
 )
 
 lazy val root = (project in file(".")).
@@ -86,12 +85,12 @@ lazy val root = (project in file(".")).
       inquireVersions,
       runClean,
       runTest,
-      releaseStepCommandAndRemaining(s"^ plugin/scripted"),
+      releaseStepCommandAndRemaining(s"plugin2_12/scripted ; plugin3/scripted "),
       setReleaseVersion,
       releaseStepTask(updateLaunchconfig),
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommandAndRemaining(s";publishSigned;^ plugin/publishSigned"),
+      releaseStepCommandAndRemaining(s";publishSigned; plugin2_12/publishSigned; plugin3/publishSigned"),
       releaseStepCommandAndRemaining("sonaRelease"),
       setNextVersion,
       commitNextVersion,
@@ -170,10 +169,19 @@ lazy val javaVmArgs: List[String] = {
   java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.asScala.toList
 }
 
-lazy val plugin = (project in file("sbt-conscript")).
-  enablePlugins(SbtPlugin).
-  settings(
+lazy val plugin = (projectMatrix in file("sbt-conscript"))
+  .jvmPlatform(scalaVersions = Seq("3.7.2", "2.12.20"))
+  .enablePlugins(SbtPlugin)
+  .settings(
     commonSettings,
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          "1.2.8"
+        case _ =>
+          "2.0.0-RC3"
+      }
+    },
     buildInfo(packageName = "sbtconscript", v = Dependencies.launcherInterface.revision),
     name := "sbt-conscript",
     scriptedBufferLog := false,
