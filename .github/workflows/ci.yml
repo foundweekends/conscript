@@ -44,6 +44,7 @@ jobs:
         distribution: temurin
     - uses: actions/checkout@v4
     - uses: coursier/cache-action@v6
+    - uses: sbt/setup-sbt@v1
     - run: sbt -v test
     - run: |
         sbt -v publishLocal "project plugin" "^ scripted" &&
@@ -61,6 +62,7 @@ jobs:
       with:
         fetch-depth: 10
     - uses: coursier/cache-action@v6
+    - uses: sbt/setup-sbt@v1
     - run: sbt makeSite
     - name: Push to gh-pages
       if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
