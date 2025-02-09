@@ -89,7 +89,7 @@ lazy val root = (project in file(".")).
       commitNextVersion,
       pushChanges
     ),
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.13.16",
     inThisBuild(List(
       organization := "org.foundweekends.conscript",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
@@ -102,7 +102,7 @@ lazy val root = (project in file(".")).
       scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/conscript"), "git@github.com:foundweekends/conscript.git"))
     )),
     name := "conscript",
-    crossScalaVersions := List("2.11.12"),
+    crossScalaVersions := List("2.13.16"),
     libraryDependencies ++= List(launcherInterface, scalaSwing, dispatchCore, scopt, liftJson, slf4jJdk14),
     Compile / packageBin / mainClass := Some("conscript.Conscript"),
     (Compile / packageBin / mappings) := {

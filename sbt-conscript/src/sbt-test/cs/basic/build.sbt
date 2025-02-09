@@ -4,7 +4,7 @@ version := "0.1.0-SNAPSHOT"
 
 libraryDependencies += "org.scala-sbt" %% "io" % "1.1.0"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.13.16"
 
 organization := "com.example"
 
