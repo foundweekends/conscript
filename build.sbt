@@ -19,7 +19,7 @@ def buildInfo(packageName: String, v: String) = Def.settings(
 )
 
 lazy val commonSettings = Seq(
-  publishTo := sonatypePublishToBundle.value,
+  publishTo := (if (isSnapshot.value) None else localStaging.value),
   scalacOptions ++= Seq("-deprecation"),
   scalacOptions ++= {
     scalaBinaryVersion.value match {
@@ -29,7 +29,6 @@ lazy val commonSettings = Seq(
         Seq("-language:_", "-Xlint", "-Xfuture")
     }
   },
-  sonatypeProfileName := "org.foundweekends",
   crossSbtVersions := Seq("1.2.8")
 )
 
@@ -93,7 +92,7 @@ lazy val root = (project in file(".")).
       commitReleaseVersion,
       tagRelease,
       releaseStepCommandAndRemaining(s";publishSigned;^ plugin/publishSigned"),
-      releaseStepCommandAndRemaining("sonatypeBundleRelease"),
+      releaseStepCommandAndRemaining("sonaRelease"),
       setNextVersion,
       commitNextVersion,
       pushChanges
