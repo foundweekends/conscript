@@ -20,6 +20,15 @@ def buildInfo(packageName: String, v: String) = Def.settings(
 
 lazy val commonSettings = Seq(
   publishTo := sonatypePublishToBundle.value,
+  scalacOptions ++= Seq("-deprecation"),
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Nil
+      case _ =>
+        Seq("-language:_", "-Xlint", "-Xfuture")
+    }
+  },
   sonatypeProfileName := "org.foundweekends",
   crossSbtVersions := Seq("1.2.8")
 )
@@ -94,7 +103,6 @@ lazy val root = (project in file(".")).
       organization := "org.foundweekends.conscript",
       homepage := Some(url("https://github.com/foundweekends/conscript/")),
       licenses := Seq("LGPL-3.0" -> url("https://www.gnu.org/licenses/lgpl.txt")),
-      scalacOptions ++= Seq("-language:_", "-deprecation", "-Xlint", "-Xfuture"),
       developers := List(
         Developer("n8han", "Nathan Hamblen", "@n8han", url("https://github.com/n8han")),
         Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
