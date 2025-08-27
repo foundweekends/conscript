@@ -14,7 +14,7 @@ object ConscriptPlugin extends AutoPlugin {
   }
 
   import autoImport._
-  override def projectSettings: Seq[Def.Setting[_]] =
+  override def projectSettings: Seq[Def.Setting[?]] =
     List(
       csSbtLauncherVersion := ConscriptBuildInfo.sbtLauncherVersion,
       libraryDependencies += "org.scala-sbt" % "launcher-interface" % csSbtLauncherVersion.value % "provided",
@@ -26,7 +26,7 @@ object ConscriptPlugin extends AutoPlugin {
       (csRun / aggregate) := false
     )
 
-  private def configs(path: File) = (path ** "launchconfig").get
+  private def configs(path: File) = (path ** "launchconfig").get()
   private def configName(path: File) = file(path.getParent).getName
   lazy val csWriteTask = Def.task {
     val base = (csRun / sourceDirectory).value
