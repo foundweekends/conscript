@@ -11,7 +11,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - run: ./setup.sh
     - run: ~/.conscript/bin/cs --version
   setup_script_windows:
@@ -22,7 +22,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - run: Powershell.exe -File setup.ps1
     - shell: cmd
       run: "%HOMEDRIVE%%HOMEPATH%\\.conscript\\bin\\cs --version"
@@ -40,7 +40,7 @@ jobs:
       with:
         java-version: "${{ matrix.java }}"
         distribution: temurin
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: coursier/cache-action@v7
     - uses: sbt/setup-sbt@v1
     - run: sbt -v test
@@ -56,7 +56,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 10
     - uses: coursier/cache-action@v7
