@@ -170,7 +170,7 @@ lazy val javaVmArgs: List[String] = {
 }
 
 lazy val plugin = (projectMatrix in file("sbt-conscript"))
-  .jvmPlatform(scalaVersions = Seq("3.7.2", "2.12.20"))
+  .jvmPlatform(scalaVersions = Seq("3.7.2", "2.12.21"))
   .enablePlugins(SbtPlugin)
   .settings(
     commonSettings,
