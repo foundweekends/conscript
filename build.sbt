@@ -179,7 +179,7 @@ lazy val plugin = (projectMatrix in file("sbt-conscript"))
         case "2.12" =>
           "1.2.8"
         case _ =>
-          "2.0.0-RC6"
+          "2.0.0-RC8"
       }
     },
     buildInfo(packageName = "sbtconscript", v = Dependencies.launcherInterface.revision),
