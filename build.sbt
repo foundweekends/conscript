@@ -182,6 +182,14 @@ lazy val plugin = (projectMatrix in file("sbt-conscript"))
           "2.0.0-RC8"
       }
     },
+    scriptedSbt := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          "1.9.9"
+        case _ =>
+          (pluginCrossBuild / sbtVersion).value
+      }
+    },
     buildInfo(packageName = "sbtconscript", v = Dependencies.launcherInterface.revision),
     name := "sbt-conscript",
     scriptedBufferLog := false,
